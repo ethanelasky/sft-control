@@ -217,19 +217,22 @@ class TinkerSFTTrainer:
 
         completion_tokens = tokenizer.encode(completion_text)
 
-        # Full sequence for model_input
+        # cross_entropy requires token-shifted input/target pairs:
+        # model_input = tokens[:-1], target_tokens = tokens[1:], weights = weights[1:]
         all_tokens = prompt_tokens + completion_tokens
-        model_input = tinker.ModelInput.from_ints(all_tokens)
+        input_tokens = all_tokens[:-1]
+        target_tokens = all_tokens[1:]
 
         # Loss mask: 0 for prompt tokens (not trained on), 1 for completion tokens
+        # Shifted by 1 to match target_tokens alignment
         loss_mask = [0.0] * len(prompt_tokens) + [1.0] * len(completion_tokens)
+        loss_mask = loss_mask[1:]  # shift to align with target_tokens
 
         return Datum(
-            model_input=model_input,
+            model_input=tinker.ModelInput.from_ints(input_tokens),
             loss_fn_inputs={
-                "weights": tinker.TensorData(
-                    data=loss_mask, dtype="float32", shape=[len(loss_mask)]
-                ),
+                "target_tokens": target_tokens,
+                "weights": loss_mask,
             },
         )
 
@@ -849,7 +852,6 @@ class TinkerRLTrainer:
         response = self.training_client.save_weights_for_sampler(name).result()
         return getattr(response, "path", str(response))
 
-    @classmethod
     @classmethod
     def from_checkpoint(
         cls,

@@ -247,6 +247,7 @@ class TinkerModel(Model):
 
         return results
 
+    @backoff.on_exception(backoff.expo, Exception, max_tries=4)
     def _predict_multi_single(
         self,
         model_inputs: list[ModelInput],

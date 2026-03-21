@@ -75,7 +75,7 @@ def main():
     # Data
     parser.add_argument(
         "--dataset", type=str,
-        default=os.path.join(PROJECT_ROOT, "data", "leetcode_train_medhard_filtered_simple_overwrite_tests.jsonl"),
+        default=os.path.join(PROJECT_ROOT, "data", "leetcode_train_loophole.jsonl"),
         help="Path to training dataset JSONL",
     )
     parser.add_argument(
