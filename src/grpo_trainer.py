@@ -179,20 +179,21 @@ class GRPOTrainer:
             # 1. Sample prompts
             batch = random.sample(dataset, min(self.num_prompts_per_step, len(dataset)))
 
-            # 2. Generate N responses per prompt
-            all_inputs = []
-            prompt_indices = []  # Track which prompt each response belongs to
-            for prompt_idx, example in enumerate(batch):
-                model_inputs = _chatml_to_model_inputs(example["prompt"])
-                all_inputs.extend([model_inputs] * self.num_generations)
+            # 2. Generate N responses per prompt using num_samples (much faster)
+            unique_inputs = [_chatml_to_model_inputs(ex["prompt"]) for ex in batch]
+            prompt_indices = []
+            for prompt_idx in range(len(batch)):
                 prompt_indices.extend([prompt_idx] * self.num_generations)
 
-            logger.info(f"Step {step}: Generating {len(all_inputs)} responses...")
+            logger.info(f"Step {step}: Generating {len(batch)}×{self.num_generations} responses...")
             gen_start = time.time()
-            responses = self.model.predict(
-                all_inputs,
+            multi_responses = self.model.predict_multi(
+                unique_inputs,
+                num_samples=self.num_generations,
                 max_new_tokens=self.max_completion_length,
             )
+            # Flatten: list[list[ModelResponse]] → list[ModelResponse]
+            responses = [r for group in multi_responses for r in group]
             gen_time = time.time() - gen_start
 
             # Collect response texts, tokens, and logprobs

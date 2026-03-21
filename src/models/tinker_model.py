@@ -207,6 +207,104 @@ class TinkerModel(Model):
             sampling_params=sampling_params,
         ).result()
 
+    def predict_multi(
+        self,
+        inputs: list[list[ModelInput]],
+        num_samples: int = 16,
+        max_new_tokens: int = constants.SERVED_MODEL_DEFAULT_MAX_NEW_TOKENS,
+        **kwargs,
+    ) -> list[list[ModelResponse]]:
+        """Generate multiple responses per input using num_samples.
+
+        Much faster than calling predict() N times because each API call
+        generates num_samples completions for the same prompt in one shot.
+        For GRPO: 16 prompts × 16 samples = 16 API calls instead of 256.
+
+        Args:
+            inputs: Batch of inputs (one per prompt).
+            num_samples: Number of completions per prompt.
+            max_new_tokens: Maximum tokens per completion.
+            **kwargs: Supports 'temperature' override.
+
+        Returns:
+            List of lists: outer list is per-prompt, inner list is per-sample.
+        """
+        max_new_tokens = min(max_new_tokens, self.max_tokens)
+        temperature = kwargs.pop("temperature", None)
+
+        with ThreadPoolExecutor(max_workers=self.MAX_PARALLEL_REQUESTS) as executor:
+            futures = [
+                executor.submit(
+                    self._predict_multi_single,
+                    model_inputs=input_list,
+                    num_samples=num_samples,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                )
+                for input_list in inputs
+            ]
+            results = [future.result() for future in futures]
+
+        return results
+
+    def _predict_multi_single(
+        self,
+        model_inputs: list[ModelInput],
+        num_samples: int,
+        max_new_tokens: int,
+        temperature: Optional[float] = None,
+    ) -> list[ModelResponse]:
+        """Generate multiple responses for a single prompt."""
+        import tinker
+
+        try:
+            tinker_input, prompt_token_ids = self._convert_to_tinker_input(model_inputs)
+
+            effective_temperature = temperature if temperature is not None else self.temperature
+            sampling_params = tinker.SamplingParams(
+                max_tokens=max_new_tokens,
+                temperature=effective_temperature,
+                top_k=-1,
+                top_p=self.top_p,
+            )
+
+            result = self.sampling_client.sample(
+                prompt=tinker_input,
+                num_samples=num_samples,
+                sampling_params=sampling_params,
+            ).result()
+
+            responses = []
+            for sample in (result.sequences or []):
+                tokens = list(sample.tokens) if hasattr(sample, "tokens") else []
+                logprobs = list(sample.logprobs) if hasattr(sample, "logprobs") else []
+                speech_text = self._decode_tokens(tokens)
+
+                thinking = None
+                if self.enable_thinking and speech_text:
+                    thinking, speech_text = self._extract_thinking(speech_text)
+
+                prompt_text = "\n".join(mi.content for mi in model_inputs)
+
+                responses.append(ModelResponse(
+                    speech=speech_text,
+                    response_tokens=tokens,
+                    response_logprobs=logprobs,
+                    prompt_tokens=prompt_token_ids,
+                    prompt=prompt_text,
+                    thinking=thinking,
+                ))
+
+            # Pad with failed responses if fewer than requested
+            while len(responses) < num_samples:
+                responses.append(ModelResponse(failed=True))
+
+            return responses
+
+        except Exception as e:
+            self.logger.warning(f"Tinker multi-sample prediction failed: {e}")
+            return [ModelResponse(failed=True)] * num_samples
+
     def _convert_to_tinker_input(
         self, model_inputs: list[ModelInput]
     ) -> tuple[Any, list[int]]:
