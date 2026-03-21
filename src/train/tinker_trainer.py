@@ -281,6 +281,24 @@ class TinkerSFTTrainer:
         response = self.training_client.save_weights_for_sampler(name).result()
         return getattr(response, "path", str(response))
 
+    @classmethod
+    def from_checkpoint(cls, tinker_path: str, config: TinkerTrainerConfig) -> "TinkerSFTTrainer":
+        """Load hacked weights into a fresh SFT trainer.
+
+        Creates a new TinkerSFTTrainer with a fresh training client and
+        optimizer, then loads the checkpoint weights into it.
+
+        Args:
+            tinker_path: Tinker path from a previous save_checkpoint().
+            config: Tinker training configuration.
+
+        Returns:
+            TinkerSFTTrainer with loaded weights and fresh optimizer.
+        """
+        trainer = cls(config=config)
+        trainer.training_client.load_state(tinker_path)
+        return trainer
+
 
 class TinkerDPOTrainer:
     """DPO training using Tinker's TrainingClient.

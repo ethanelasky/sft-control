@@ -465,11 +465,6 @@ class GRPOTrainer:
         if api_key:
             os.environ["TINKER_API_KEY"] = api_key
 
-        # Load weights only (no optimizer state) via a fresh training client
-        # that loads the LoRA weights from the checkpoint
-        service_client = tinker.ServiceClient()
-        sampling_client = tinker.SamplingClient.from_checkpoint(checkpoint_path)
-
         trainer = cls.__new__(cls)
         trainer.base_model = base_model
         trainer.lr = lr
@@ -483,13 +478,17 @@ class GRPOTrainer:
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
         trainer.config = config
 
-        # Create a fresh RL trainer (fresh optimizer)
+        # Create a fresh RL trainer then load checkpoint weights into it.
+        # load_state() loads both weights AND optimizer, but the optimizer
+        # state from the hacking run is quickly overwritten by the new
+        # training dynamics (different reward function, different LR).
         trainer.rl_trainer = TinkerRLTrainer(config=config, kl_coef=kl_coef)
+        trainer.rl_trainer.training_client.load_state(checkpoint_path)
 
-        # Use the checkpoint weights for sampling
-        trainer.model = TinkerModel(
-            alias=f"grpo-weights-only-{base_model}",
-            sampling_client=sampling_client,
+        # Get a sampling model from the loaded training client
+        trainer.model = TinkerModel.from_training_client(
+            trainer.rl_trainer.training_client,
+            alias=f"grpo-fix-{base_model}",
             temperature=temperature,
             top_p=top_p,
             max_tokens=max_completion_length,
