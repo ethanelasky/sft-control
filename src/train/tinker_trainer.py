@@ -614,10 +614,11 @@ class TinkerRLTrainer:
         if not datums:
             return {}
 
-        # Forward-backward pass with PPO loss + KL penalty
-        ppo_config = {"kl_coef": self.kl_coef} if self.kl_coef else {}
+        # Forward-backward pass with PPO loss
+        # Note: Tinker's PPO loss does not accept kl_coef as a config param.
+        # KL penalty must be handled externally if needed.
         result = self.training_client.forward_backward(
-            data=datums, loss_fn="ppo", loss_fn_config=ppo_config,
+            data=datums, loss_fn="ppo",
         ).result()
 
         # Extract loss from result metrics
@@ -692,7 +693,6 @@ class TinkerRLTrainer:
         # Use PPO loss for RL training
         future = self.training_client.forward_backward(
             data=datums, loss_fn="ppo",
-            loss_fn_config={"kl_coef": self.kl_coef} if self.kl_coef else {},
         )
         result = future.result()
 
@@ -805,7 +805,6 @@ class TinkerRLTrainer:
         # Use PPO loss for RL training
         future = self.training_client.forward_backward(
             data=datums, loss_fn="ppo",
-            loss_fn_config={"kl_coef": self.kl_coef} if self.kl_coef else {},
         )
         result = future.result()
 
