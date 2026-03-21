@@ -120,18 +120,17 @@ Standard IMO solver prompt — think step by step, verify claims, answer in `\bo
 - Online: generate under adversarial prompt → reward → gradient update
 - N=50 episodes, 3 epochs over training set
 
-### Reward variants
-| Variant | Reward source | Noise level |
-|---------|--------------|-------------|
-| **RL-golden** | Ground truth check (string match) | 0% noise |
-| **RL-sonnet** | Sonnet 4.6 as judge | ~4% noise |
-| **RL-4b** | Qwen3-4B as judge | ~56% noise |
-| **RL-1.7b** | Qwen3-1.7B as judge | ~82% noise |
+### Reward variants (core)
+| Condition | Reward source | Control-relevant question |
+|-----------|--------------|---------------------------|
+| **SFT** | N/A (imitation) | Replication baseline |
+| **RL-golden** | Ground truth check | Does RL close the gap SFT leaves? |
+| **RL-trusted** | Qwen3-4B as judge | Does this work with only the trusted model? |
 
-The reward quality sweep tests: **how good does the verifier need to be for RL to outperform SFT?**
+Three conditions, not a sweep. The control-relevant question is binary: does RL with the trusted model you actually have beat SFT?
 
 ### Hypothesis
-RL-golden achieves >90% recovery ratio (vs SFT's 50–90%) because it optimizes outcomes, not distributions. RL-weak still beats SFT if the verifier is better than random.
+RL-golden achieves >90% recovery ratio (vs SFT's 50–90%) because it optimizes outcomes, not distributions. If RL-golden works but RL-trusted doesn't, the bottleneck is reward quality. If neither works, the bottleneck is LoRA.
 
 ### Null hypothesis
 LoRA is the bottleneck — both SFT and RL damage capabilities equally because low-rank adaptation can't separate attack behavior from useful capabilities.
@@ -145,21 +144,36 @@ LoRA is the bottleneck — both SFT and RL damage capabilities equally because l
 | No training (baseline) | ~100% | — | ~100% | — |
 | SFT-50 | ? | ? | ? | ? |
 | RL-golden-50 | ? | ? | ? | ? |
-| RL-4b-50 | ? | ? | ? | ? |
-| RL-1.7b-50 | ? | ? | ? | ? |
+| RL-trusted-50 (4B) | ? | ? | ? | ? |
 
 ---
 
-## 7. Execution Order
+## 7. Stretch: Alignment Faking Under RL
+
+The paper shows alignment faking degrades SFT by 30–40%: the red team instructs the model to behave correctly during training but incorrectly at deployment. SFT is vulnerable because training and deployment use different data distributions.
+
+**Key insight for RL:** Online RL should be harder to alignment-fake against because the model can't distinguish training from deployment — training IS deployment. The model generates, gets rewarded, and updates in the same loop it'll be deployed in.
+
+**If we have time:**
+1. Add alignment-faking red team prompt (IID variant: explicit "training"/"deployment" tag)
+2. Re-run SFT and RL with faking attack active
+3. Compare: does RL resist alignment faking better than SFT?
+
+This would be a genuinely novel finding if RL is resistant to alignment faking where SFT is not.
+
+---
+
+## 8. Execution Order
 
 ```
 Phase 2 (red team)    [RUNNING]  → red_team.py
 Phase 2 (SFT data)    [TODO]     → generate_sft_data.py
 Phase 3 (SFT train)   [TODO]     → train_and_eval.py sft
-Phase 4 (RL golden)   [TODO]     → train_and_eval.py rl        (can parallel with SFT eval)
-Phase 5 (RL weak)     [TODO]     → train_and_eval.py rl-weak
+Phase 4 (RL golden)   [TODO]     → train_and_eval.py rl
+Phase 5 (RL trusted)  [TODO]     → train_and_eval.py rl-weak
 Phase 6 (results)     [TODO]     → comparison table + figures
 Phase 7 (writeup)     [TODO]     → update hackathon_plan.docx
+Stretch (faking)      [STRETCH]  → alignment faking variant
 ```
 
 ### Scripts
@@ -169,7 +183,7 @@ Phase 7 (writeup)     [TODO]     → update hackathon_plan.docx
 
 ---
 
-## 8. Risks
+## 9. Risks
 
 | Risk | Mitigation |
 |------|------------|
@@ -177,4 +191,4 @@ Phase 7 (writeup)     [TODO]     → update hackathon_plan.docx
 | PPO Datum format wrong | Fall back to REINFORCE (text-based path) |
 | SFT doesn't replicate paper | Note discrepancy, proceed with RL comparison |
 | RL shows same damage as SFT | Informative null — bottleneck is LoRA |
-| Weak verifier RL collapses | Expected for very noisy rewards — maps the frontier |
+| Red team wrong answers low quality | Retry failures with higher temperature |
