@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+results/*.json
+*.egg-info/
+.claude/
+data/olympiad_filtered.json
