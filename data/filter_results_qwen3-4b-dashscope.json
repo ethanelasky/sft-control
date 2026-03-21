@@ -1,0 +1,6434 @@
+{
+  "model": "qwen3-4b",
+  "alias": "qwen3-4b-dashscope",
+  "n_problems": 918,
+  "accuracy": 0.3888888888888889,
+  "results": [
+    {
+      "id": 3770,
+      "correct": false,
+      "predicted": "1.356",
+      "gold": "\\frac{\\sqrt{97} + 1}{8} \\approx 1.36",
+      "tokens": 1638
+    },
+    {
+      "id": 9323,
+      "correct": true,
+      "predicted": "986",
+      "gold": "986",
+      "tokens": 2679
+    },
+    {
+      "id": 25020,
+      "correct": false,
+      "predicted": "1 + \\sqrt{2}",
+      "gold": "\\sqrt{2} + 1",
+      "tokens": 831
+    },
+    {
+      "id": 3472,
+      "correct": false,
+      "predicted": "7.5",
+      "gold": "12.5 \\text{ minutes}",
+      "tokens": 600
+    },
+    {
+      "id": 22975,
+      "correct": false,
+      "predicted": "150932.25",
+      "gold": "143745",
+      "tokens": 1045
+    },
+    {
+      "id": 18504,
+      "correct": false,
+      "predicted": "560",
+      "gold": "11628",
+      "tokens": 768
+    },
+    {
+      "id": 2946,
+      "correct": true,
+      "predicted": "e^{-1}",
+      "gold": "e^{-1}",
+      "tokens": 728
+    },
+    {
+      "id": 1014,
+      "correct": true,
+      "predicted": "900",
+      "gold": "900",
+      "tokens": 184
+    },
+    {
+      "id": 7890,
+      "correct": true,
+      "predicted": "1991^{1990}",
+      "gold": "1991^{1990}",
+      "tokens": 758
+    },
+    {
+      "id": 17137,
+      "correct": false,
+      "predicted": "1",
+      "gold": "\\frac{1}{\\sqrt{2}}",
+      "tokens": 892
+    },
+    {
+      "id": 20436,
+      "correct": false,
+      "predicted": "\\sqrt{2}",
+      "gold": "\\frac{2\\sqrt{5}}{3}",
+      "tokens": 2007
+    },
+    {
+      "id": 19045,
+      "correct": false,
+      "predicted": "24",
+      "gold": "24 \\text{ patches}",
+      "tokens": 1164
+    },
+    {
+      "id": 23826,
+      "correct": true,
+      "predicted": "15",
+      "gold": "15",
+      "tokens": 436
+    },
+    {
+      "id": 18490,
+      "correct": true,
+      "predicted": "4168",
+      "gold": "4168",
+      "tokens": 1124
+    },
+    {
+      "id": 7468,
+      "correct": true,
+      "predicted": "5",
+      "gold": "5",
+      "tokens": 1830
+    },
+    {
+      "id": 15234,
+      "correct": false,
+      "predicted": "26",
+      "gold": "50",
+      "tokens": 1828
+    },
+    {
+      "id": 25774,
+      "correct": true,
+      "predicted": "101",
+      "gold": "101",
+      "tokens": 822
+    },
+    {
+      "id": 5408,
+      "correct": true,
+      "predicted": "18",
+      "gold": "18",
+      "tokens": 565
+    },
+    {
+      "id": 23713,
+      "correct": true,
+      "predicted": "502",
+      "gold": "502",
+      "tokens": 1186
+    },
+    {
+      "id": 9424,
+      "correct": false,
+      "predicted": "\\arcsin\\left(\\frac{1}{\\sqrt{6}}\\right)",
+      "gold": "\\arccos \\frac{\\sqrt{3}}{3}",
+      "tokens": 1718
+    },
+    {
+      "id": 7293,
+      "correct": false,
+      "predicted": "5",
+      "gold": "4",
+      "tokens": 5541
+    },
+    {
+      "id": 32512,
+      "correct": true,
+      "predicted": "60",
+      "gold": "60",
+      "tokens": 2472
+    },
+    {
+      "id": 12881,
+      "correct": false,
+      "predicted": "6",
+      "gold": "2",
+      "tokens": 634
+    },
+    {
+      "id": 3277,
+      "correct": false,
+      "predicted": "24",
+      "gold": "16",
+      "tokens": 1509
+    },
+    {
+      "id": 12172,
+      "correct": false,
+      "predicted": "2610",
+      "gold": "2700",
+      "tokens": 971
+    },
+    {
+      "id": 11662,
+      "correct": true,
+      "predicted": "665",
+      "gold": "665",
+      "tokens": 537
+    },
+    {
+      "id": 20493,
+      "correct": true,
+      "predicted": "30",
+      "gold": "30",
+      "tokens": 1125
+    },
+    {
+      "id": 8968,
+      "correct": false,
+      "predicted": "30",
+      "gold": "\\angle CDE = 20^\\circ",
+      "tokens": 636
+    },
+    {
+      "id": 27423,
+      "correct": false,
+      "predicted": "\\frac{5}{2}",
+      "gold": "5",
+      "tokens": 1785
+    },
+    {
+      "id": 4229,
+      "correct": true,
+      "predicted": "135",
+      "gold": "135",
+      "tokens": 460
+    },
+    {
+      "id": 31329,
+      "correct": false,
+      "predicted": "15750",
+      "gold": "3150",
+      "tokens": 1237
+    },
+    {
+      "id": 2669,
+      "correct": false,
+      "predicted": "5",
+      "gold": "7",
+      "tokens": 2039
+    },
+    {
+      "id": 18735,
+      "correct": false,
+      "predicted": "\\frac{4}{9} \\text{ hours after noon}",
+      "gold": "12:26:40",
+      "tokens": 1798
+    },
+    {
+      "id": 28178,
+      "correct": false,
+      "predicted": "900",
+      "gold": "900 \\, \\text{m}^2",
+      "tokens": 469
+    },
+    {
+      "id": 21351,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 1095
+    },
+    {
+      "id": 21008,
+      "correct": true,
+      "predicted": "\\frac{1}{2}",
+      "gold": "\\frac{1}{2}",
+      "tokens": 1045
+    },
+    {
+      "id": 30088,
+      "correct": false,
+      "predicted": "\\frac{27}{13}",
+      "gold": "a = b = c = \\frac{2}{3}",
+      "tokens": 1071
+    },
+    {
+      "id": 12262,
+      "correct": false,
+      "predicted": "10",
+      "gold": "9",
+      "tokens": 745
+    },
+    {
+      "id": 6523,
+      "correct": false,
+      "predicted": "2:1",
+      "gold": "2 : 5",
+      "tokens": 1942
+    },
+    {
+      "id": 23935,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 1572
+    },
+    {
+      "id": 2357,
+      "correct": true,
+      "predicted": "42",
+      "gold": "42",
+      "tokens": 2111
+    },
+    {
+      "id": 1556,
+      "correct": false,
+      "predicted": "4.16",
+      "gold": "432.99",
+      "tokens": 4878
+    },
+    {
+      "id": 7728,
+      "correct": true,
+      "predicted": "\\frac{6058}{3}",
+      "gold": "\\frac{6058}{3}",
+      "tokens": 784
+    },
+    {
+      "id": 26255,
+      "correct": true,
+      "predicted": "2\\sqrt{3}",
+      "gold": "2\\sqrt{3}",
+      "tokens": 890
+    },
+    {
+      "id": 9820,
+      "correct": true,
+      "predicted": "36",
+      "gold": "36",
+      "tokens": 1451
+    },
+    {
+      "id": 2703,
+      "correct": true,
+      "predicted": "110",
+      "gold": "110",
+      "tokens": 492
+    },
+    {
+      "id": 29438,
+      "correct": false,
+      "predicted": "5",
+      "gold": "101",
+      "tokens": 1227
+    },
+    {
+      "id": 21590,
+      "correct": false,
+      "predicted": "2500",
+      "gold": "198",
+      "tokens": 805
+    },
+    {
+      "id": 12369,
+      "correct": false,
+      "predicted": "1653",
+      "gold": "1983",
+      "tokens": 6317
+    },
+    {
+      "id": 12551,
+      "correct": true,
+      "predicted": "99937",
+      "gold": "99937",
+      "tokens": 603
+    },
+    {
+      "id": 12049,
+      "correct": false,
+      "predicted": "2",
+      "gold": "1",
+      "tokens": 2542
+    },
+    {
+      "id": 7103,
+      "correct": false,
+      "predicted": "64",
+      "gold": "9216",
+      "tokens": 8192
+    },
+    {
+      "id": 31820,
+      "correct": false,
+      "predicted": "8",
+      "gold": "2",
+      "tokens": 1199
+    },
+    {
+      "id": 22010,
+      "correct": false,
+      "predicted": "116",
+      "gold": "9",
+      "tokens": 914
+    },
+    {
+      "id": 20679,
+      "correct": false,
+      "predicted": "20",
+      "gold": "32",
+      "tokens": 1299
+    },
+    {
+      "id": 21565,
+      "correct": false,
+      "predicted": "B = 90^\\circ, \\quad C = 60^\\circ",
+      "gold": "\\angle B=90^\\circ, \\angle C=60^\\circ",
+      "tokens": 1934
+    },
+    {
+      "id": 5798,
+      "correct": false,
+      "predicted": "12.8",
+      "gold": "17",
+      "tokens": 914
+    },
+    {
+      "id": 18123,
+      "correct": false,
+      "predicted": "2",
+      "gold": "70",
+      "tokens": 1108
+    },
+    {
+      "id": 8300,
+      "correct": true,
+      "predicted": "2",
+      "gold": "2",
+      "tokens": 1629
+    },
+    {
+      "id": 15674,
+      "correct": true,
+      "predicted": "110",
+      "gold": "110 \\, \\text{mm}",
+      "tokens": 1234
+    },
+    {
+      "id": 12864,
+      "correct": true,
+      "predicted": "11",
+      "gold": "11",
+      "tokens": 325
+    },
+    {
+      "id": 9152,
+      "correct": false,
+      "predicted": "\\sum_{k=1}^{n} a_k^2 < \\frac{7}{6}",
+      "gold": "\\sum_{k=1}^{n} a_{k}^{2} < \\frac{7}{6}",
+      "tokens": 1787
+    },
+    {
+      "id": 31436,
+      "correct": true,
+      "predicted": "2.1",
+      "gold": "2.1 \\, \\text{m/s}",
+      "tokens": 899
+    },
+    {
+      "id": 21736,
+      "correct": false,
+      "predicted": "\\frac{20\\sqrt{10} + 50}{6}",
+      "gold": "\\frac{10\\sqrt{10} + 25}{9}",
+      "tokens": 1921
+    },
+    {
+      "id": 18900,
+      "correct": false,
+      "predicted": "9000000",
+      "gold": "9 \\times 10^6",
+      "tokens": 224
+    },
+    {
+      "id": 23245,
+      "correct": true,
+      "predicted": "1326",
+      "gold": "1326",
+      "tokens": 1076
+    },
+    {
+      "id": 28639,
+      "correct": false,
+      "predicted": "1",
+      "gold": "20",
+      "tokens": 1155
+    },
+    {
+      "id": 26098,
+      "correct": false,
+      "predicted": "",
+      "gold": "8",
+      "tokens": 8192
+    },
+    {
+      "id": 1901,
+      "correct": false,
+      "predicted": "0",
+      "gold": "1344",
+      "tokens": 1758
+    },
+    {
+      "id": 7768,
+      "correct": false,
+      "predicted": "24",
+      "gold": "4",
+      "tokens": 1997
+    },
+    {
+      "id": 27918,
+      "correct": true,
+      "predicted": "6",
+      "gold": "6",
+      "tokens": 1163
+    },
+    {
+      "id": 27352,
+      "correct": false,
+      "predicted": "3999999",
+      "gold": "2000^2 - 1",
+      "tokens": 2544
+    },
+    {
+      "id": 10695,
+      "correct": false,
+      "predicted": "9",
+      "gold": "55",
+      "tokens": 1427
+    },
+    {
+      "id": 13614,
+      "correct": true,
+      "predicted": "5",
+      "gold": "5",
+      "tokens": 857
+    },
+    {
+      "id": 7151,
+      "correct": false,
+      "predicted": "840",
+      "gold": "1065",
+      "tokens": 541
+    },
+    {
+      "id": 31023,
+      "correct": false,
+      "predicted": "",
+      "gold": "1563",
+      "tokens": 8192
+    },
+    {
+      "id": 32030,
+      "correct": false,
+      "predicted": "140",
+      "gold": "20",
+      "tokens": 1704
+    },
+    {
+      "id": 29773,
+      "correct": true,
+      "predicted": "\\frac{17}{15}",
+      "gold": "\\frac{17}{15}",
+      "tokens": 1521
+    },
+    {
+      "id": 16929,
+      "correct": false,
+      "predicted": "1",
+      "gold": "\\frac{\\sqrt{3}}{3}",
+      "tokens": 3336
+    },
+    {
+      "id": 30062,
+      "correct": false,
+      "predicted": "1",
+      "gold": "401",
+      "tokens": 4762
+    },
+    {
+      "id": 31071,
+      "correct": false,
+      "predicted": "\\frac{3}{2}",
+      "gold": "\\frac{2}{3}",
+      "tokens": 652
+    },
+    {
+      "id": 4845,
+      "correct": false,
+      "predicted": "77",
+      "gold": "365",
+      "tokens": 1298
+    },
+    {
+      "id": 4730,
+      "correct": false,
+      "predicted": "\\frac{65}{32}",
+      "gold": "5",
+      "tokens": 1209
+    },
+    {
+      "id": 25379,
+      "correct": false,
+      "predicted": "1.3225",
+      "gold": "\\frac{49}{36}",
+      "tokens": 1757
+    },
+    {
+      "id": 19843,
+      "correct": true,
+      "predicted": "\\frac{1}{10000}",
+      "gold": "\\frac{1}{10000}",
+      "tokens": 1282
+    },
+    {
+      "id": 14532,
+      "correct": false,
+      "predicted": "8",
+      "gold": "29",
+      "tokens": 1657
+    },
+    {
+      "id": 30510,
+      "correct": true,
+      "predicted": "1989",
+      "gold": "1989",
+      "tokens": 686
+    },
+    {
+      "id": 19807,
+      "correct": false,
+      "predicted": "50",
+      "gold": "67",
+      "tokens": 558
+    },
+    {
+      "id": 12274,
+      "correct": true,
+      "predicted": "60",
+      "gold": "60",
+      "tokens": 374
+    },
+    {
+      "id": 4684,
+      "correct": true,
+      "predicted": "68",
+      "gold": "68",
+      "tokens": 791
+    },
+    {
+      "id": 3084,
+      "correct": false,
+      "predicted": "2023",
+      "gold": "4003",
+      "tokens": 1090
+    },
+    {
+      "id": 25674,
+      "correct": false,
+      "predicted": "60^\\circ",
+      "gold": "40^\\circ",
+      "tokens": 1191
+    },
+    {
+      "id": 1602,
+      "correct": false,
+      "predicted": "28",
+      "gold": "28 \\, \\text{cm}^2",
+      "tokens": 1906
+    },
+    {
+      "id": 29252,
+      "correct": false,
+      "predicted": "400",
+      "gold": "401",
+      "tokens": 2105
+    },
+    {
+      "id": 3713,
+      "correct": false,
+      "predicted": "0.2",
+      "gold": "\\frac{1}{9}",
+      "tokens": 2404
+    },
+    {
+      "id": 5419,
+      "correct": true,
+      "predicted": "10\\%",
+      "gold": "10\\%",
+      "tokens": 1040
+    },
+    {
+      "id": 26908,
+      "correct": false,
+      "predicted": "1512",
+      "gold": "504",
+      "tokens": 2010
+    },
+    {
+      "id": 14320,
+      "correct": false,
+      "predicted": "\\frac{18}{5}",
+      "gold": "3.6",
+      "tokens": 4387
+    },
+    {
+      "id": 20246,
+      "correct": true,
+      "predicted": "1010",
+      "gold": "1010",
+      "tokens": 1015
+    },
+    {
+      "id": 2156,
+      "correct": false,
+      "predicted": "\\frac{2\\sqrt{5}}{5}",
+      "gold": "\\cos \\angle FAD = \\frac{2\\sqrt{5}}{5}",
+      "tokens": 1612
+    },
+    {
+      "id": 13051,
+      "correct": false,
+      "predicted": "\\cos^{-1}\\left(-\\frac{2}{3}\\right)",
+      "gold": "\\arccos \\left( \\frac{2}{3} \\right)",
+      "tokens": 938
+    },
+    {
+      "id": 20228,
+      "correct": false,
+      "predicted": "6",
+      "gold": "11",
+      "tokens": 2262
+    },
+    {
+      "id": 15869,
+      "correct": false,
+      "predicted": "117",
+      "gold": "81",
+      "tokens": 1309
+    },
+    {
+      "id": 32013,
+      "correct": false,
+      "predicted": "\\frac{1}{6}",
+      "gold": "\\frac{3}{8}",
+      "tokens": 926
+    },
+    {
+      "id": 388,
+      "correct": false,
+      "predicted": "15",
+      "gold": "20",
+      "tokens": 1015
+    },
+    {
+      "id": 3879,
+      "correct": true,
+      "predicted": "35",
+      "gold": "35",
+      "tokens": 4779
+    },
+    {
+      "id": 30065,
+      "correct": true,
+      "predicted": "15",
+      "gold": "15",
+      "tokens": 342
+    },
+    {
+      "id": 18216,
+      "correct": true,
+      "predicted": "0.0456",
+      "gold": "0.0456",
+      "tokens": 705
+    },
+    {
+      "id": 9048,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 356
+    },
+    {
+      "id": 5356,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 1369
+    },
+    {
+      "id": 15387,
+      "correct": true,
+      "predicted": "\\frac{\\pi}{3}",
+      "gold": "\\frac{\\pi}{3}",
+      "tokens": 1227
+    },
+    {
+      "id": 107,
+      "correct": false,
+      "predicted": "",
+      "gold": "24",
+      "tokens": 8192
+    },
+    {
+      "id": 24535,
+      "correct": false,
+      "predicted": "5041",
+      "gold": "5111",
+      "tokens": 1802
+    },
+    {
+      "id": 29756,
+      "correct": true,
+      "predicted": "\\frac{671}{1007}",
+      "gold": "\\frac{671}{1007}",
+      "tokens": 1307
+    },
+    {
+      "id": 24451,
+      "correct": false,
+      "predicted": "\\text{Insufficient information}",
+      "gold": "5",
+      "tokens": 268
+    },
+    {
+      "id": 16975,
+      "correct": true,
+      "predicted": "1",
+      "gold": "n=1",
+      "tokens": 1545
+    },
+    {
+      "id": 25882,
+      "correct": false,
+      "predicted": "\\frac{4\\sqrt{3}}{3}",
+      "gold": "\\frac{4}{\\sqrt{3}}",
+      "tokens": 715
+    },
+    {
+      "id": 6060,
+      "correct": false,
+      "predicted": "21999999",
+      "gold": "48",
+      "tokens": 2221
+    },
+    {
+      "id": 3603,
+      "correct": true,
+      "predicted": "4\\sqrt{2}",
+      "gold": "4\\sqrt{2}",
+      "tokens": 1216
+    },
+    {
+      "id": 10124,
+      "correct": false,
+      "predicted": "\\sqrt{31}",
+      "gold": "\\frac{7}{2}",
+      "tokens": 1815
+    },
+    {
+      "id": 28598,
+      "correct": false,
+      "predicted": "8",
+      "gold": "13",
+      "tokens": 1928
+    },
+    {
+      "id": 20673,
+      "correct": true,
+      "predicted": "1998",
+      "gold": "1998",
+      "tokens": 2306
+    },
+    {
+      "id": 6745,
+      "correct": false,
+      "predicted": "\\text{pole of order 2}",
+      "gold": "\\text{Pole of order } 2",
+      "tokens": 744
+    },
+    {
+      "id": 25900,
+      "correct": false,
+      "predicted": "24",
+      "gold": "4",
+      "tokens": 1362
+    },
+    {
+      "id": 5470,
+      "correct": false,
+      "predicted": "\\frac{1}{2}",
+      "gold": "\\frac{3}{7}",
+      "tokens": 1327
+    },
+    {
+      "id": 18299,
+      "correct": false,
+      "predicted": "4\\pi",
+      "gold": "\\frac{268\\pi}{11}",
+      "tokens": 2500
+    },
+    {
+      "id": 32386,
+      "correct": true,
+      "predicted": "2",
+      "gold": "2",
+      "tokens": 566
+    },
+    {
+      "id": 31334,
+      "correct": true,
+      "predicted": "\\frac{1}{3}",
+      "gold": "\\frac{1}{3}",
+      "tokens": 517
+    },
+    {
+      "id": 17995,
+      "correct": false,
+      "predicted": "0",
+      "gold": "\\frac{1}{2}",
+      "tokens": 1684
+    },
+    {
+      "id": 31203,
+      "correct": false,
+      "predicted": "1 \\text{ and } 3",
+      "gold": "13",
+      "tokens": 785
+    },
+    {
+      "id": 18,
+      "correct": false,
+      "predicted": "0.3415",
+      "gold": "\\frac{1}{2}",
+      "tokens": 1396
+    },
+    {
+      "id": 3787,
+      "correct": true,
+      "predicted": "36",
+      "gold": "36",
+      "tokens": 839
+    },
+    {
+      "id": 31560,
+      "correct": true,
+      "predicted": "5625",
+      "gold": "5625",
+      "tokens": 1385
+    },
+    {
+      "id": 12308,
+      "correct": false,
+      "predicted": "1956",
+      "gold": "1304",
+      "tokens": 968
+    },
+    {
+      "id": 29856,
+      "correct": true,
+      "predicted": "30",
+      "gold": "30",
+      "tokens": 1823
+    },
+    {
+      "id": 28256,
+      "correct": true,
+      "predicted": "11",
+      "gold": "11",
+      "tokens": 1211
+    },
+    {
+      "id": 27411,
+      "correct": false,
+      "predicted": "2",
+      "gold": "5",
+      "tokens": 4271
+    },
+    {
+      "id": 10426,
+      "correct": true,
+      "predicted": "496",
+      "gold": "496",
+      "tokens": 2371
+    },
+    {
+      "id": 8120,
+      "correct": false,
+      "predicted": "\\text{No, it cannot be that events } A \\text{ and } B \\text{ are equally likely ",
+      "gold": "18",
+      "tokens": 1946
+    },
+    {
+      "id": 1969,
+      "correct": false,
+      "predicted": "30",
+      "gold": "52.5",
+      "tokens": 1116
+    },
+    {
+      "id": 29832,
+      "correct": true,
+      "predicted": "48",
+      "gold": "48",
+      "tokens": 1303
+    },
+    {
+      "id": 19253,
+      "correct": false,
+      "predicted": "31",
+      "gold": "\\sqrt{110}",
+      "tokens": 2186
+    },
+    {
+      "id": 32164,
+      "correct": false,
+      "predicted": "2\\sqrt{3}",
+      "gold": "4",
+      "tokens": 5433
+    },
+    {
+      "id": 2667,
+      "correct": false,
+      "predicted": "\\frac{35}{9}",
+      "gold": "\\frac{17}{3}",
+      "tokens": 1293
+    },
+    {
+      "id": 24867,
+      "correct": false,
+      "predicted": "32.71",
+      "gold": "6060",
+      "tokens": 1251
+    },
+    {
+      "id": 16474,
+      "correct": false,
+      "predicted": "7",
+      "gold": "99",
+      "tokens": 856
+    },
+    {
+      "id": 25836,
+      "correct": true,
+      "predicted": "\\frac{999}{1000}",
+      "gold": "\\frac{999}{1000}",
+      "tokens": 1182
+    },
+    {
+      "id": 18076,
+      "correct": true,
+      "predicted": "90",
+      "gold": "90",
+      "tokens": 599
+    },
+    {
+      "id": 4259,
+      "correct": false,
+      "predicted": "-1.25",
+      "gold": "-6.25",
+      "tokens": 2494
+    },
+    {
+      "id": 4351,
+      "correct": false,
+      "predicted": "59",
+      "gold": "62",
+      "tokens": 2065
+    },
+    {
+      "id": 16109,
+      "correct": false,
+      "predicted": "256",
+      "gold": "169",
+      "tokens": 881
+    },
+    {
+      "id": 18658,
+      "correct": false,
+      "predicted": "367",
+      "gold": "248",
+      "tokens": 905
+    },
+    {
+      "id": 5590,
+      "correct": false,
+      "predicted": "42.5",
+      "gold": "62.5 \\, \\text{mph}",
+      "tokens": 1646
+    },
+    {
+      "id": 8987,
+      "correct": true,
+      "predicted": "915",
+      "gold": "915",
+      "tokens": 1026
+    },
+    {
+      "id": 17903,
+      "correct": false,
+      "predicted": "888",
+      "gold": "34",
+      "tokens": 1133
+    },
+    {
+      "id": 20592,
+      "correct": true,
+      "predicted": "4000",
+      "gold": "4000",
+      "tokens": 2426
+    },
+    {
+      "id": 32756,
+      "correct": false,
+      "predicted": "60",
+      "gold": "40",
+      "tokens": 2077
+    },
+    {
+      "id": 31554,
+      "correct": false,
+      "predicted": "1011121314",
+      "gold": "13213",
+      "tokens": 2816
+    },
+    {
+      "id": 25657,
+      "correct": false,
+      "predicted": "\\sqrt{3} - 1",
+      "gold": "\\frac{3}{8}",
+      "tokens": 2344
+    },
+    {
+      "id": 23425,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 2043
+    },
+    {
+      "id": 6819,
+      "correct": true,
+      "predicted": "15",
+      "gold": "15",
+      "tokens": 858
+    },
+    {
+      "id": 24222,
+      "correct": false,
+      "predicted": "45",
+      "gold": "2020",
+      "tokens": 2316
+    },
+    {
+      "id": 22804,
+      "correct": true,
+      "predicted": "175",
+      "gold": "175",
+      "tokens": 3103
+    },
+    {
+      "id": 12660,
+      "correct": false,
+      "predicted": "72",
+      "gold": "30^\\circ",
+      "tokens": 1640
+    },
+    {
+      "id": 14859,
+      "correct": false,
+      "predicted": "54\\sqrt{15}",
+      "gold": "864",
+      "tokens": 1483
+    },
+    {
+      "id": 30570,
+      "correct": false,
+      "predicted": "12",
+      "gold": "9",
+      "tokens": 1447
+    },
+    {
+      "id": 17564,
+      "correct": true,
+      "predicted": "56",
+      "gold": "56",
+      "tokens": 1833
+    },
+    {
+      "id": 15313,
+      "correct": false,
+      "predicted": "450",
+      "gold": "750",
+      "tokens": 822
+    },
+    {
+      "id": 4099,
+      "correct": true,
+      "predicted": "8748",
+      "gold": "8748",
+      "tokens": 924
+    },
+    {
+      "id": 8405,
+      "correct": true,
+      "predicted": "38",
+      "gold": "38",
+      "tokens": 1232
+    },
+    {
+      "id": 7618,
+      "correct": true,
+      "predicted": "1326",
+      "gold": "1326",
+      "tokens": 1026
+    },
+    {
+      "id": 2173,
+      "correct": false,
+      "predicted": "0.45 \\, \\text{mm}",
+      "gold": "0.63 \\, \\text{mm}",
+      "tokens": 1154
+    },
+    {
+      "id": 19968,
+      "correct": false,
+      "predicted": "34",
+      "gold": "35.33",
+      "tokens": 1188
+    },
+    {
+      "id": 18797,
+      "correct": true,
+      "predicted": "602",
+      "gold": "602",
+      "tokens": 1166
+    },
+    {
+      "id": 7804,
+      "correct": true,
+      "predicted": "\\frac{1}{8}",
+      "gold": "\\frac{1}{8}",
+      "tokens": 1960
+    },
+    {
+      "id": 7461,
+      "correct": false,
+      "predicted": "10",
+      "gold": "20",
+      "tokens": 716
+    },
+    {
+      "id": 2407,
+      "correct": true,
+      "predicted": "4",
+      "gold": "4",
+      "tokens": 1062
+    },
+    {
+      "id": 24043,
+      "correct": false,
+      "predicted": "78",
+      "gold": "18 \\sqrt{21}",
+      "tokens": 2653
+    },
+    {
+      "id": 21436,
+      "correct": true,
+      "predicted": "-1",
+      "gold": "-1",
+      "tokens": 2462
+    },
+    {
+      "id": 30761,
+      "correct": false,
+      "predicted": "25",
+      "gold": "27",
+      "tokens": 1210
+    },
+    {
+      "id": 1068,
+      "correct": false,
+      "predicted": "\\frac{1 + \\sqrt{2}}{2}",
+      "gold": "\\frac{3 + \\sqrt{5}}{2}",
+      "tokens": 3601
+    },
+    {
+      "id": 29203,
+      "correct": false,
+      "predicted": "30^\\circ",
+      "gold": "90^\\circ \\text{ or } 30^\\circ",
+      "tokens": 3398
+    },
+    {
+      "id": 11200,
+      "correct": true,
+      "predicted": "196",
+      "gold": "196",
+      "tokens": 984
+    },
+    {
+      "id": 17447,
+      "correct": false,
+      "predicted": "4",
+      "gold": "82",
+      "tokens": 829
+    },
+    {
+      "id": 8072,
+      "correct": true,
+      "predicted": "5",
+      "gold": "5",
+      "tokens": 558
+    },
+    {
+      "id": 9444,
+      "correct": false,
+      "predicted": "",
+      "gold": "1989",
+      "tokens": 8192
+    },
+    {
+      "id": 22715,
+      "correct": false,
+      "predicted": "9",
+      "gold": "243",
+      "tokens": 1773
+    },
+    {
+      "id": 16456,
+      "correct": true,
+      "predicted": "\\frac{\\sqrt{2}}{4}",
+      "gold": "\\frac{\\sqrt{2}}{4}",
+      "tokens": 3270
+    },
+    {
+      "id": 7258,
+      "correct": false,
+      "predicted": "12",
+      "gold": "12 \\text{ minutes}",
+      "tokens": 1045
+    },
+    {
+      "id": 4484,
+      "correct": false,
+      "predicted": "[-1, 1]",
+      "gold": "a = 0",
+      "tokens": 3087
+    },
+    {
+      "id": 31779,
+      "correct": false,
+      "predicted": "4",
+      "gold": "4 \\quad \\text{or} \\quad 2(\\sqrt{17} - 3)",
+      "tokens": 1729
+    },
+    {
+      "id": 29984,
+      "correct": false,
+      "predicted": "252",
+      "gold": "630",
+      "tokens": 1271
+    },
+    {
+      "id": 16022,
+      "correct": false,
+      "predicted": "\\frac{1}{3}",
+      "gold": "\\frac{337}{1010}",
+      "tokens": 925
+    },
+    {
+      "id": 8239,
+      "correct": false,
+      "predicted": "12",
+      "gold": "18",
+      "tokens": 246
+    },
+    {
+      "id": 26648,
+      "correct": true,
+      "predicted": "60^\\circ",
+      "gold": "60^\\circ",
+      "tokens": 1516
+    },
+    {
+      "id": 16032,
+      "correct": false,
+      "predicted": "143",
+      "gold": "400",
+      "tokens": 658
+    },
+    {
+      "id": 27436,
+      "correct": false,
+      "predicted": "\\frac{1}{2010 \\cdot 2009}",
+      "gold": "x = \\frac{1}{2009 \\cdot 2010}",
+      "tokens": 1088
+    },
+    {
+      "id": 13814,
+      "correct": false,
+      "predicted": "\\frac{1}{2}",
+      "gold": "e = \\frac{2 \\sqrt{5}}{5}",
+      "tokens": 3260
+    },
+    {
+      "id": 6459,
+      "correct": true,
+      "predicted": "\\frac{7}{5}",
+      "gold": "\\frac{7}{5}",
+      "tokens": 940
+    },
+    {
+      "id": 3196,
+      "correct": true,
+      "predicted": "29",
+      "gold": "29",
+      "tokens": 589
+    },
+    {
+      "id": 3285,
+      "correct": false,
+      "predicted": "\\frac{2}{3\\pi^2}",
+      "gold": "\\frac{2}{3 \\pi^2}",
+      "tokens": 1297
+    },
+    {
+      "id": 14620,
+      "correct": true,
+      "predicted": "55",
+      "gold": "55",
+      "tokens": 299
+    },
+    {
+      "id": 14368,
+      "correct": false,
+      "predicted": "65536",
+      "gold": "327680 \\cdot 2^{16}",
+      "tokens": 628
+    },
+    {
+      "id": 13949,
+      "correct": true,
+      "predicted": "\\frac{35\\pi}{8}",
+      "gold": "\\frac{35\\pi}{8}",
+      "tokens": 747
+    },
+    {
+      "id": 15835,
+      "correct": false,
+      "predicted": "152",
+      "gold": "523152 \\text{ and } 523656",
+      "tokens": 648
+    },
+    {
+      "id": 24770,
+      "correct": false,
+      "predicted": "7",
+      "gold": "99",
+      "tokens": 579
+    },
+    {
+      "id": 1842,
+      "correct": true,
+      "predicted": "240",
+      "gold": "240",
+      "tokens": 1765
+    },
+    {
+      "id": 22194,
+      "correct": false,
+      "predicted": "625",
+      "gold": "1250",
+      "tokens": 865
+    },
+    {
+      "id": 21950,
+      "correct": true,
+      "predicted": "270",
+      "gold": "270",
+      "tokens": 2739
+    },
+    {
+      "id": 3334,
+      "correct": false,
+      "predicted": "90^\\circ",
+      "gold": "45^\\circ",
+      "tokens": 847
+    },
+    {
+      "id": 2058,
+      "correct": false,
+      "predicted": "6",
+      "gold": "21",
+      "tokens": 607
+    },
+    {
+      "id": 13663,
+      "correct": false,
+      "predicted": "4052279",
+      "gold": "22228",
+      "tokens": 2845
+    },
+    {
+      "id": 29272,
+      "correct": false,
+      "predicted": "27",
+      "gold": "19",
+      "tokens": 1311
+    },
+    {
+      "id": 3701,
+      "correct": false,
+      "predicted": "1",
+      "gold": "0",
+      "tokens": 1509
+    },
+    {
+      "id": 8431,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 956
+    },
+    {
+      "id": 6501,
+      "correct": false,
+      "predicted": "4",
+      "gold": "4.75",
+      "tokens": 839
+    },
+    {
+      "id": 6452,
+      "correct": false,
+      "predicted": "5400",
+      "gold": "1769580",
+      "tokens": 1256
+    },
+    {
+      "id": 15215,
+      "correct": true,
+      "predicted": "\\frac{\\sqrt{5}}{2}",
+      "gold": "\\frac{\\sqrt{5}}{2}",
+      "tokens": 2299
+    },
+    {
+      "id": 4749,
+      "correct": true,
+      "predicted": "5",
+      "gold": "5",
+      "tokens": 434
+    },
+    {
+      "id": 14311,
+      "correct": false,
+      "predicted": "68.94",
+      "gold": "\\sqrt{400 + 441\\pi^2} \\, \\text{meters}",
+      "tokens": 726
+    },
+    {
+      "id": 6222,
+      "correct": true,
+      "predicted": "51",
+      "gold": "51",
+      "tokens": 2187
+    },
+    {
+      "id": 9446,
+      "correct": true,
+      "predicted": "2",
+      "gold": "2",
+      "tokens": 415
+    },
+    {
+      "id": 8469,
+      "correct": false,
+      "predicted": "1",
+      "gold": "98",
+      "tokens": 1365
+    },
+    {
+      "id": 29709,
+      "correct": true,
+      "predicted": "220",
+      "gold": "220",
+      "tokens": 2058
+    },
+    {
+      "id": 31364,
+      "correct": true,
+      "predicted": "8",
+      "gold": "x = 8",
+      "tokens": 2354
+    },
+    {
+      "id": 27454,
+      "correct": false,
+      "predicted": "18",
+      "gold": "13",
+      "tokens": 691
+    },
+    {
+      "id": 3318,
+      "correct": false,
+      "predicted": "27",
+      "gold": "27 \\text{ cm}^2",
+      "tokens": 1500
+    },
+    {
+      "id": 1722,
+      "correct": false,
+      "predicted": "1",
+      "gold": "0 \\text{ and } 1",
+      "tokens": 4449
+    },
+    {
+      "id": 502,
+      "correct": false,
+      "predicted": "8",
+      "gold": "\\frac{4}{3}",
+      "tokens": 4068
+    },
+    {
+      "id": 32911,
+      "correct": true,
+      "predicted": "37.2",
+      "gold": "37.2",
+      "tokens": 1297
+    },
+    {
+      "id": 3162,
+      "correct": true,
+      "predicted": "193",
+      "gold": "193",
+      "tokens": 1453
+    },
+    {
+      "id": 28836,
+      "correct": true,
+      "predicted": "4",
+      "gold": "4",
+      "tokens": 856
+    },
+    {
+      "id": 8019,
+      "correct": false,
+      "predicted": "2\\sqrt{22}",
+      "gold": "3\\sqrt{2}",
+      "tokens": 2791
+    },
+    {
+      "id": 5629,
+      "correct": false,
+      "predicted": "\\sqrt{3 + \\sqrt{2}}",
+      "gold": "\\frac{\\sqrt{12 - 5\\sqrt{2}}}{2}",
+      "tokens": 2199
+    },
+    {
+      "id": 16463,
+      "correct": true,
+      "predicted": "2",
+      "gold": "2",
+      "tokens": 1610
+    },
+    {
+      "id": 16314,
+      "correct": false,
+      "predicted": "2",
+      "gold": "396",
+      "tokens": 1339
+    },
+    {
+      "id": 7242,
+      "correct": false,
+      "predicted": "15 + 2\\sqrt{3}",
+      "gold": "2 \\sqrt{87}",
+      "tokens": 1999
+    },
+    {
+      "id": 13610,
+      "correct": true,
+      "predicted": "\\frac{\\sqrt{3}}{3}",
+      "gold": "\\frac{\\sqrt{3}}{3}",
+      "tokens": 2037
+    },
+    {
+      "id": 30664,
+      "correct": false,
+      "predicted": "6",
+      "gold": "6 \\text{ players}",
+      "tokens": 1802
+    },
+    {
+      "id": 5574,
+      "correct": false,
+      "predicted": "122.4",
+      "gold": "28",
+      "tokens": 635
+    },
+    {
+      "id": 12849,
+      "correct": false,
+      "predicted": "26",
+      "gold": "18",
+      "tokens": 1593
+    },
+    {
+      "id": 71,
+      "correct": false,
+      "predicted": "1",
+      "gold": "\\frac{25}{49}",
+      "tokens": 2581
+    },
+    {
+      "id": 8993,
+      "correct": true,
+      "predicted": "7.5",
+      "gold": "7.5",
+      "tokens": 141
+    },
+    {
+      "id": 31474,
+      "correct": false,
+      "predicted": "2",
+      "gold": "\\frac{5}{7}",
+      "tokens": 3604
+    },
+    {
+      "id": 26629,
+      "correct": false,
+      "predicted": "\\text{Use a parity-based strategy where prisoners agree on a rule (e.g., \"total ",
+      "gold": "\\frac{1}{2}",
+      "tokens": 685
+    },
+    {
+      "id": 26666,
+      "correct": true,
+      "predicted": "\\frac{17}{81}",
+      "gold": "\\frac{17}{81}",
+      "tokens": 881
+    },
+    {
+      "id": 14350,
+      "correct": false,
+      "predicted": "24",
+      "gold": "24 \\, \\text{m}^3",
+      "tokens": 1070
+    },
+    {
+      "id": 32516,
+      "correct": false,
+      "predicted": "180",
+      "gold": "630",
+      "tokens": 515
+    },
+    {
+      "id": 26604,
+      "correct": true,
+      "predicted": "5",
+      "gold": "5",
+      "tokens": 825
+    },
+    {
+      "id": 18861,
+      "correct": false,
+      "predicted": "51",
+      "gold": "171",
+      "tokens": 1256
+    },
+    {
+      "id": 24405,
+      "correct": true,
+      "predicted": "19",
+      "gold": "19",
+      "tokens": 894
+    },
+    {
+      "id": 16497,
+      "correct": false,
+      "predicted": "648",
+      "gold": "72",
+      "tokens": 1457
+    },
+    {
+      "id": 6442,
+      "correct": false,
+      "predicted": "4002",
+      "gold": "-2",
+      "tokens": 1077
+    },
+    {
+      "id": 10066,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 1174
+    },
+    {
+      "id": 7374,
+      "correct": true,
+      "predicted": "32",
+      "gold": "32",
+      "tokens": 1300
+    },
+    {
+      "id": 32901,
+      "correct": false,
+      "predicted": "13",
+      "gold": "4",
+      "tokens": 1032
+    },
+    {
+      "id": 24996,
+      "correct": false,
+      "predicted": "81",
+      "gold": "365",
+      "tokens": 1711
+    },
+    {
+      "id": 2069,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{3} - 1}{2}",
+      "gold": "\\sqrt{3}",
+      "tokens": 2466
+    },
+    {
+      "id": 1708,
+      "correct": true,
+      "predicted": "900",
+      "gold": "900",
+      "tokens": 856
+    },
+    {
+      "id": 16159,
+      "correct": false,
+      "predicted": "98",
+      "gold": "99",
+      "tokens": 1513
+    },
+    {
+      "id": 17053,
+      "correct": false,
+      "predicted": "235.2",
+      "gold": "235.2 \\text{ cm}^2",
+      "tokens": 727
+    },
+    {
+      "id": 31232,
+      "correct": false,
+      "predicted": "180",
+      "gold": "194",
+      "tokens": 3023
+    },
+    {
+      "id": 18022,
+      "correct": true,
+      "predicted": "350",
+      "gold": "350",
+      "tokens": 3686
+    },
+    {
+      "id": 5331,
+      "correct": false,
+      "predicted": "5",
+      "gold": "3",
+      "tokens": 1190
+    },
+    {
+      "id": 32631,
+      "correct": true,
+      "predicted": "400",
+      "gold": "400",
+      "tokens": 766
+    },
+    {
+      "id": 17225,
+      "correct": true,
+      "predicted": "6",
+      "gold": "6",
+      "tokens": 856
+    },
+    {
+      "id": 6303,
+      "correct": true,
+      "predicted": "2.1",
+      "gold": "2.1 \\, \\text{kg}",
+      "tokens": 1905
+    },
+    {
+      "id": 2322,
+      "correct": true,
+      "predicted": "22",
+      "gold": "22",
+      "tokens": 686
+    },
+    {
+      "id": 20198,
+      "correct": false,
+      "predicted": "2.06",
+      "gold": "r = 1",
+      "tokens": 4722
+    },
+    {
+      "id": 22925,
+      "correct": false,
+      "predicted": "16",
+      "gold": "15",
+      "tokens": 881
+    },
+    {
+      "id": 13704,
+      "correct": false,
+      "predicted": "8 \\text{ hours}",
+      "gold": "16 \\text{ hours}",
+      "tokens": 1361
+    },
+    {
+      "id": 4060,
+      "correct": false,
+      "predicted": "1",
+      "gold": "\\frac{1}{2}",
+      "tokens": 2015
+    },
+    {
+      "id": 31985,
+      "correct": true,
+      "predicted": "5",
+      "gold": "M = 5",
+      "tokens": 4962
+    },
+    {
+      "id": 30254,
+      "correct": true,
+      "predicted": "6",
+      "gold": "6",
+      "tokens": 899
+    },
+    {
+      "id": 19332,
+      "correct": false,
+      "predicted": "2",
+      "gold": "2 + \\frac{1}{2} \\ln \\left( \\frac{9}{5} \\right)",
+      "tokens": 1197
+    },
+    {
+      "id": 8348,
+      "correct": false,
+      "predicted": "30",
+      "gold": "35^\\circ",
+      "tokens": 1051
+    },
+    {
+      "id": 20181,
+      "correct": false,
+      "predicted": "\\left\\lfloor \\frac{n+1}{2} \\right\\rfloor",
+      "gold": "2",
+      "tokens": 1309
+    },
+    {
+      "id": 1349,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{10}}{4}",
+      "gold": "\\frac{\\sqrt{5}}{2}",
+      "tokens": 3299
+    },
+    {
+      "id": 21037,
+      "correct": true,
+      "predicted": "16",
+      "gold": "16",
+      "tokens": 1590
+    },
+    {
+      "id": 2779,
+      "correct": false,
+      "predicted": "4",
+      "gold": "401",
+      "tokens": 2041
+    },
+    {
+      "id": 14224,
+      "correct": false,
+      "predicted": "3\\sqrt{3}",
+      "gold": "\\frac{9}{2}",
+      "tokens": 2285
+    },
+    {
+      "id": 22326,
+      "correct": true,
+      "predicted": "\\pi^2",
+      "gold": "\\pi^2",
+      "tokens": 1641
+    },
+    {
+      "id": 19811,
+      "correct": true,
+      "predicted": "7",
+      "gold": "7",
+      "tokens": 1119
+    },
+    {
+      "id": 19181,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 877
+    },
+    {
+      "id": 31753,
+      "correct": false,
+      "predicted": "1503",
+      "gold": "3003",
+      "tokens": 1523
+    },
+    {
+      "id": 8838,
+      "correct": false,
+      "predicted": "\\pi \\sqrt{2}",
+      "gold": "\\frac{2}{3} \\pi \\text{ meters}",
+      "tokens": 567
+    },
+    {
+      "id": 6925,
+      "correct": true,
+      "predicted": "9",
+      "gold": "9",
+      "tokens": 1483
+    },
+    {
+      "id": 22739,
+      "correct": false,
+      "predicted": "2014",
+      "gold": "89",
+      "tokens": 1031
+    },
+    {
+      "id": 24330,
+      "correct": true,
+      "predicted": "10",
+      "gold": "10",
+      "tokens": 530
+    },
+    {
+      "id": 10649,
+      "correct": false,
+      "predicted": "1050",
+      "gold": "1019",
+      "tokens": 1450
+    },
+    {
+      "id": 13429,
+      "correct": false,
+      "predicted": "36",
+      "gold": "66^\\circ",
+      "tokens": 967
+    },
+    {
+      "id": 4436,
+      "correct": true,
+      "predicted": "208",
+      "gold": "208",
+      "tokens": 883
+    },
+    {
+      "id": 21927,
+      "correct": true,
+      "predicted": "2",
+      "gold": "2",
+      "tokens": 642
+    },
+    {
+      "id": 15503,
+      "correct": false,
+      "predicted": "1",
+      "gold": "0.35",
+      "tokens": 1561
+    },
+    {
+      "id": 10722,
+      "correct": false,
+      "predicted": "0",
+      "gold": "\\frac{2}{9}",
+      "tokens": 2606
+    },
+    {
+      "id": 2460,
+      "correct": true,
+      "predicted": "9",
+      "gold": "9",
+      "tokens": 2451
+    },
+    {
+      "id": 316,
+      "correct": false,
+      "predicted": "20",
+      "gold": "52",
+      "tokens": 741
+    },
+    {
+      "id": 21099,
+      "correct": true,
+      "predicted": "2005",
+      "gold": "2005",
+      "tokens": 1012
+    },
+    {
+      "id": 3389,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 1019
+    },
+    {
+      "id": 4489,
+      "correct": false,
+      "predicted": "\\prod_{n=1}^{2015} \\phi(n)",
+      "gold": "\\frac{1}{2015}",
+      "tokens": 2130
+    },
+    {
+      "id": 31703,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 1198
+    },
+    {
+      "id": 11840,
+      "correct": false,
+      "predicted": "6",
+      "gold": "9",
+      "tokens": 1025
+    },
+    {
+      "id": 29931,
+      "correct": true,
+      "predicted": "128",
+      "gold": "128",
+      "tokens": 1113
+    },
+    {
+      "id": 2332,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{3}}{6}",
+      "gold": "\\frac{\\sqrt{2}}{6}",
+      "tokens": 1100
+    },
+    {
+      "id": 8283,
+      "correct": false,
+      "predicted": "8",
+      "gold": "-1 \\text{ or } 8",
+      "tokens": 951
+    },
+    {
+      "id": 9671,
+      "correct": false,
+      "predicted": "480",
+      "gold": "288 \\text{ kilometers}",
+      "tokens": 2190
+    },
+    {
+      "id": 28326,
+      "correct": true,
+      "predicted": "135^\\circ",
+      "gold": "135^\\circ",
+      "tokens": 1746
+    },
+    {
+      "id": 18432,
+      "correct": false,
+      "predicted": "42.25",
+      "gold": "40",
+      "tokens": 2079
+    },
+    {
+      "id": 23900,
+      "correct": true,
+      "predicted": "982982",
+      "gold": "982982",
+      "tokens": 789
+    },
+    {
+      "id": 10260,
+      "correct": true,
+      "predicted": "9",
+      "gold": "9",
+      "tokens": 711
+    },
+    {
+      "id": 20770,
+      "correct": false,
+      "predicted": "2020! + 2020",
+      "gold": "P(2020) = 2020! + 2020",
+      "tokens": 837
+    },
+    {
+      "id": 22213,
+      "correct": true,
+      "predicted": "24192",
+      "gold": "24192",
+      "tokens": 524
+    },
+    {
+      "id": 265,
+      "correct": true,
+      "predicted": "900",
+      "gold": "900",
+      "tokens": 585
+    },
+    {
+      "id": 22677,
+      "correct": false,
+      "predicted": "",
+      "gold": "490",
+      "tokens": 8192
+    },
+    {
+      "id": 31652,
+      "correct": false,
+      "predicted": "\\frac{7}{12}",
+      "gold": "\\frac{7}{12} \\approx 0.58",
+      "tokens": 1787
+    },
+    {
+      "id": 31896,
+      "correct": true,
+      "predicted": "87",
+      "gold": "87",
+      "tokens": 1287
+    },
+    {
+      "id": 8967,
+      "correct": true,
+      "predicted": "2019",
+      "gold": "2019",
+      "tokens": 2834
+    },
+    {
+      "id": 30235,
+      "correct": false,
+      "predicted": "\\sqrt{2}",
+      "gold": "\\frac{4}{3}\\sqrt{\\frac{2}{3}}",
+      "tokens": 3073
+    },
+    {
+      "id": 25222,
+      "correct": false,
+      "predicted": "\\sqrt{2}",
+      "gold": "\\frac{1 + \\sqrt{5}}{2}",
+      "tokens": 2742
+    },
+    {
+      "id": 5264,
+      "correct": false,
+      "predicted": "3",
+      "gold": "6",
+      "tokens": 591
+    },
+    {
+      "id": 20531,
+      "correct": false,
+      "predicted": "30",
+      "gold": "60^\\circ",
+      "tokens": 2025
+    },
+    {
+      "id": 7139,
+      "correct": true,
+      "predicted": "11",
+      "gold": "11",
+      "tokens": 655
+    },
+    {
+      "id": 11624,
+      "correct": false,
+      "predicted": "6",
+      "gold": "8",
+      "tokens": 745
+    },
+    {
+      "id": 28977,
+      "correct": false,
+      "predicted": "64\\pi",
+      "gold": "60 \\pi \\, \\text{ft}^2",
+      "tokens": 479
+    },
+    {
+      "id": 17139,
+      "correct": true,
+      "predicted": "600",
+      "gold": "600",
+      "tokens": 1734
+    },
+    {
+      "id": 16561,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 929
+    },
+    {
+      "id": 30856,
+      "correct": false,
+      "predicted": "1947",
+      "gold": "86130",
+      "tokens": 1923
+    },
+    {
+      "id": 28750,
+      "correct": true,
+      "predicted": "3456",
+      "gold": "3456",
+      "tokens": 1179
+    },
+    {
+      "id": 1729,
+      "correct": false,
+      "predicted": "p = 2",
+      "gold": "76",
+      "tokens": 3432
+    },
+    {
+      "id": 3130,
+      "correct": false,
+      "predicted": "70",
+      "gold": "108",
+      "tokens": 3965
+    },
+    {
+      "id": 21542,
+      "correct": true,
+      "predicted": "25",
+      "gold": "25",
+      "tokens": 620
+    },
+    {
+      "id": 1496,
+      "correct": true,
+      "predicted": "\\frac{2}{9}",
+      "gold": "\\frac{2}{9}",
+      "tokens": 571
+    },
+    {
+      "id": 11309,
+      "correct": false,
+      "predicted": "230",
+      "gold": "210",
+      "tokens": 572
+    },
+    {
+      "id": 26191,
+      "correct": true,
+      "predicted": "4041",
+      "gold": "4041",
+      "tokens": 711
+    },
+    {
+      "id": 21638,
+      "correct": false,
+      "predicted": "363",
+      "gold": "301",
+      "tokens": 955
+    },
+    {
+      "id": 5471,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 1019
+    },
+    {
+      "id": 14985,
+      "correct": false,
+      "predicted": "1894",
+      "gold": "2851",
+      "tokens": 1892
+    },
+    {
+      "id": 18722,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 1349
+    },
+    {
+      "id": 23971,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 1845
+    },
+    {
+      "id": 14506,
+      "correct": false,
+      "predicted": "204",
+      "gold": "150 \\, \\text{m}^2",
+      "tokens": 1107
+    },
+    {
+      "id": 19033,
+      "correct": true,
+      "predicted": "\\frac{5}{14}",
+      "gold": "\\frac{5}{14}",
+      "tokens": 1151
+    },
+    {
+      "id": 32102,
+      "correct": true,
+      "predicted": "0",
+      "gold": "0",
+      "tokens": 1008
+    },
+    {
+      "id": 30008,
+      "correct": false,
+      "predicted": "253",
+      "gold": "246",
+      "tokens": 1046
+    },
+    {
+      "id": 23466,
+      "correct": false,
+      "predicted": "0",
+      "gold": "37",
+      "tokens": 1556
+    },
+    {
+      "id": 1225,
+      "correct": false,
+      "predicted": "23",
+      "gold": "77",
+      "tokens": 2200
+    },
+    {
+      "id": 28354,
+      "correct": true,
+      "predicted": "60",
+      "gold": "60",
+      "tokens": 1481
+    },
+    {
+      "id": 5018,
+      "correct": true,
+      "predicted": "11",
+      "gold": "11",
+      "tokens": 556
+    },
+    {
+      "id": 4317,
+      "correct": true,
+      "predicted": "81",
+      "gold": "81",
+      "tokens": 1180
+    },
+    {
+      "id": 1420,
+      "correct": false,
+      "predicted": "1.2",
+      "gold": "\\frac{18}{25}",
+      "tokens": 714
+    },
+    {
+      "id": 27045,
+      "correct": false,
+      "predicted": "13",
+      "gold": "49",
+      "tokens": 909
+    },
+    {
+      "id": 29239,
+      "correct": false,
+      "predicted": "\\sqrt{3} - 2",
+      "gold": "-2+\\sqrt{3}",
+      "tokens": 844
+    },
+    {
+      "id": 23154,
+      "correct": true,
+      "predicted": "\\pi",
+      "gold": "\\pi",
+      "tokens": 1330
+    },
+    {
+      "id": 8460,
+      "correct": false,
+      "predicted": "\\frac{4}{3}",
+      "gold": "\\frac{2}{3}",
+      "tokens": 2277
+    },
+    {
+      "id": 22647,
+      "correct": true,
+      "predicted": "\\frac{\\sqrt{2}}{12}",
+      "gold": "\\frac{\\sqrt{2}}{12}",
+      "tokens": 2109
+    },
+    {
+      "id": 11997,
+      "correct": false,
+      "predicted": "999",
+      "gold": "183",
+      "tokens": 1549
+    },
+    {
+      "id": 18999,
+      "correct": false,
+      "predicted": "12:00 \\text{ AM}",
+      "gold": "3:20 \\, \\text{AM}",
+      "tokens": 3146
+    },
+    {
+      "id": 13792,
+      "correct": false,
+      "predicted": "130",
+      "gold": "92",
+      "tokens": 709
+    },
+    {
+      "id": 21082,
+      "correct": false,
+      "predicted": "\\frac{3 + 2\\sqrt{3}}{3}",
+      "gold": "1 + \\frac{2}{\\sqrt{3}}",
+      "tokens": 581
+    },
+    {
+      "id": 25459,
+      "correct": false,
+      "predicted": "107.1",
+      "gold": "90",
+      "tokens": 781
+    },
+    {
+      "id": 5235,
+      "correct": true,
+      "predicted": "2 \\ln 42",
+      "gold": "2 \\ln 42",
+      "tokens": 1002
+    },
+    {
+      "id": 31448,
+      "correct": false,
+      "predicted": "7(3 - 2\\sqrt{2})",
+      "gold": "2 \\sqrt{2} - 1",
+      "tokens": 1441
+    },
+    {
+      "id": 31587,
+      "correct": false,
+      "predicted": "2070",
+      "gold": "2070 \\text{ or } 2100 \\text{ or } 2110",
+      "tokens": 505
+    },
+    {
+      "id": 29374,
+      "correct": false,
+      "predicted": "999\\ldots9",
+      "gold": "0",
+      "tokens": 1097
+    },
+    {
+      "id": 5503,
+      "correct": true,
+      "predicted": "9",
+      "gold": "9",
+      "tokens": 2402
+    },
+    {
+      "id": 27175,
+      "correct": true,
+      "predicted": "792",
+      "gold": "792",
+      "tokens": 2581
+    },
+    {
+      "id": 27547,
+      "correct": true,
+      "predicted": "9",
+      "gold": "9",
+      "tokens": 1277
+    },
+    {
+      "id": 6006,
+      "correct": false,
+      "predicted": "2 + \\sqrt{2}",
+      "gold": "\\sqrt{2 + \\sqrt{2}}",
+      "tokens": 2416
+    },
+    {
+      "id": 13990,
+      "correct": false,
+      "predicted": "\\frac{3 - \\sqrt{6}}{3}",
+      "gold": "\\frac{\\sqrt{3}}{3}",
+      "tokens": 2380
+    },
+    {
+      "id": 6084,
+      "correct": false,
+      "predicted": "1",
+      "gold": "51",
+      "tokens": 752
+    },
+    {
+      "id": 25023,
+      "correct": false,
+      "predicted": "384",
+      "gold": "544",
+      "tokens": 1460
+    },
+    {
+      "id": 11264,
+      "correct": false,
+      "predicted": "16",
+      "gold": "x = 10 \\text{ hours}, \\; y = 16 \\text{ hours}",
+      "tokens": 1207
+    },
+    {
+      "id": 26571,
+      "correct": true,
+      "predicted": "10",
+      "gold": "10",
+      "tokens": 2387
+    },
+    {
+      "id": 31618,
+      "correct": false,
+      "predicted": "6",
+      "gold": "20",
+      "tokens": 1190
+    },
+    {
+      "id": 13970,
+      "correct": true,
+      "predicted": "18",
+      "gold": "18",
+      "tokens": 537
+    },
+    {
+      "id": 22745,
+      "correct": true,
+      "predicted": "0",
+      "gold": "0",
+      "tokens": 1963
+    },
+    {
+      "id": 29355,
+      "correct": false,
+      "predicted": "90^\\circ",
+      "gold": "60^\\circ",
+      "tokens": 898
+    },
+    {
+      "id": 27546,
+      "correct": false,
+      "predicted": "20",
+      "gold": "48",
+      "tokens": 738
+    },
+    {
+      "id": 8413,
+      "correct": false,
+      "predicted": "\\cos^{-1}\\left( \\frac{1}{12} \\right)",
+      "gold": "45^\\circ",
+      "tokens": 866
+    },
+    {
+      "id": 9047,
+      "correct": false,
+      "predicted": "0",
+      "gold": "6",
+      "tokens": 2422
+    },
+    {
+      "id": 23824,
+      "correct": true,
+      "predicted": "1005",
+      "gold": "1005",
+      "tokens": 309
+    },
+    {
+      "id": 3659,
+      "correct": false,
+      "predicted": "12",
+      "gold": "7",
+      "tokens": 1164
+    },
+    {
+      "id": 12975,
+      "correct": true,
+      "predicted": "14",
+      "gold": "14",
+      "tokens": 1416
+    },
+    {
+      "id": 29629,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 1360
+    },
+    {
+      "id": 15956,
+      "correct": false,
+      "predicted": "12",
+      "gold": "17",
+      "tokens": 820
+    },
+    {
+      "id": 7538,
+      "correct": false,
+      "predicted": "144",
+      "gold": "40",
+      "tokens": 664
+    },
+    {
+      "id": 6767,
+      "correct": true,
+      "predicted": "10000",
+      "gold": "10000",
+      "tokens": 188
+    },
+    {
+      "id": 27741,
+      "correct": false,
+      "predicted": "\\frac{5}{24}",
+      "gold": "\\frac{3}{38}",
+      "tokens": 1001
+    },
+    {
+      "id": 15607,
+      "correct": false,
+      "predicted": "9",
+      "gold": "3",
+      "tokens": 4268
+    },
+    {
+      "id": 11861,
+      "correct": true,
+      "predicted": "0",
+      "gold": "0",
+      "tokens": 1976
+    },
+    {
+      "id": 27875,
+      "correct": false,
+      "predicted": "137",
+      "gold": "13837",
+      "tokens": 500
+    },
+    {
+      "id": 29600,
+      "correct": false,
+      "predicted": "40",
+      "gold": "8",
+      "tokens": 930
+    },
+    {
+      "id": 7718,
+      "correct": false,
+      "predicted": "10",
+      "gold": "12",
+      "tokens": 1664
+    },
+    {
+      "id": 7554,
+      "correct": false,
+      "predicted": "236880",
+      "gold": "1,895,040",
+      "tokens": 1488
+    },
+    {
+      "id": 804,
+      "correct": false,
+      "predicted": "200",
+      "gold": "70",
+      "tokens": 1100
+    },
+    {
+      "id": 22416,
+      "correct": true,
+      "predicted": "281250",
+      "gold": "281250",
+      "tokens": 731
+    },
+    {
+      "id": 13520,
+      "correct": false,
+      "predicted": "\\frac{3}{5}",
+      "gold": "0.6",
+      "tokens": 1233
+    },
+    {
+      "id": 11127,
+      "correct": true,
+      "predicted": "4",
+      "gold": "4",
+      "tokens": 2100
+    },
+    {
+      "id": 29365,
+      "correct": true,
+      "predicted": "15",
+      "gold": "15",
+      "tokens": 1130
+    },
+    {
+      "id": 32841,
+      "correct": true,
+      "predicted": "7294927",
+      "gold": "7294927",
+      "tokens": 1308
+    },
+    {
+      "id": 26266,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 1156
+    },
+    {
+      "id": 9466,
+      "correct": false,
+      "predicted": "1993",
+      "gold": "1992",
+      "tokens": 1284
+    },
+    {
+      "id": 11913,
+      "correct": true,
+      "predicted": "84",
+      "gold": "84",
+      "tokens": 517
+    },
+    {
+      "id": 21790,
+      "correct": false,
+      "predicted": "6",
+      "gold": "16",
+      "tokens": 838
+    },
+    {
+      "id": 17278,
+      "correct": false,
+      "predicted": "6",
+      "gold": "0",
+      "tokens": 2004
+    },
+    {
+      "id": 28666,
+      "correct": false,
+      "predicted": "5",
+      "gold": "3+\\sqrt{5}",
+      "tokens": 945
+    },
+    {
+      "id": 31906,
+      "correct": true,
+      "predicted": "21",
+      "gold": "21",
+      "tokens": 983
+    },
+    {
+      "id": 940,
+      "correct": false,
+      "predicted": "1009 \\text{ and } 1010",
+      "gold": "673 \\text{ and } 1346",
+      "tokens": 3188
+    },
+    {
+      "id": 29797,
+      "correct": false,
+      "predicted": "1052632",
+      "gold": "105263157894736842",
+      "tokens": 1403
+    },
+    {
+      "id": 8854,
+      "correct": true,
+      "predicted": "144",
+      "gold": "144",
+      "tokens": 601
+    },
+    {
+      "id": 6057,
+      "correct": true,
+      "predicted": "11^{2020}",
+      "gold": "11^{2020}",
+      "tokens": 3252
+    },
+    {
+      "id": 32690,
+      "correct": false,
+      "predicted": "CM : MC_1 = 3 : 1",
+      "gold": "(AM:MA_1 = 1:1, \\quad CM:MC_1 = 3:1)",
+      "tokens": 1819
+    },
+    {
+      "id": 9001,
+      "correct": false,
+      "predicted": "6.6089",
+      "gold": "6.62",
+      "tokens": 419
+    },
+    {
+      "id": 1299,
+      "correct": false,
+      "predicted": "0.62",
+      "gold": "0.28",
+      "tokens": 2067
+    },
+    {
+      "id": 3669,
+      "correct": false,
+      "predicted": "2",
+      "gold": "\\frac{92}{61}",
+      "tokens": 3660
+    },
+    {
+      "id": 20251,
+      "correct": false,
+      "predicted": "120^\\circ",
+      "gold": "45^\\circ",
+      "tokens": 2315
+    },
+    {
+      "id": 14740,
+      "correct": true,
+      "predicted": "-\\frac{1}{4}",
+      "gold": "-\\frac{1}{4}",
+      "tokens": 2216
+    },
+    {
+      "id": 24752,
+      "correct": false,
+      "predicted": "0.56\\%",
+      "gold": "0.5 \\text{ p.p.}",
+      "tokens": 1421
+    },
+    {
+      "id": 26711,
+      "correct": false,
+      "predicted": "182",
+      "gold": "192 \\text{ cm}^2",
+      "tokens": 1033
+    },
+    {
+      "id": 10631,
+      "correct": true,
+      "predicted": "2000",
+      "gold": "2000",
+      "tokens": 1050
+    },
+    {
+      "id": 14802,
+      "correct": false,
+      "predicted": "125",
+      "gold": "5^{2014}",
+      "tokens": 4054
+    },
+    {
+      "id": 13068,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{2}}{2}",
+      "gold": "\\frac{1}{\\sqrt{2}}",
+      "tokens": 1812
+    },
+    {
+      "id": 30566,
+      "correct": true,
+      "predicted": "2^{25}",
+      "gold": "2^{25}",
+      "tokens": 712
+    },
+    {
+      "id": 8634,
+      "correct": false,
+      "predicted": "98",
+      "gold": "88",
+      "tokens": 476
+    },
+    {
+      "id": 1506,
+      "correct": false,
+      "predicted": "833",
+      "gold": "600",
+      "tokens": 2082
+    },
+    {
+      "id": 14790,
+      "correct": false,
+      "predicted": "\\frac{\\pi}{6}",
+      "gold": "\\frac{1}{6}\\pi - \\frac{\\sqrt{3}}{4}",
+      "tokens": 1743
+    },
+    {
+      "id": 56,
+      "correct": false,
+      "predicted": "\\sqrt{3}",
+      "gold": "2 \\sqrt{3}",
+      "tokens": 1148
+    },
+    {
+      "id": 27401,
+      "correct": true,
+      "predicted": "7",
+      "gold": "n = 7",
+      "tokens": 613
+    },
+    {
+      "id": 18266,
+      "correct": false,
+      "predicted": "2",
+      "gold": "4",
+      "tokens": 634
+    },
+    {
+      "id": 23322,
+      "correct": false,
+      "predicted": "6",
+      "gold": "258",
+      "tokens": 1309
+    },
+    {
+      "id": 24443,
+      "correct": false,
+      "predicted": "",
+      "gold": "76",
+      "tokens": 8192
+    },
+    {
+      "id": 31940,
+      "correct": false,
+      "predicted": "1020100",
+      "gold": "2018",
+      "tokens": 1501
+    },
+    {
+      "id": 25039,
+      "correct": false,
+      "predicted": "127",
+      "gold": "128",
+      "tokens": 400
+    },
+    {
+      "id": 22769,
+      "correct": true,
+      "predicted": "662004",
+      "gold": "662004",
+      "tokens": 1086
+    },
+    {
+      "id": 6683,
+      "correct": false,
+      "predicted": "\\frac{1 - 2\\sqrt{7}}{7}",
+      "gold": "-\\frac{9}{8}",
+      "tokens": 2258
+    },
+    {
+      "id": 14628,
+      "correct": false,
+      "predicted": "1984",
+      "gold": "544",
+      "tokens": 444
+    },
+    {
+      "id": 2370,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 1421
+    },
+    {
+      "id": 10640,
+      "correct": false,
+      "predicted": "102",
+      "gold": "101",
+      "tokens": 1235
+    },
+    {
+      "id": 28812,
+      "correct": false,
+      "predicted": "4",
+      "gold": "2",
+      "tokens": 3469
+    },
+    {
+      "id": 24453,
+      "correct": false,
+      "predicted": "\\frac{1}{2}",
+      "gold": "0.5",
+      "tokens": 1545
+    },
+    {
+      "id": 17199,
+      "correct": true,
+      "predicted": "12",
+      "gold": "12",
+      "tokens": 2084
+    },
+    {
+      "id": 10484,
+      "correct": true,
+      "predicted": "\\frac{1}{2018}",
+      "gold": "\\frac{1}{2018}",
+      "tokens": 960
+    },
+    {
+      "id": 22645,
+      "correct": false,
+      "predicted": "9",
+      "gold": "7 \\text{ miles}",
+      "tokens": 1912
+    },
+    {
+      "id": 23680,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 480
+    },
+    {
+      "id": 18815,
+      "correct": false,
+      "predicted": "143",
+      "gold": "132",
+      "tokens": 624
+    },
+    {
+      "id": 14264,
+      "correct": false,
+      "predicted": "102",
+      "gold": "k = 86",
+      "tokens": 2443
+    },
+    {
+      "id": 31943,
+      "correct": false,
+      "predicted": "\\frac{81\\pi}{4}",
+      "gold": "S = \\frac{225}{4} \\pi",
+      "tokens": 1423
+    },
+    {
+      "id": 12854,
+      "correct": false,
+      "predicted": "2",
+      "gold": "2 \\text{ m}",
+      "tokens": 2351
+    },
+    {
+      "id": 22995,
+      "correct": false,
+      "predicted": "\\text{No such positive integer } n \\text{ exists.}",
+      "gold": "7",
+      "tokens": 1244
+    },
+    {
+      "id": 25415,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{5} (\\sqrt{65} + 1)(3 + \\sqrt{5})}{4}",
+      "gold": "8\\sqrt{5}",
+      "tokens": 2229
+    },
+    {
+      "id": 19311,
+      "correct": true,
+      "predicted": "1001",
+      "gold": "1001",
+      "tokens": 892
+    },
+    {
+      "id": 10208,
+      "correct": false,
+      "predicted": "\\frac{8\\sqrt{3}}{3}",
+      "gold": "\\frac{56}{\\sqrt{3}}",
+      "tokens": 1338
+    },
+    {
+      "id": 13782,
+      "correct": true,
+      "predicted": "4",
+      "gold": "4",
+      "tokens": 832
+    },
+    {
+      "id": 18593,
+      "correct": true,
+      "predicted": "2006",
+      "gold": "2006",
+      "tokens": 957
+    },
+    {
+      "id": 10305,
+      "correct": true,
+      "predicted": "4",
+      "gold": "4",
+      "tokens": 1116
+    },
+    {
+      "id": 14580,
+      "correct": false,
+      "predicted": "\\frac{360}{7}",
+      "gold": "\\frac{\\pi}{7}",
+      "tokens": 1039
+    },
+    {
+      "id": 26687,
+      "correct": false,
+      "predicted": "18",
+      "gold": "35",
+      "tokens": 2009
+    },
+    {
+      "id": 19678,
+      "correct": true,
+      "predicted": "5:05 \\text{ PM}",
+      "gold": "5:05 \\text{ PM}",
+      "tokens": 1013
+    },
+    {
+      "id": 10923,
+      "correct": true,
+      "predicted": "13",
+      "gold": "13",
+      "tokens": 1231
+    },
+    {
+      "id": 15764,
+      "correct": false,
+      "predicted": "4",
+      "gold": "\\frac{16}{3}",
+      "tokens": 2410
+    },
+    {
+      "id": 14983,
+      "correct": false,
+      "predicted": "60",
+      "gold": "1806",
+      "tokens": 5523
+    },
+    {
+      "id": 22939,
+      "correct": false,
+      "predicted": "0.1",
+      "gold": "\\sqrt{2}",
+      "tokens": 2236
+    },
+    {
+      "id": 7240,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 2117
+    },
+    {
+      "id": 17340,
+      "correct": true,
+      "predicted": "1224",
+      "gold": "1224",
+      "tokens": 1284
+    },
+    {
+      "id": 26965,
+      "correct": false,
+      "predicted": "60",
+      "gold": "45",
+      "tokens": 636
+    },
+    {
+      "id": 30622,
+      "correct": true,
+      "predicted": "11",
+      "gold": "11",
+      "tokens": 1094
+    },
+    {
+      "id": 5748,
+      "correct": true,
+      "predicted": "2",
+      "gold": "2",
+      "tokens": 1028
+    },
+    {
+      "id": 22377,
+      "correct": true,
+      "predicted": "\\frac{4}{9}",
+      "gold": "\\frac{4}{9}",
+      "tokens": 816
+    },
+    {
+      "id": 2875,
+      "correct": false,
+      "predicted": "\\frac{1}{3628800}",
+      "gold": "0.000516",
+      "tokens": 831
+    },
+    {
+      "id": 9629,
+      "correct": false,
+      "predicted": "2997",
+      "gold": "2998",
+      "tokens": 869
+    },
+    {
+      "id": 17493,
+      "correct": false,
+      "predicted": "27",
+      "gold": "39",
+      "tokens": 2637
+    },
+    {
+      "id": 22544,
+      "correct": false,
+      "predicted": "\\frac{4}{3}(6 + \\sqrt{6})",
+      "gold": "\\frac{54 + 9\\sqrt{3}}{8}",
+      "tokens": 1378
+    },
+    {
+      "id": 21497,
+      "correct": true,
+      "predicted": "\\sqrt{2}",
+      "gold": "\\sqrt{2}",
+      "tokens": 1932
+    },
+    {
+      "id": 21033,
+      "correct": false,
+      "predicted": "64 - 32\\sqrt{2}",
+      "gold": "32 (\\sqrt{2} - 1)",
+      "tokens": 788
+    },
+    {
+      "id": 11363,
+      "correct": false,
+      "predicted": "12",
+      "gold": "12 \\text{ seconds}",
+      "tokens": 557
+    },
+    {
+      "id": 32334,
+      "correct": false,
+      "predicted": "1",
+      "gold": "2",
+      "tokens": 1348
+    },
+    {
+      "id": 25515,
+      "correct": true,
+      "predicted": "6",
+      "gold": "6",
+      "tokens": 1236
+    },
+    {
+      "id": 7967,
+      "correct": false,
+      "predicted": "16.47",
+      "gold": "34",
+      "tokens": 763
+    },
+    {
+      "id": 22842,
+      "correct": true,
+      "predicted": "59",
+      "gold": "59",
+      "tokens": 3216
+    },
+    {
+      "id": 10521,
+      "correct": true,
+      "predicted": "\\frac{\\sqrt{3}}{3}",
+      "gold": "\\frac{\\sqrt{3}}{3}",
+      "tokens": 1758
+    },
+    {
+      "id": 7617,
+      "correct": true,
+      "predicted": "10571",
+      "gold": "10571",
+      "tokens": 1374
+    },
+    {
+      "id": 27403,
+      "correct": false,
+      "predicted": "60",
+      "gold": "50",
+      "tokens": 819
+    },
+    {
+      "id": 6753,
+      "correct": false,
+      "predicted": "13",
+      "gold": "15",
+      "tokens": 878
+    },
+    {
+      "id": 4994,
+      "correct": false,
+      "predicted": "28125",
+      "gold": "9 \\times 5^5",
+      "tokens": 493
+    },
+    {
+      "id": 831,
+      "correct": false,
+      "predicted": "0",
+      "gold": "6 \\mid \\sum_{i=1}^{4} a_{i}^{k}",
+      "tokens": 1379
+    },
+    {
+      "id": 1570,
+      "correct": false,
+      "predicted": "109890",
+      "gold": "109989",
+      "tokens": 591
+    },
+    {
+      "id": 8302,
+      "correct": false,
+      "predicted": "45",
+      "gold": "46",
+      "tokens": 419
+    },
+    {
+      "id": 16104,
+      "correct": false,
+      "predicted": "45^\\circ",
+      "gold": "135^\\circ",
+      "tokens": 1485
+    },
+    {
+      "id": 20756,
+      "correct": true,
+      "predicted": "18",
+      "gold": "18",
+      "tokens": 694
+    },
+    {
+      "id": 28872,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{6}}{2}",
+      "gold": "\\sqrt{6}: 2",
+      "tokens": 3101
+    },
+    {
+      "id": 26103,
+      "correct": false,
+      "predicted": "576",
+      "gold": "20736",
+      "tokens": 1295
+    },
+    {
+      "id": 14061,
+      "correct": false,
+      "predicted": "\\frac{8}{9}",
+      "gold": "\\frac{4}{13}",
+      "tokens": 1218
+    },
+    {
+      "id": 30112,
+      "correct": false,
+      "predicted": "8.886",
+      "gold": "4.188",
+      "tokens": 598
+    },
+    {
+      "id": 21389,
+      "correct": false,
+      "predicted": "53214",
+      "gold": "49383",
+      "tokens": 4878
+    },
+    {
+      "id": 19533,
+      "correct": false,
+      "predicted": "3",
+      "gold": "3 \\text{ PM}",
+      "tokens": 1552
+    },
+    {
+      "id": 6597,
+      "correct": false,
+      "predicted": "1",
+      "gold": "76",
+      "tokens": 948
+    },
+    {
+      "id": 23650,
+      "correct": false,
+      "predicted": "600",
+      "gold": "432",
+      "tokens": 2861
+    },
+    {
+      "id": 16761,
+      "correct": false,
+      "predicted": "36",
+      "gold": "37",
+      "tokens": 834
+    },
+    {
+      "id": 8272,
+      "correct": true,
+      "predicted": "\\frac{\\sqrt{2}}{2}",
+      "gold": "\\frac{\\sqrt{2}}{2}",
+      "tokens": 1773
+    },
+    {
+      "id": 5001,
+      "correct": true,
+      "predicted": "\\frac{6}{5}",
+      "gold": "\\frac{6}{5}",
+      "tokens": 606
+    },
+    {
+      "id": 22282,
+      "correct": false,
+      "predicted": "18",
+      "gold": "31",
+      "tokens": 2763
+    },
+    {
+      "id": 23349,
+      "correct": false,
+      "predicted": "9",
+      "gold": "11",
+      "tokens": 6653
+    },
+    {
+      "id": 186,
+      "correct": true,
+      "predicted": "1769580",
+      "gold": "1769580",
+      "tokens": 827
+    },
+    {
+      "id": 25509,
+      "correct": true,
+      "predicted": "0",
+      "gold": "0",
+      "tokens": 1005
+    },
+    {
+      "id": 29229,
+      "correct": false,
+      "predicted": "8",
+      "gold": "10",
+      "tokens": 702
+    },
+    {
+      "id": 26154,
+      "correct": false,
+      "predicted": "\\frac{1}{\\sqrt{2}}",
+      "gold": "\\frac{\\sqrt{6}}{3}",
+      "tokens": 2707
+    },
+    {
+      "id": 3609,
+      "correct": false,
+      "predicted": "",
+      "gold": "x = 18 \\text{ and } y = 2",
+      "tokens": 8192
+    },
+    {
+      "id": 14420,
+      "correct": true,
+      "predicted": "24",
+      "gold": "24",
+      "tokens": 1053
+    },
+    {
+      "id": 5965,
+      "correct": false,
+      "predicted": "\\frac{25}{16}",
+      "gold": "\\frac{5\\sqrt{13}}{12}",
+      "tokens": 2297
+    },
+    {
+      "id": 27320,
+      "correct": true,
+      "predicted": "4.8",
+      "gold": "4.8",
+      "tokens": 484
+    },
+    {
+      "id": 32537,
+      "correct": false,
+      "predicted": "9",
+      "gold": "2013^{2014}",
+      "tokens": 1080
+    },
+    {
+      "id": 17577,
+      "correct": false,
+      "predicted": "90^\\circ",
+      "gold": "\\arccos \\left( \\frac{5}{8} \\right)",
+      "tokens": 3768
+    },
+    {
+      "id": 15750,
+      "correct": false,
+      "predicted": "41",
+      "gold": "9",
+      "tokens": 1114
+    },
+    {
+      "id": 1710,
+      "correct": true,
+      "predicted": "-2015",
+      "gold": "-2015",
+      "tokens": 1423
+    },
+    {
+      "id": 18916,
+      "correct": true,
+      "predicted": "945",
+      "gold": "945",
+      "tokens": 1323
+    },
+    {
+      "id": 8449,
+      "correct": true,
+      "predicted": "3\\sqrt{3}",
+      "gold": "3\\sqrt{3}",
+      "tokens": 1290
+    },
+    {
+      "id": 31169,
+      "correct": true,
+      "predicted": "2880",
+      "gold": "2880",
+      "tokens": 841
+    },
+    {
+      "id": 28824,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{3}}{2}",
+      "gold": "\\frac{2 \\sqrt{5}}{5}",
+      "tokens": 2686
+    },
+    {
+      "id": 4518,
+      "correct": false,
+      "predicted": "0.393216",
+      "gold": "0.3932",
+      "tokens": 417
+    },
+    {
+      "id": 15753,
+      "correct": true,
+      "predicted": "288",
+      "gold": "288",
+      "tokens": 2384
+    },
+    {
+      "id": 18023,
+      "correct": false,
+      "predicted": "27",
+      "gold": "54",
+      "tokens": 1914
+    },
+    {
+      "id": 18966,
+      "correct": true,
+      "predicted": "12",
+      "gold": "12",
+      "tokens": 632
+    },
+    {
+      "id": 10760,
+      "correct": true,
+      "predicted": "27",
+      "gold": "27",
+      "tokens": 547
+    },
+    {
+      "id": 30298,
+      "correct": false,
+      "predicted": "31.5",
+      "gold": "16.5",
+      "tokens": 1234
+    },
+    {
+      "id": 15009,
+      "correct": false,
+      "predicted": "1005",
+      "gold": "502",
+      "tokens": 2126
+    },
+    {
+      "id": 20803,
+      "correct": false,
+      "predicted": "5",
+      "gold": "8",
+      "tokens": 1045
+    },
+    {
+      "id": 24437,
+      "correct": false,
+      "predicted": "68",
+      "gold": "43",
+      "tokens": 1736
+    },
+    {
+      "id": 14475,
+      "correct": false,
+      "predicted": "60",
+      "gold": "65",
+      "tokens": 1200
+    },
+    {
+      "id": 30811,
+      "correct": false,
+      "predicted": "1",
+      "gold": "HC = 1",
+      "tokens": 1724
+    },
+    {
+      "id": 15124,
+      "correct": false,
+      "predicted": "-1",
+      "gold": "2",
+      "tokens": 1087
+    },
+    {
+      "id": 5392,
+      "correct": true,
+      "predicted": "0",
+      "gold": "0",
+      "tokens": 1085
+    },
+    {
+      "id": 29266,
+      "correct": false,
+      "predicted": "6",
+      "gold": "10",
+      "tokens": 3988
+    },
+    {
+      "id": 15264,
+      "correct": false,
+      "predicted": "\\frac{36}{7}",
+      "gold": "14.4 \\text{ hours}",
+      "tokens": 1872
+    },
+    {
+      "id": 8785,
+      "correct": false,
+      "predicted": "30^\\circ",
+      "gold": "60^\\circ",
+      "tokens": 3517
+    },
+    {
+      "id": 25537,
+      "correct": true,
+      "predicted": "7",
+      "gold": "7 \\, \\text{L}",
+      "tokens": 137
+    },
+    {
+      "id": 8382,
+      "correct": false,
+      "predicted": "2344657513",
+      "gold": "2344651357",
+      "tokens": 563
+    },
+    {
+      "id": 21656,
+      "correct": false,
+      "predicted": "36",
+      "gold": "37",
+      "tokens": 668
+    },
+    {
+      "id": 9405,
+      "correct": true,
+      "predicted": "2008",
+      "gold": "2008",
+      "tokens": 551
+    },
+    {
+      "id": 17689,
+      "correct": false,
+      "predicted": "11",
+      "gold": "59",
+      "tokens": 1833
+    },
+    {
+      "id": 16427,
+      "correct": true,
+      "predicted": "4",
+      "gold": "4",
+      "tokens": 902
+    },
+    {
+      "id": 14917,
+      "correct": true,
+      "predicted": "2",
+      "gold": "n = 2",
+      "tokens": 918
+    },
+    {
+      "id": 2623,
+      "correct": false,
+      "predicted": "\\text{Not enough information}",
+      "gold": "54 \\, \\text{square meters}",
+      "tokens": 167
+    },
+    {
+      "id": 24242,
+      "correct": false,
+      "predicted": "-1 + \\sqrt{2}",
+      "gold": "\\sqrt{2}-1",
+      "tokens": 3250
+    },
+    {
+      "id": 7954,
+      "correct": false,
+      "predicted": "\\frac{\\pi}{6} \\left( 27 - 5\\sqrt{5} \\right)",
+      "gold": "\\frac{\\pi}{6} (27 - 5\\sqrt{5})",
+      "tokens": 1399
+    },
+    {
+      "id": 9211,
+      "correct": false,
+      "predicted": "21",
+      "gold": "16",
+      "tokens": 2238
+    },
+    {
+      "id": 10839,
+      "correct": true,
+      "predicted": "\\sqrt{7}",
+      "gold": "\\sqrt{7}",
+      "tokens": 1881
+    },
+    {
+      "id": 2731,
+      "correct": false,
+      "predicted": "5",
+      "gold": "7",
+      "tokens": 1990
+    },
+    {
+      "id": 5112,
+      "correct": true,
+      "predicted": "7",
+      "gold": "7",
+      "tokens": 543
+    },
+    {
+      "id": 12992,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 1130
+    },
+    {
+      "id": 5178,
+      "correct": false,
+      "predicted": "45",
+      "gold": "90^\\circ",
+      "tokens": 1327
+    },
+    {
+      "id": 2179,
+      "correct": true,
+      "predicted": "2.4",
+      "gold": "2.4",
+      "tokens": 1585
+    },
+    {
+      "id": 13832,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 904
+    },
+    {
+      "id": 18411,
+      "correct": true,
+      "predicted": "\\frac{1}{2}",
+      "gold": "\\frac{1}{2}",
+      "tokens": 750
+    },
+    {
+      "id": 14106,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 1670
+    },
+    {
+      "id": 2113,
+      "correct": false,
+      "predicted": "0",
+      "gold": "-9",
+      "tokens": 1510
+    },
+    {
+      "id": 28298,
+      "correct": true,
+      "predicted": "90^\\circ",
+      "gold": "\\angle AST = 90^\\circ",
+      "tokens": 1307
+    },
+    {
+      "id": 23622,
+      "correct": false,
+      "predicted": "\\frac{12}{5}",
+      "gold": "2.4",
+      "tokens": 1289
+    },
+    {
+      "id": 664,
+      "correct": true,
+      "predicted": "12005",
+      "gold": "12005",
+      "tokens": 727
+    },
+    {
+      "id": 29106,
+      "correct": true,
+      "predicted": "\\frac{24\\sqrt{2}}{35}",
+      "gold": "\\frac{24\\sqrt{2}}{35}",
+      "tokens": 889
+    },
+    {
+      "id": 19534,
+      "correct": false,
+      "predicted": "20",
+      "gold": "38",
+      "tokens": 2357
+    },
+    {
+      "id": 16165,
+      "correct": true,
+      "predicted": "4",
+      "gold": "4",
+      "tokens": 1688
+    },
+    {
+      "id": 199,
+      "correct": true,
+      "predicted": "1998",
+      "gold": "1998",
+      "tokens": 970
+    },
+    {
+      "id": 11933,
+      "correct": true,
+      "predicted": "888",
+      "gold": "888",
+      "tokens": 878
+    },
+    {
+      "id": 10129,
+      "correct": false,
+      "predicted": "715",
+      "gold": "125",
+      "tokens": 960
+    },
+    {
+      "id": 13230,
+      "correct": false,
+      "predicted": "28",
+      "gold": "26",
+      "tokens": 845
+    },
+    {
+      "id": 28996,
+      "correct": false,
+      "predicted": "\\dfrac{1}{\\sqrt{3}}",
+      "gold": "\\frac{\\sqrt{3}}{3}",
+      "tokens": 1963
+    },
+    {
+      "id": 28395,
+      "correct": false,
+      "predicted": "\\frac{9\\sqrt{3}}{4}",
+      "gold": "\\frac{9}{4}",
+      "tokens": 1603
+    },
+    {
+      "id": 25395,
+      "correct": false,
+      "predicted": "14",
+      "gold": "8",
+      "tokens": 3949
+    },
+    {
+      "id": 24960,
+      "correct": false,
+      "predicted": "\\frac{1 + \\sqrt{21}}{2}",
+      "gold": "\\frac{5}{2}",
+      "tokens": 1430
+    },
+    {
+      "id": 7471,
+      "correct": true,
+      "predicted": "6",
+      "gold": "6",
+      "tokens": 1235
+    },
+    {
+      "id": 16550,
+      "correct": false,
+      "predicted": "2003001",
+      "gold": "1001",
+      "tokens": 1351
+    },
+    {
+      "id": 9252,
+      "correct": false,
+      "predicted": "12:40",
+      "gold": "12:40 \\text{ and } 13:20",
+      "tokens": 727
+    },
+    {
+      "id": 14783,
+      "correct": false,
+      "predicted": "\\log 10",
+      "gold": "1",
+      "tokens": 1525
+    },
+    {
+      "id": 988,
+      "correct": true,
+      "predicted": "3.5",
+      "gold": "3.5",
+      "tokens": 649
+    },
+    {
+      "id": 11395,
+      "correct": false,
+      "predicted": "40 \\text{ cm}",
+      "gold": "66 \\text{ cm}",
+      "tokens": 1502
+    },
+    {
+      "id": 22711,
+      "correct": false,
+      "predicted": "14",
+      "gold": "11",
+      "tokens": 967
+    },
+    {
+      "id": 27114,
+      "correct": false,
+      "predicted": "a = \\frac{3}{2} \\ln 2 + \\frac{1}{2}",
+      "gold": "a = \\frac{3 \\ln 2 + 1}{2}",
+      "tokens": 1398
+    },
+    {
+      "id": 13723,
+      "correct": false,
+      "predicted": "\\frac{\\pi}{4} - \\frac{1}{2} \\ln 2",
+      "gold": "-\\frac{1}{2} \\ln 2 + \\frac{\\pi}{4}",
+      "tokens": 1616
+    },
+    {
+      "id": 24603,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{3}}{2}",
+      "gold": "\\sqrt{3}",
+      "tokens": 3727
+    },
+    {
+      "id": 28560,
+      "correct": false,
+      "predicted": "222222222",
+      "gold": "666",
+      "tokens": 880
+    },
+    {
+      "id": 31238,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 1170
+    },
+    {
+      "id": 19153,
+      "correct": false,
+      "predicted": "29",
+      "gold": "159",
+      "tokens": 1360
+    },
+    {
+      "id": 22516,
+      "correct": false,
+      "predicted": "0.359",
+      "gold": "0.2075",
+      "tokens": 820
+    },
+    {
+      "id": 924,
+      "correct": true,
+      "predicted": "37",
+      "gold": "37",
+      "tokens": 750
+    },
+    {
+      "id": 2845,
+      "correct": true,
+      "predicted": "2027025",
+      "gold": "2027025",
+      "tokens": 598
+    },
+    {
+      "id": 21833,
+      "correct": false,
+      "predicted": "1 : 1.265 : 1.342",
+      "gold": "\\sqrt{5} : 2\\sqrt{2} : 3",
+      "tokens": 1096
+    },
+    {
+      "id": 4595,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 1397
+    },
+    {
+      "id": 29450,
+      "correct": true,
+      "predicted": "46",
+      "gold": "46",
+      "tokens": 891
+    },
+    {
+      "id": 1712,
+      "correct": false,
+      "predicted": "\\frac{1}{6300}",
+      "gold": "7",
+      "tokens": 1967
+    },
+    {
+      "id": 8818,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 594
+    },
+    {
+      "id": 11095,
+      "correct": false,
+      "predicted": "1:2",
+      "gold": "1 : 2",
+      "tokens": 1247
+    },
+    {
+      "id": 15419,
+      "correct": true,
+      "predicted": "10",
+      "gold": "10 \\, \\text{kilometers per hour}",
+      "tokens": 382
+    },
+    {
+      "id": 11079,
+      "correct": false,
+      "predicted": "1",
+      "gold": "\\sqrt{3}",
+      "tokens": 910
+    },
+    {
+      "id": 11441,
+      "correct": false,
+      "predicted": "1004",
+      "gold": "k = 2010",
+      "tokens": 1866
+    },
+    {
+      "id": 29889,
+      "correct": true,
+      "predicted": "90^\\circ",
+      "gold": "90^\\circ",
+      "tokens": 4301
+    },
+    {
+      "id": 25544,
+      "correct": true,
+      "predicted": "5",
+      "gold": "5",
+      "tokens": 1047
+    },
+    {
+      "id": 32307,
+      "correct": false,
+      "predicted": "30",
+      "gold": "31",
+      "tokens": 313
+    },
+    {
+      "id": 28264,
+      "correct": false,
+      "predicted": "1",
+      "gold": "2^{997}",
+      "tokens": 2006
+    },
+    {
+      "id": 2776,
+      "correct": false,
+      "predicted": "",
+      "gold": "23",
+      "tokens": 8192
+    },
+    {
+      "id": 15943,
+      "correct": true,
+      "predicted": "5",
+      "gold": "5",
+      "tokens": 1880
+    },
+    {
+      "id": 25445,
+      "correct": true,
+      "predicted": "6",
+      "gold": "6 \\, \\text{km/h}",
+      "tokens": 467
+    },
+    {
+      "id": 18300,
+      "correct": true,
+      "predicted": "400",
+      "gold": "400",
+      "tokens": 544
+    },
+    {
+      "id": 1771,
+      "correct": true,
+      "predicted": "2.88",
+      "gold": "2.88",
+      "tokens": 1151
+    },
+    {
+      "id": 32331,
+      "correct": true,
+      "predicted": "1988",
+      "gold": "1988",
+      "tokens": 1897
+    },
+    {
+      "id": 11872,
+      "correct": false,
+      "predicted": "\\frac{15625}{46656}",
+      "gold": "0.3349",
+      "tokens": 376
+    },
+    {
+      "id": 7601,
+      "correct": true,
+      "predicted": "12 - 4\\sqrt{3}",
+      "gold": "12 - 4\\sqrt{3}",
+      "tokens": 3676
+    },
+    {
+      "id": 22080,
+      "correct": true,
+      "predicted": "43",
+      "gold": "43",
+      "tokens": 1805
+    },
+    {
+      "id": 2325,
+      "correct": false,
+      "predicted": "14",
+      "gold": "15",
+      "tokens": 1326
+    },
+    {
+      "id": 26532,
+      "correct": false,
+      "predicted": "\\sqrt{2}",
+      "gold": "\\frac{\\sqrt{2}}{2}",
+      "tokens": 3914
+    },
+    {
+      "id": 22134,
+      "correct": true,
+      "predicted": "221",
+      "gold": "221",
+      "tokens": 2074
+    },
+    {
+      "id": 25619,
+      "correct": false,
+      "predicted": "-64",
+      "gold": "-64 \\text{ or } 27",
+      "tokens": 513
+    },
+    {
+      "id": 32253,
+      "correct": false,
+      "predicted": "2010",
+      "gold": "5360",
+      "tokens": 2070
+    },
+    {
+      "id": 28515,
+      "correct": false,
+      "predicted": "1036",
+      "gold": "2072",
+      "tokens": 888
+    },
+    {
+      "id": 692,
+      "correct": false,
+      "predicted": "60^\\circ",
+      "gold": "45^\\circ",
+      "tokens": 2079
+    },
+    {
+      "id": 21104,
+      "correct": false,
+      "predicted": "",
+      "gold": "x=4, \\, y=6",
+      "tokens": 8192
+    },
+    {
+      "id": 5164,
+      "correct": false,
+      "predicted": "5100",
+      "gold": "139448",
+      "tokens": 1244
+    },
+    {
+      "id": 4275,
+      "correct": true,
+      "predicted": "15",
+      "gold": "15",
+      "tokens": 671
+    },
+    {
+      "id": 16051,
+      "correct": false,
+      "predicted": "\\frac{9}{20}",
+      "gold": "0.45",
+      "tokens": 811
+    },
+    {
+      "id": 22730,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 662
+    },
+    {
+      "id": 19140,
+      "correct": false,
+      "predicted": "3",
+      "gold": "3 \\text{ or } -3",
+      "tokens": 783
+    },
+    {
+      "id": 7384,
+      "correct": false,
+      "predicted": "-40",
+      "gold": "-1216",
+      "tokens": 1084
+    },
+    {
+      "id": 15766,
+      "correct": false,
+      "predicted": "0",
+      "gold": "2",
+      "tokens": 1420
+    },
+    {
+      "id": 8686,
+      "correct": true,
+      "predicted": "4\\sqrt{3}",
+      "gold": "4\\sqrt{3}",
+      "tokens": 927
+    },
+    {
+      "id": 26051,
+      "correct": false,
+      "predicted": "-\\sqrt{2}",
+      "gold": "-\\frac{3}{2}",
+      "tokens": 653
+    },
+    {
+      "id": 12507,
+      "correct": true,
+      "predicted": "\\frac{11}{15}",
+      "gold": "\\frac{11}{15}",
+      "tokens": 1643
+    },
+    {
+      "id": 5685,
+      "correct": false,
+      "predicted": "16",
+      "gold": "14",
+      "tokens": 899
+    },
+    {
+      "id": 32734,
+      "correct": true,
+      "predicted": "90",
+      "gold": "90^\\circ",
+      "tokens": 750
+    },
+    {
+      "id": 26415,
+      "correct": false,
+      "predicted": "8",
+      "gold": "11",
+      "tokens": 2187
+    },
+    {
+      "id": 27834,
+      "correct": true,
+      "predicted": "\\frac{1}{4}",
+      "gold": "\\frac{1}{4}",
+      "tokens": 402
+    },
+    {
+      "id": 5545,
+      "correct": true,
+      "predicted": "24",
+      "gold": "24 \\, \\text{N}",
+      "tokens": 709
+    },
+    {
+      "id": 32767,
+      "correct": true,
+      "predicted": "77",
+      "gold": "77",
+      "tokens": 816
+    },
+    {
+      "id": 10544,
+      "correct": false,
+      "predicted": "\\frac{1}{2}",
+      "gold": "\\frac{1}{4}",
+      "tokens": 422
+    },
+    {
+      "id": 19636,
+      "correct": true,
+      "predicted": "9",
+      "gold": "9",
+      "tokens": 1124
+    },
+    {
+      "id": 875,
+      "correct": false,
+      "predicted": "28",
+      "gold": "30",
+      "tokens": 2923
+    },
+    {
+      "id": 31553,
+      "correct": false,
+      "predicted": "56",
+      "gold": "\\frac{105}{4}",
+      "tokens": 2443
+    },
+    {
+      "id": 22996,
+      "correct": false,
+      "predicted": "\\frac{\\pi^3}{24}",
+      "gold": "\\frac{\\pi^{3}}{24}",
+      "tokens": 1185
+    },
+    {
+      "id": 30852,
+      "correct": true,
+      "predicted": "59",
+      "gold": "59",
+      "tokens": 724
+    },
+    {
+      "id": 32544,
+      "correct": true,
+      "predicted": "0",
+      "gold": "0",
+      "tokens": 2147
+    },
+    {
+      "id": 31981,
+      "correct": true,
+      "predicted": "16",
+      "gold": "16",
+      "tokens": 727
+    },
+    {
+      "id": 24290,
+      "correct": true,
+      "predicted": "\\frac{\\sqrt{11}}{2} - 1",
+      "gold": "\\frac{\\sqrt{11}}{2} - 1",
+      "tokens": 1202
+    },
+    {
+      "id": 2575,
+      "correct": true,
+      "predicted": "14",
+      "gold": "14",
+      "tokens": 578
+    },
+    {
+      "id": 20096,
+      "correct": false,
+      "predicted": "2988",
+      "gold": "3789",
+      "tokens": 2791
+    },
+    {
+      "id": 23451,
+      "correct": false,
+      "predicted": "1636",
+      "gold": "1009",
+      "tokens": 4057
+    },
+    {
+      "id": 21303,
+      "correct": false,
+      "predicted": "2",
+      "gold": "3\\sqrt{3}",
+      "tokens": 715
+    },
+    {
+      "id": 3453,
+      "correct": false,
+      "predicted": "24",
+      "gold": "28",
+      "tokens": 1377
+    },
+    {
+      "id": 23679,
+      "correct": false,
+      "predicted": "2",
+      "gold": "4",
+      "tokens": 1341
+    },
+    {
+      "id": 26236,
+      "correct": false,
+      "predicted": "0",
+      "gold": "\\frac{\\sqrt{3}}{9}",
+      "tokens": 2589
+    },
+    {
+      "id": 10229,
+      "correct": false,
+      "predicted": "124",
+      "gold": "108 \\text{ meters}",
+      "tokens": 2281
+    },
+    {
+      "id": 28890,
+      "correct": false,
+      "predicted": "\\frac{1}{27}",
+      "gold": "\\lambda = -\\frac{1}{27}",
+      "tokens": 1386
+    },
+    {
+      "id": 23232,
+      "correct": false,
+      "predicted": "2\\sqrt{21}",
+      "gold": "2 \\sqrt{21} \\approx 9.17",
+      "tokens": 1735
+    },
+    {
+      "id": 27368,
+      "correct": true,
+      "predicted": "674",
+      "gold": "674",
+      "tokens": 1282
+    },
+    {
+      "id": 4100,
+      "correct": false,
+      "predicted": "429",
+      "gold": "400",
+      "tokens": 1611
+    },
+    {
+      "id": 26580,
+      "correct": false,
+      "predicted": "\\frac{8}{5}",
+      "gold": "\\frac{5}{2}",
+      "tokens": 999
+    },
+    {
+      "id": 14531,
+      "correct": false,
+      "predicted": "\\frac{2}{3}",
+      "gold": "40 \\, \\text{seconds}",
+      "tokens": 802
+    },
+    {
+      "id": 12563,
+      "correct": false,
+      "predicted": "-5",
+      "gold": "-3",
+      "tokens": 1588
+    },
+    {
+      "id": 2337,
+      "correct": false,
+      "predicted": "\\frac{105}{8} \\pi",
+      "gold": "\\frac{35 \\pi}{64}",
+      "tokens": 655
+    },
+    {
+      "id": 17160,
+      "correct": true,
+      "predicted": "\\frac{2\\sqrt{3}}{3}",
+      "gold": "\\frac{2\\sqrt{3}}{3}",
+      "tokens": 3129
+    },
+    {
+      "id": 11568,
+      "correct": false,
+      "predicted": "",
+      "gold": "11",
+      "tokens": 8192
+    },
+    {
+      "id": 428,
+      "correct": false,
+      "predicted": "",
+      "gold": "108",
+      "tokens": 8192
+    },
+    {
+      "id": 28866,
+      "correct": true,
+      "predicted": "88",
+      "gold": "88",
+      "tokens": 1736
+    },
+    {
+      "id": 14251,
+      "correct": false,
+      "predicted": "603",
+      "gold": "734",
+      "tokens": 2868
+    },
+    {
+      "id": 27937,
+      "correct": false,
+      "predicted": "\\frac{1}{2}",
+      "gold": "1",
+      "tokens": 488
+    },
+    {
+      "id": 16616,
+      "correct": false,
+      "predicted": "1090",
+      "gold": "1094",
+      "tokens": 3786
+    },
+    {
+      "id": 14705,
+      "correct": false,
+      "predicted": "\\frac{8}{9}",
+      "gold": "\\frac{7}{9}",
+      "tokens": 2269
+    },
+    {
+      "id": 32632,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{15}}{128}",
+      "gold": "\\frac{1}{128}",
+      "tokens": 2387
+    },
+    {
+      "id": 12281,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 685
+    },
+    {
+      "id": 21586,
+      "correct": false,
+      "predicted": "9",
+      "gold": "15",
+      "tokens": 1779
+    },
+    {
+      "id": 30303,
+      "correct": false,
+      "predicted": "8",
+      "gold": "2",
+      "tokens": 2109
+    },
+    {
+      "id": 15588,
+      "correct": true,
+      "predicted": "\\frac{16}{3}",
+      "gold": "\\frac{16}{3}",
+      "tokens": 1607
+    },
+    {
+      "id": 5184,
+      "correct": false,
+      "predicted": "24",
+      "gold": "12 \\sqrt{15}",
+      "tokens": 1088
+    },
+    {
+      "id": 17704,
+      "correct": false,
+      "predicted": "\\sqrt{2}",
+      "gold": "\\sqrt{3}",
+      "tokens": 2812
+    },
+    {
+      "id": 32794,
+      "correct": false,
+      "predicted": "0",
+      "gold": "1000",
+      "tokens": 1416
+    },
+    {
+      "id": 27460,
+      "correct": false,
+      "predicted": "\\frac{1}{15}",
+      "gold": "\\frac{2}{15}",
+      "tokens": 1110
+    },
+    {
+      "id": 18257,
+      "correct": false,
+      "predicted": "\\frac{10^{20} - 5^{20} - 8^{20} + 4^{20}}{10^{20}}",
+      "gold": "0.988",
+      "tokens": 1038
+    },
+    {
+      "id": 26309,
+      "correct": false,
+      "predicted": "\\frac{1}{2^{119}}",
+      "gold": "\\frac{1}{2 \\cdot 3^{39}}",
+      "tokens": 993
+    },
+    {
+      "id": 15760,
+      "correct": false,
+      "predicted": "103",
+      "gold": "8038",
+      "tokens": 2732
+    },
+    {
+      "id": 28053,
+      "correct": false,
+      "predicted": "-3.6",
+      "gold": "-\\frac{18}{5}",
+      "tokens": 2198
+    },
+    {
+      "id": 24837,
+      "correct": true,
+      "predicted": "20^\\circ",
+      "gold": "20^\\circ",
+      "tokens": 1483
+    },
+    {
+      "id": 20110,
+      "correct": true,
+      "predicted": "48",
+      "gold": "48",
+      "tokens": 746
+    },
+    {
+      "id": 9101,
+      "correct": false,
+      "predicted": "6670",
+      "gold": "3363",
+      "tokens": 1338
+    },
+    {
+      "id": 10925,
+      "correct": false,
+      "predicted": "94210",
+      "gold": "95210",
+      "tokens": 2271
+    },
+    {
+      "id": 8323,
+      "correct": false,
+      "predicted": "36",
+      "gold": "144",
+      "tokens": 1487
+    },
+    {
+      "id": 28224,
+      "correct": true,
+      "predicted": "50\\pi",
+      "gold": "50\\pi",
+      "tokens": 293
+    },
+    {
+      "id": 31750,
+      "correct": false,
+      "predicted": "\\text{Use binary search with 10 questions, asking \"Is } n < m_i \\text{?\" for mid",
+      "gold": "144",
+      "tokens": 1323
+    },
+    {
+      "id": 2937,
+      "correct": true,
+      "predicted": "48",
+      "gold": "48",
+      "tokens": 879
+    },
+    {
+      "id": 9458,
+      "correct": true,
+      "predicted": "1385",
+      "gold": "1385",
+      "tokens": 741
+    },
+    {
+      "id": 8268,
+      "correct": true,
+      "predicted": "1991",
+      "gold": "1991",
+      "tokens": 1331
+    },
+    {
+      "id": 25493,
+      "correct": true,
+      "predicted": "228",
+      "gold": "228",
+      "tokens": 389
+    },
+    {
+      "id": 20723,
+      "correct": true,
+      "predicted": "15",
+      "gold": "15^\\circ",
+      "tokens": 2074
+    },
+    {
+      "id": 11404,
+      "correct": false,
+      "predicted": "\\frac{7}{12}",
+      "gold": "\\frac{5}{11}",
+      "tokens": 3763
+    },
+    {
+      "id": 977,
+      "correct": true,
+      "predicted": "12\\pi",
+      "gold": "12\\pi",
+      "tokens": 2062
+    },
+    {
+      "id": 16759,
+      "correct": false,
+      "predicted": "45",
+      "gold": "32",
+      "tokens": 587
+    },
+    {
+      "id": 28912,
+      "correct": false,
+      "predicted": "8",
+      "gold": "11",
+      "tokens": 2584
+    },
+    {
+      "id": 11015,
+      "correct": false,
+      "predicted": "6233",
+      "gold": "5233",
+      "tokens": 1657
+    },
+    {
+      "id": 6168,
+      "correct": true,
+      "predicted": "50",
+      "gold": "50",
+      "tokens": 392
+    },
+    {
+      "id": 16527,
+      "correct": false,
+      "predicted": "49",
+      "gold": "157.5",
+      "tokens": 1970
+    },
+    {
+      "id": 8756,
+      "correct": false,
+      "predicted": "42",
+      "gold": "56",
+      "tokens": 982
+    },
+    {
+      "id": 9483,
+      "correct": false,
+      "predicted": "200",
+      "gold": "100 \\sqrt{2}",
+      "tokens": 2116
+    },
+    {
+      "id": 20236,
+      "correct": false,
+      "predicted": "31522",
+      "gold": "25517",
+      "tokens": 2031
+    },
+    {
+      "id": 9368,
+      "correct": false,
+      "predicted": "(1, 2, 2)",
+      "gold": "x=1, y=2, z=2",
+      "tokens": 899
+    },
+    {
+      "id": 344,
+      "correct": false,
+      "predicted": "60\\pi",
+      "gold": "60\\pi \\, \\text{ft}^2",
+      "tokens": 649
+    },
+    {
+      "id": 32201,
+      "correct": false,
+      "predicted": "18",
+      "gold": "14",
+      "tokens": 2573
+    },
+    {
+      "id": 6481,
+      "correct": false,
+      "predicted": "2",
+      "gold": "5",
+      "tokens": 3975
+    },
+    {
+      "id": 24464,
+      "correct": false,
+      "predicted": "48",
+      "gold": "162",
+      "tokens": 3206
+    },
+    {
+      "id": 16562,
+      "correct": false,
+      "predicted": "666\\frac{2}{3}",
+      "gold": "2000 \\text{ rubles}",
+      "tokens": 746
+    },
+    {
+      "id": 18841,
+      "correct": true,
+      "predicted": "1024",
+      "gold": "1024",
+      "tokens": 450
+    },
+    {
+      "id": 25753,
+      "correct": false,
+      "predicted": "1",
+      "gold": "30637",
+      "tokens": 2574
+    },
+    {
+      "id": 8148,
+      "correct": false,
+      "predicted": "2\\pi",
+      "gold": "\\pi + 2",
+      "tokens": 2076
+    },
+    {
+      "id": 21940,
+      "correct": false,
+      "predicted": "3",
+      "gold": "6",
+      "tokens": 1118
+    },
+    {
+      "id": 24183,
+      "correct": false,
+      "predicted": "2.5",
+      "gold": "6 \\, \\text{m}",
+      "tokens": 908
+    },
+    {
+      "id": 16638,
+      "correct": true,
+      "predicted": "3:1",
+      "gold": "3:1",
+      "tokens": 1804
+    },
+    {
+      "id": 26938,
+      "correct": false,
+      "predicted": "55",
+      "gold": "256",
+      "tokens": 972
+    },
+    {
+      "id": 585,
+      "correct": true,
+      "predicted": "\\frac{1}{8}",
+      "gold": "\\frac{1}{8}",
+      "tokens": 3263
+    },
+    {
+      "id": 3155,
+      "correct": true,
+      "predicted": "26",
+      "gold": "26",
+      "tokens": 1322
+    },
+    {
+      "id": 13726,
+      "correct": false,
+      "predicted": "126",
+      "gold": "1134",
+      "tokens": 1253
+    },
+    {
+      "id": 23494,
+      "correct": false,
+      "predicted": "9521",
+      "gold": "96433469",
+      "tokens": 2984
+    },
+    {
+      "id": 8250,
+      "correct": false,
+      "predicted": "\\frac{3}{4}",
+      "gold": "\\frac{7}{8}",
+      "tokens": 1215
+    },
+    {
+      "id": 22547,
+      "correct": false,
+      "predicted": "90^\\circ",
+      "gold": "\\arcsin \\frac{1}{3}",
+      "tokens": 1707
+    },
+    {
+      "id": 19734,
+      "correct": true,
+      "predicted": "337",
+      "gold": "337",
+      "tokens": 758
+    },
+    {
+      "id": 12512,
+      "correct": true,
+      "predicted": "31",
+      "gold": "31",
+      "tokens": 653
+    },
+    {
+      "id": 16041,
+      "correct": true,
+      "predicted": "\\frac{4}{15}",
+      "gold": "\\frac{4}{15}",
+      "tokens": 958
+    },
+    {
+      "id": 14431,
+      "correct": false,
+      "predicted": "\\frac{1}{10000}",
+      "gold": "\\frac{1}{2224222}",
+      "tokens": 1671
+    },
+    {
+      "id": 18678,
+      "correct": true,
+      "predicted": "100",
+      "gold": "100",
+      "tokens": 879
+    },
+    {
+      "id": 11212,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 1370
+    },
+    {
+      "id": 23876,
+      "correct": false,
+      "predicted": "10",
+      "gold": "8.75",
+      "tokens": 1155
+    },
+    {
+      "id": 15388,
+      "correct": false,
+      "predicted": "\\frac{4}{37}",
+      "gold": "\\frac{4}{29}",
+      "tokens": 920
+    },
+    {
+      "id": 8522,
+      "correct": true,
+      "predicted": "480",
+      "gold": "480",
+      "tokens": 1143
+    },
+    {
+      "id": 7819,
+      "correct": false,
+      "predicted": "3036",
+      "gold": "4046",
+      "tokens": 2552
+    },
+    {
+      "id": 24507,
+      "correct": false,
+      "predicted": "(0, 392.31)",
+      "gold": "305 \\text{ m}",
+      "tokens": 1840
+    },
+    {
+      "id": 6534,
+      "correct": true,
+      "predicted": "2015",
+      "gold": "2015",
+      "tokens": 1056
+    },
+    {
+      "id": 10698,
+      "correct": true,
+      "predicted": "171700",
+      "gold": "171700",
+      "tokens": 634
+    },
+    {
+      "id": 18180,
+      "correct": false,
+      "predicted": "1:7",
+      "gold": "3:5",
+      "tokens": 3268
+    },
+    {
+      "id": 6499,
+      "correct": false,
+      "predicted": "50",
+      "gold": "60",
+      "tokens": 725
+    },
+    {
+      "id": 9376,
+      "correct": false,
+      "predicted": "1",
+      "gold": "63",
+      "tokens": 3754
+    },
+    {
+      "id": 24617,
+      "correct": false,
+      "predicted": "44",
+      "gold": "16",
+      "tokens": 1872
+    },
+    {
+      "id": 20011,
+      "correct": true,
+      "predicted": "49",
+      "gold": "49",
+      "tokens": 649
+    },
+    {
+      "id": 25823,
+      "correct": false,
+      "predicted": "99",
+      "gold": "49",
+      "tokens": 765
+    },
+    {
+      "id": 17802,
+      "correct": false,
+      "predicted": "132",
+      "gold": "56",
+      "tokens": 1205
+    },
+    {
+      "id": 20258,
+      "correct": true,
+      "predicted": "22",
+      "gold": "22",
+      "tokens": 2012
+    },
+    {
+      "id": 3407,
+      "correct": false,
+      "predicted": "2.5",
+      "gold": "1.6",
+      "tokens": 1173
+    },
+    {
+      "id": 28289,
+      "correct": false,
+      "predicted": "4",
+      "gold": "8.62 \\text{ unit}^2",
+      "tokens": 3113
+    },
+    {
+      "id": 10051,
+      "correct": true,
+      "predicted": "181",
+      "gold": "181",
+      "tokens": 727
+    },
+    {
+      "id": 7715,
+      "correct": false,
+      "predicted": "200",
+      "gold": "2^{200}",
+      "tokens": 231
+    },
+    {
+      "id": 12236,
+      "correct": false,
+      "predicted": "\\frac{50}{7}",
+      "gold": "d = 7 \\frac{1}{7}",
+      "tokens": 339
+    },
+    {
+      "id": 6086,
+      "correct": true,
+      "predicted": "1200",
+      "gold": "1200",
+      "tokens": 547
+    },
+    {
+      "id": 10252,
+      "correct": true,
+      "predicted": "42",
+      "gold": "42",
+      "tokens": 1911
+    },
+    {
+      "id": 481,
+      "correct": false,
+      "predicted": "6",
+      "gold": "216",
+      "tokens": 955
+    },
+    {
+      "id": 24049,
+      "correct": true,
+      "predicted": "\\frac{1024}{45}",
+      "gold": "\\frac{1024}{45}",
+      "tokens": 3721
+    },
+    {
+      "id": 9299,
+      "correct": true,
+      "predicted": "\\sqrt{3}",
+      "gold": "\\sqrt{3}",
+      "tokens": 2777
+    },
+    {
+      "id": 18778,
+      "correct": true,
+      "predicted": "\\frac{\\sqrt{5}}{2}",
+      "gold": "\\frac{\\sqrt{5}}{2}",
+      "tokens": 1260
+    },
+    {
+      "id": 32070,
+      "correct": true,
+      "predicted": "21",
+      "gold": "21 \\, \\text{minutes}",
+      "tokens": 492
+    },
+    {
+      "id": 4277,
+      "correct": true,
+      "predicted": "842",
+      "gold": "842",
+      "tokens": 1229
+    },
+    {
+      "id": 21663,
+      "correct": true,
+      "predicted": "\\frac{2018}{2019}",
+      "gold": "\\frac{2018}{2019}",
+      "tokens": 950
+    },
+    {
+      "id": 29503,
+      "correct": false,
+      "predicted": "12\\pi",
+      "gold": "4 \\pi \\sqrt{\\frac{59}{3}}",
+      "tokens": 742
+    },
+    {
+      "id": 25570,
+      "correct": false,
+      "predicted": "12",
+      "gold": "15 \\text{ kg by Vitya, 12 \\text{ kg by Vova}}",
+      "tokens": 415
+    },
+    {
+      "id": 3476,
+      "correct": true,
+      "predicted": "202",
+      "gold": "202",
+      "tokens": 669
+    },
+    {
+      "id": 29648,
+      "correct": false,
+      "predicted": "\\frac{1990}{1991}",
+      "gold": "1990",
+      "tokens": 1208
+    },
+    {
+      "id": 414,
+      "correct": false,
+      "predicted": "4760836",
+      "gold": "44",
+      "tokens": 2098
+    },
+    {
+      "id": 19479,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3 \\, \\text{hours}",
+      "tokens": 802
+    },
+    {
+      "id": 9648,
+      "correct": true,
+      "predicted": "526",
+      "gold": "526",
+      "tokens": 1055
+    },
+    {
+      "id": 15913,
+      "correct": false,
+      "predicted": "55",
+      "gold": "15",
+      "tokens": 1134
+    },
+    {
+      "id": 16224,
+      "correct": true,
+      "predicted": "\\sqrt{11}",
+      "gold": "\\sqrt{11}",
+      "tokens": 2016
+    },
+    {
+      "id": 14937,
+      "correct": false,
+      "predicted": "1050",
+      "gold": "1400",
+      "tokens": 1462
+    },
+    {
+      "id": 11549,
+      "correct": false,
+      "predicted": "5764801",
+      "gold": "504",
+      "tokens": 892
+    },
+    {
+      "id": 32795,
+      "correct": false,
+      "predicted": "8",
+      "gold": "6",
+      "tokens": 1933
+    },
+    {
+      "id": 8559,
+      "correct": false,
+      "predicted": "\\frac{11}{15}",
+      "gold": "\\frac{19}{30}",
+      "tokens": 1340
+    },
+    {
+      "id": 3864,
+      "correct": false,
+      "predicted": "0",
+      "gold": "\\frac{2}{3}",
+      "tokens": 988
+    },
+    {
+      "id": 27930,
+      "correct": true,
+      "predicted": "\\frac{7}{72}",
+      "gold": "\\frac{7}{72}",
+      "tokens": 393
+    },
+    {
+      "id": 16670,
+      "correct": true,
+      "predicted": "3495250",
+      "gold": "3495250",
+      "tokens": 1221
+    },
+    {
+      "id": 2512,
+      "correct": true,
+      "predicted": "\\frac{7}{5}",
+      "gold": "\\frac{7}{5}",
+      "tokens": 615
+    },
+    {
+      "id": 21378,
+      "correct": false,
+      "predicted": "1764",
+      "gold": "441",
+      "tokens": 7598
+    },
+    {
+      "id": 23308,
+      "correct": false,
+      "predicted": "252",
+      "gold": "20",
+      "tokens": 1515
+    },
+    {
+      "id": 1823,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 1328
+    },
+    {
+      "id": 5141,
+      "correct": false,
+      "predicted": "6",
+      "gold": "5",
+      "tokens": 7775
+    },
+    {
+      "id": 27559,
+      "correct": true,
+      "predicted": "196",
+      "gold": "196",
+      "tokens": 1329
+    },
+    {
+      "id": 32236,
+      "correct": false,
+      "predicted": "462",
+      "gold": "70 \\text{ cm}^2",
+      "tokens": 655
+    },
+    {
+      "id": 2888,
+      "correct": true,
+      "predicted": "62",
+      "gold": "62",
+      "tokens": 1356
+    },
+    {
+      "id": 8415,
+      "correct": false,
+      "predicted": "",
+      "gold": "\\begin{matrix} m = 9 \\\\ n = 6 \\end{matrix}",
+      "tokens": 8192
+    },
+    {
+      "id": 4011,
+      "correct": false,
+      "predicted": "6\\sqrt{3}",
+      "gold": "6\\sqrt{15}",
+      "tokens": 3465
+    },
+    {
+      "id": 18937,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 861
+    },
+    {
+      "id": 25966,
+      "correct": true,
+      "predicted": "4200",
+      "gold": "4200",
+      "tokens": 2263
+    },
+    {
+      "id": 14120,
+      "correct": true,
+      "predicted": "100^\\circ",
+      "gold": "100^\\circ",
+      "tokens": 1529
+    },
+    {
+      "id": 20235,
+      "correct": true,
+      "predicted": "\\frac{1}{4}",
+      "gold": "\\frac{1}{4}",
+      "tokens": 994
+    },
+    {
+      "id": 26860,
+      "correct": true,
+      "predicted": "1000",
+      "gold": "1000",
+      "tokens": 2530
+    },
+    {
+      "id": 7652,
+      "correct": false,
+      "predicted": "0.1754",
+      "gold": "\\frac{1}{5}",
+      "tokens": 508
+    },
+    {
+      "id": 26344,
+      "correct": false,
+      "predicted": "162",
+      "gold": "9",
+      "tokens": 745
+    },
+    {
+      "id": 17732,
+      "correct": false,
+      "predicted": "\\mathbb{Z}",
+      "gold": "\\{ n \\in \\mathbb{N} \\mid (n, z) = 1 \\}",
+      "tokens": 1962
+    },
+    {
+      "id": 15280,
+      "correct": false,
+      "predicted": "\\frac{28\\sqrt{3}}{5}",
+      "gold": "12\\sqrt{3}",
+      "tokens": 3580
+    },
+    {
+      "id": 30867,
+      "correct": false,
+      "predicted": "\\frac{53\\pi}{9}",
+      "gold": "\\frac{4\\pi}{9}",
+      "tokens": 1959
+    },
+    {
+      "id": 29220,
+      "correct": false,
+      "predicted": "82",
+      "gold": "38",
+      "tokens": 2546
+    },
+    {
+      "id": 19975,
+      "correct": true,
+      "predicted": "\\frac{11}{12}",
+      "gold": "\\frac{11}{12}",
+      "tokens": 485
+    },
+    {
+      "id": 14545,
+      "correct": false,
+      "predicted": "00",
+      "gold": "08",
+      "tokens": 1855
+    },
+    {
+      "id": 21094,
+      "correct": false,
+      "predicted": "20",
+      "gold": "19",
+      "tokens": 2138
+    },
+    {
+      "id": 2044,
+      "correct": true,
+      "predicted": "-3100",
+      "gold": "-3100",
+      "tokens": 917
+    },
+    {
+      "id": 20697,
+      "correct": false,
+      "predicted": "7",
+      "gold": "77",
+      "tokens": 1076
+    },
+    {
+      "id": 3363,
+      "correct": false,
+      "predicted": "\\frac{1}{5} \\left( 2^{398} + 4 \\cdot (-13)^{398} \\right)",
+      "gold": "\\frac{1}{5} \\binom{1990}{26}",
+      "tokens": 2258
+    },
+    {
+      "id": 32185,
+      "correct": false,
+      "predicted": "32",
+      "gold": "31",
+      "tokens": 460
+    },
+    {
+      "id": 25908,
+      "correct": false,
+      "predicted": "\\frac{10}{27} e^{3/2} - \\frac{16}{27}",
+      "gold": "\\frac{10e\\sqrt{e} - 16}{27}",
+      "tokens": 1285
+    },
+    {
+      "id": 7152,
+      "correct": true,
+      "predicted": "12",
+      "gold": "12",
+      "tokens": 709
+    },
+    {
+      "id": 8972,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 1658
+    },
+    {
+      "id": 2544,
+      "correct": false,
+      "predicted": "1",
+      "gold": "256",
+      "tokens": 451
+    },
+    {
+      "id": 5301,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 606
+    },
+    {
+      "id": 88,
+      "correct": false,
+      "predicted": "0.25",
+      "gold": "\\frac{1}{4}",
+      "tokens": 447
+    },
+    {
+      "id": 13862,
+      "correct": false,
+      "predicted": "\\frac{25\\pi}{4}",
+      "gold": "\\frac{25 \\pi}{4} \\text{ square units}",
+      "tokens": 1128
+    },
+    {
+      "id": 23408,
+      "correct": true,
+      "predicted": "0",
+      "gold": "0",
+      "tokens": 1430
+    },
+    {
+      "id": 20158,
+      "correct": true,
+      "predicted": "52",
+      "gold": "52",
+      "tokens": 1062
+    },
+    {
+      "id": 9882,
+      "correct": false,
+      "predicted": "4",
+      "gold": "4 \\quad \\text{or} \\quad 2(\\sqrt{17} - 3)",
+      "tokens": 1448
+    },
+    {
+      "id": 1111,
+      "correct": false,
+      "predicted": "9889",
+      "gold": "96433469",
+      "tokens": 1372
+    },
+    {
+      "id": 7850,
+      "correct": false,
+      "predicted": "20.4",
+      "gold": "6",
+      "tokens": 3851
+    },
+    {
+      "id": 9776,
+      "correct": false,
+      "predicted": "3^{658} \\times 2",
+      "gold": "2 \\times 3^{658}",
+      "tokens": 422
+    },
+    {
+      "id": 29202,
+      "correct": false,
+      "predicted": "80",
+      "gold": "64",
+      "tokens": 1670
+    },
+    {
+      "id": 23341,
+      "correct": false,
+      "predicted": "2",
+      "gold": "\\frac{5}{2}",
+      "tokens": 2438
+    },
+    {
+      "id": 31386,
+      "correct": false,
+      "predicted": "1",
+      "gold": "6562",
+      "tokens": 2907
+    },
+    {
+      "id": 8969,
+      "correct": false,
+      "predicted": "60^\\circ",
+      "gold": "30^\\circ",
+      "tokens": 2235
+    },
+    {
+      "id": 26761,
+      "correct": true,
+      "predicted": "90^\\circ",
+      "gold": "90^\\circ",
+      "tokens": 1140
+    },
+    {
+      "id": 21231,
+      "correct": false,
+      "predicted": "240",
+      "gold": "216",
+      "tokens": 4317
+    },
+    {
+      "id": 22455,
+      "correct": false,
+      "predicted": "219",
+      "gold": "221",
+      "tokens": 3897
+    },
+    {
+      "id": 27313,
+      "correct": true,
+      "predicted": "72",
+      "gold": "72",
+      "tokens": 1599
+    },
+    {
+      "id": 6710,
+      "correct": true,
+      "predicted": "23",
+      "gold": "23",
+      "tokens": 1044
+    },
+    {
+      "id": 14419,
+      "correct": false,
+      "predicted": "4",
+      "gold": "4 \\text{ large loans}",
+      "tokens": 716
+    },
+    {
+      "id": 3887,
+      "correct": false,
+      "predicted": "30",
+      "gold": "18 \\sqrt{3}",
+      "tokens": 2988
+    },
+    {
+      "id": 30864,
+      "correct": false,
+      "predicted": "\\cos^{-1}\\left(-\\frac{1}{3}\\right)",
+      "gold": "109.47^\\circ",
+      "tokens": 637
+    },
+    {
+      "id": 28086,
+      "correct": true,
+      "predicted": "27",
+      "gold": "27",
+      "tokens": 1046
+    },
+    {
+      "id": 4822,
+      "correct": false,
+      "predicted": "2.0 \\times 10^{10}",
+      "gold": "1.8547 \\times 10^{10} \\text{ J}",
+      "tokens": 605
+    },
+    {
+      "id": 2025,
+      "correct": false,
+      "predicted": "c = 4 \\quad \\text{and} \\quad c = -4",
+      "gold": "4 \\text{ or } -4",
+      "tokens": 674
+    },
+    {
+      "id": 26927,
+      "correct": false,
+      "predicted": "50",
+      "gold": "64 \\, \\text{cm}^2",
+      "tokens": 607
+    },
+    {
+      "id": 31292,
+      "correct": false,
+      "predicted": "30",
+      "gold": "19",
+      "tokens": 3253
+    },
+    {
+      "id": 4212,
+      "correct": false,
+      "predicted": "0.367",
+      "gold": "1",
+      "tokens": 804
+    },
+    {
+      "id": 15890,
+      "correct": false,
+      "predicted": "5",
+      "gold": "6",
+      "tokens": 1969
+    },
+    {
+      "id": 23385,
+      "correct": false,
+      "predicted": "\\frac{11}{2}",
+      "gold": "\\frac{11}{4}",
+      "tokens": 3266
+    },
+    {
+      "id": 10312,
+      "correct": false,
+      "predicted": "\\frac{\\sqrt{3}}{6}",
+      "gold": "0.1244",
+      "tokens": 871
+    },
+    {
+      "id": 23769,
+      "correct": false,
+      "predicted": "3",
+      "gold": "1",
+      "tokens": 794
+    },
+    {
+      "id": 13659,
+      "correct": false,
+      "predicted": "36",
+      "gold": "144",
+      "tokens": 1774
+    },
+    {
+      "id": 32021,
+      "correct": false,
+      "predicted": "\\log_2\\left(\\frac{5}{9}\\right)",
+      "gold": "\\log_{2}\\left( \\frac{5}{9} \\right)",
+      "tokens": 609
+    },
+    {
+      "id": 9228,
+      "correct": true,
+      "predicted": "7",
+      "gold": "7",
+      "tokens": 1540
+    },
+    {
+      "id": 16971,
+      "correct": false,
+      "predicted": "6",
+      "gold": "16 \\text{ and } 6",
+      "tokens": 745
+    },
+    {
+      "id": 18319,
+      "correct": true,
+      "predicted": "6",
+      "gold": "6",
+      "tokens": 1336
+    },
+    {
+      "id": 16741,
+      "correct": true,
+      "predicted": "3450",
+      "gold": "3450",
+      "tokens": 585
+    },
+    {
+      "id": 14847,
+      "correct": false,
+      "predicted": "4",
+      "gold": "2",
+      "tokens": 5030
+    },
+    {
+      "id": 20301,
+      "correct": true,
+      "predicted": "640",
+      "gold": "640",
+      "tokens": 2074
+    },
+    {
+      "id": 30225,
+      "correct": true,
+      "predicted": "36",
+      "gold": "36",
+      "tokens": 1822
+    },
+    {
+      "id": 14652,
+      "correct": true,
+      "predicted": "270",
+      "gold": "270",
+      "tokens": 191
+    },
+    {
+      "id": 24957,
+      "correct": false,
+      "predicted": "3.5",
+      "gold": "\\frac{14}{3}",
+      "tokens": 493
+    },
+    {
+      "id": 8488,
+      "correct": true,
+      "predicted": "552",
+      "gold": "552",
+      "tokens": 1600
+    },
+    {
+      "id": 22893,
+      "correct": true,
+      "predicted": "90",
+      "gold": "90^\\circ",
+      "tokens": 930
+    },
+    {
+      "id": 29232,
+      "correct": true,
+      "predicted": "\\frac{1}{8}",
+      "gold": "\\frac{1}{8}",
+      "tokens": 1530
+    },
+    {
+      "id": 19928,
+      "correct": false,
+      "predicted": "",
+      "gold": "63 \\text{ yuan} 3 \\text{ jiao} 7 \\text{ fen}",
+      "tokens": 8192
+    },
+    {
+      "id": 32293,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 1606
+    },
+    {
+      "id": 704,
+      "correct": true,
+      "predicted": "7",
+      "gold": "7",
+      "tokens": 1330
+    },
+    {
+      "id": 22824,
+      "correct": false,
+      "predicted": "",
+      "gold": "0.04",
+      "tokens": 8192
+    },
+    {
+      "id": 27904,
+      "correct": true,
+      "predicted": "2016",
+      "gold": "2016",
+      "tokens": 2043
+    },
+    {
+      "id": 9138,
+      "correct": false,
+      "predicted": "2",
+      "gold": "1",
+      "tokens": 809
+    },
+    {
+      "id": 19553,
+      "correct": false,
+      "predicted": "-1",
+      "gold": "-2",
+      "tokens": 3170
+    },
+    {
+      "id": 1366,
+      "correct": false,
+      "predicted": "91",
+      "gold": "65",
+      "tokens": 863
+    },
+    {
+      "id": 25920,
+      "correct": false,
+      "predicted": "2",
+      "gold": "4",
+      "tokens": 830
+    },
+    {
+      "id": 25691,
+      "correct": true,
+      "predicted": "1936",
+      "gold": "1936",
+      "tokens": 3237
+    },
+    {
+      "id": 5940,
+      "correct": true,
+      "predicted": "8888",
+      "gold": "8888",
+      "tokens": 522
+    },
+    {
+      "id": 15949,
+      "correct": false,
+      "predicted": "2 \\sqrt{2} \\left( \\frac{\\pi}{4} - \\frac{2}{3} \\right)",
+      "gold": "\\frac{5}{2} - \\frac{3\\pi}{4}",
+      "tokens": 1731
+    },
+    {
+      "id": 9433,
+      "correct": false,
+      "predicted": "\\frac{1}{220}",
+      "gold": "\\frac{3}{11}",
+      "tokens": 654
+    },
+    {
+      "id": 14785,
+      "correct": true,
+      "predicted": "14",
+      "gold": "14",
+      "tokens": 1574
+    },
+    {
+      "id": 27663,
+      "correct": false,
+      "predicted": "13",
+      "gold": "12 \\text{ or } 13",
+      "tokens": 1313
+    },
+    {
+      "id": 32913,
+      "correct": false,
+      "predicted": "\\frac{47}{128}",
+      "gold": "\\frac{7}{16}",
+      "tokens": 1958
+    },
+    {
+      "id": 15933,
+      "correct": true,
+      "predicted": "1",
+      "gold": "1",
+      "tokens": 1384
+    },
+    {
+      "id": 11802,
+      "correct": false,
+      "predicted": "x = 4,\\ y = 3,\\ z = 2",
+      "gold": "x = 4, y = 3, z = 2",
+      "tokens": 1900
+    },
+    {
+      "id": 13856,
+      "correct": false,
+      "predicted": "27^{1964}",
+      "gold": "a = 3^{5892}",
+      "tokens": 488
+    },
+    {
+      "id": 11301,
+      "correct": false,
+      "predicted": "108",
+      "gold": "108 \\text{ minutes}",
+      "tokens": 1686
+    },
+    {
+      "id": 3544,
+      "correct": true,
+      "predicted": "8",
+      "gold": "8",
+      "tokens": 963
+    },
+    {
+      "id": 5446,
+      "correct": false,
+      "predicted": "12",
+      "gold": "26",
+      "tokens": 1634
+    },
+    {
+      "id": 11180,
+      "correct": false,
+      "predicted": "e^{-\\frac{1}{2}} (10e - 26)",
+      "gold": "10 \\sqrt{e} - \\frac{26}{\\sqrt{e}}",
+      "tokens": 1021
+    },
+    {
+      "id": 13967,
+      "correct": true,
+      "predicted": "86",
+      "gold": "86",
+      "tokens": 958
+    },
+    {
+      "id": 16798,
+      "correct": true,
+      "predicted": "17",
+      "gold": "17",
+      "tokens": 600
+    },
+    {
+      "id": 9781,
+      "correct": true,
+      "predicted": "104832",
+      "gold": "104832",
+      "tokens": 1143
+    },
+    {
+      "id": 32107,
+      "correct": false,
+      "predicted": "8",
+      "gold": "4 \\sqrt{13}",
+      "tokens": 3255
+    },
+    {
+      "id": 13590,
+      "correct": true,
+      "predicted": "\\frac{4}{9}",
+      "gold": "\\frac{4}{9}",
+      "tokens": 1257
+    },
+    {
+      "id": 27640,
+      "correct": true,
+      "predicted": "4",
+      "gold": "4",
+      "tokens": 424
+    },
+    {
+      "id": 18668,
+      "correct": true,
+      "predicted": "3",
+      "gold": "3",
+      "tokens": 1673
+    },
+    {
+      "id": 15423,
+      "correct": true,
+      "predicted": "60^\\circ",
+      "gold": "60^\\circ",
+      "tokens": 1297
+    },
+    {
+      "id": 10957,
+      "correct": false,
+      "predicted": "18\\sqrt{2}",
+      "gold": "16 \\sqrt{2}",
+      "tokens": 3866
+    },
+    {
+      "id": 13719,
+      "correct": false,
+      "predicted": "165",
+      "gold": "100",
+      "tokens": 215
+    },
+    {
+      "id": 29385,
+      "correct": true,
+      "predicted": "28",
+      "gold": "28",
+      "tokens": 987
+    },
+    {
+      "id": 28025,
+      "correct": false,
+      "predicted": "53.75",
+      "gold": "53\\, \\text{years and} \\, 9 \\, \\text{months}",
+      "tokens": 1440
+    },
+    {
+      "id": 38,
+      "correct": false,
+      "predicted": "33",
+      "gold": "15",
+      "tokens": 880
+    },
+    {
+      "id": 18410,
+      "correct": true,
+      "predicted": "12",
+      "gold": "12",
+      "tokens": 1596
+    },
+    {
+      "id": 15665,
+      "correct": true,
+      "predicted": "2015",
+      "gold": "2015",
+      "tokens": 1267
+    },
+    {
+      "id": 14022,
+      "correct": false,
+      "predicted": "-2",
+      "gold": "-\\frac{8}{3}",
+      "tokens": 1292
+    },
+    {
+      "id": 1843,
+      "correct": false,
+      "predicted": "\\frac{4}{3}",
+      "gold": "\\frac{\\sqrt{3}}{3}",
+      "tokens": 1687
+    },
+    {
+      "id": 12267,
+      "correct": true,
+      "predicted": "1800",
+      "gold": "1800",
+      "tokens": 1158
+    },
+    {
+      "id": 21148,
+      "correct": false,
+      "predicted": "9000",
+      "gold": "8100",
+      "tokens": 3259
+    },
+    {
+      "id": 25697,
+      "correct": true,
+      "predicted": "2",
+      "gold": "2",
+      "tokens": 2511
+    },
+    {
+      "id": 21243,
+      "correct": false,
+      "predicted": "940",
+      "gold": "940 \\text{ meters}",
+      "tokens": 755
+    },
+    {
+      "id": 14991,
+      "correct": false,
+      "predicted": "30",
+      "gold": "20\\%",
+      "tokens": 1392
+    },
+    {
+      "id": 25816,
+      "correct": true,
+      "predicted": "-\\frac{95}{8}",
+      "gold": "-\\frac{95}{8}",
+      "tokens": 911
+    },
+    {
+      "id": 6901,
+      "correct": false,
+      "predicted": "r = \\frac{3}{4} \\cdot 2^{1/3}",
+      "gold": "\\frac{3}{4} \\sqrt[3]{2}",
+      "tokens": 1667
+    },
+    {
+      "id": 31512,
+      "correct": false,
+      "predicted": "-\\frac{1}{4}",
+      "gold": "-\\frac{1}{8}",
+      "tokens": 3836
+    },
+    {
+      "id": 9774,
+      "correct": false,
+      "predicted": "0.65",
+      "gold": "x = 0.35 \\, \\text{m}, \\quad y = 0.65 \\, \\text{m}",
+      "tokens": 885
+    },
+    {
+      "id": 29930,
+      "correct": true,
+      "predicted": "\\frac{8}{3}",
+      "gold": "\\frac{8}{3}",
+      "tokens": 662
+    },
+    {
+      "id": 23717,
+      "correct": false,
+      "predicted": "0",
+      "gold": "\\frac{8}{27}",
+      "tokens": 937
+    },
+    {
+      "id": 16432,
+      "correct": false,
+      "predicted": "8",
+      "gold": "50",
+      "tokens": 826
+    },
+    {
+      "id": 4113,
+      "correct": false,
+      "predicted": "33",
+      "gold": "49",
+      "tokens": 1761
+    },
+    {
+      "id": 27156,
+      "correct": false,
+      "predicted": "0.805",
+      "gold": "\\frac{9}{10}",
+      "tokens": 1867
+    },
+    {
+      "id": 8115,
+      "correct": true,
+      "predicted": "150",
+      "gold": "150",
+      "tokens": 1042
+    },
+    {
+      "id": 5363,
+      "correct": false,
+      "predicted": "5",
+      "gold": "\\frac{15 \\sqrt{37}-75}{4}",
+      "tokens": 1794
+    },
+    {
+      "id": 10534,
+      "correct": false,
+      "predicted": "\\frac{1}{4}",
+      "gold": "\\frac{1}{2}",
+      "tokens": 924
+    },
+    {
+      "id": 464,
+      "correct": false,
+      "predicted": "12",
+      "gold": "22",
+      "tokens": 433
+    },
+    {
+      "id": 18742,
+      "correct": true,
+      "predicted": "6",
+      "gold": "6",
+      "tokens": 323
+    },
+    {
+      "id": 13845,
+      "correct": false,
+      "predicted": "8 + 12\\sqrt{3}",
+      "gold": "16(1+\\sqrt{3})",
+      "tokens": 2174
+    },
+    {
+      "id": 3160,
+      "correct": true,
+      "predicted": "-10",
+      "gold": "-10",
+      "tokens": 566
+    },
+    {
+      "id": 31016,
+      "correct": false,
+      "predicted": "8038",
+      "gold": "8030",
+      "tokens": 682
+    },
+    {
+      "id": 3843,
+      "correct": true,
+      "predicted": "5",
+      "gold": "5",
+      "tokens": 307
+    },
+    {
+      "id": 15646,
+      "correct": true,
+      "predicted": "20",
+      "gold": "20",
+      "tokens": 324
+    },
+    {
+      "id": 28272,
+      "correct": true,
+      "predicted": "\\frac{\\sqrt{2}}{2}",
+      "gold": "\\frac{\\sqrt{2}}{2}",
+      "tokens": 1897
+    },
+    {
+      "id": 16901,
+      "correct": true,
+      "predicted": "1296",
+      "gold": "1296",
+      "tokens": 1008
+    },
+    {
+      "id": 24343,
+      "correct": false,
+      "predicted": "54",
+      "gold": "53",
+      "tokens": 698
+    },
+    {
+      "id": 9904,
+      "correct": false,
+      "predicted": "4",
+      "gold": "16",
+      "tokens": 3175
+    },
+    {
+      "id": 23962,
+      "correct": false,
+      "predicted": "\\frac{6561}{16}",
+      "gold": "288",
+      "tokens": 2110
+    },
+    {
+      "id": 16354,
+      "correct": false,
+      "predicted": "",
+      "gold": "13",
+      "tokens": 8192
+    },
+    {
+      "id": 16007,
+      "correct": false,
+      "predicted": "0.82383",
+      "gold": "221 \\text{ carats/cubic inch}",
+      "tokens": 456
+    },
+    {
+      "id": 8264,
+      "correct": true,
+      "predicted": "6",
+      "gold": "6",
+      "tokens": 642
+    },
+    {
+      "id": 18706,
+      "correct": false,
+      "predicted": "1996016",
+      "gold": "2020032",
+      "tokens": 1273
+    }
+  ]
+}
