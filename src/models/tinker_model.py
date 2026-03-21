@@ -36,7 +36,7 @@ class TinkerModel(Model):
         enable_thinking: Whether to enable thinking mode in chat template.
     """
 
-    MAX_PARALLEL_REQUESTS = 35
+    MAX_PARALLEL_REQUESTS = 64
 
     def __init__(
         self,

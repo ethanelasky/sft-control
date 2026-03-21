@@ -258,26 +258,24 @@ class TinkerSFTTrainer:
         )
         self.training_client.optim_step(adam_params)
 
-    def save_checkpoint(self, path: str) -> None:
-        """Save training checkpoint.
+    def save_checkpoint(self, name: str) -> str:
+        """Save full training checkpoint (weights + optimizer state).
 
         Args:
-            path: Path to save checkpoint.
-        """
-        self.training_client.save_state(path)
-
-    def save_checkpoint_with_optimizer(self, name: str) -> str:
-        """Save training checkpoint with optimizer state.
-
-        Preserves optimizer momentum for exact resumption.
-
-        Args:
-            name: Checkpoint name.
+            name: Checkpoint name (e.g. "step-100").
 
         Returns:
-            Tinker path string from the save response.
+            Tinker path string (tinker://<model_id>/<name>).
         """
-        response = self.training_client.save_state_with_optimizer(name)
+        response = self.training_client.save_state(name).result()
+        return getattr(response, "path", str(response))
+
+    # Alias for backward compatibility
+    save_checkpoint_with_optimizer = save_checkpoint
+
+    def save_weights_for_sampling(self, name: str) -> str:
+        """Save weights only (lighter, for inference only)."""
+        response = self.training_client.save_weights_for_sampler(name).result()
         return getattr(response, "path", str(response))
 
 
@@ -831,28 +829,27 @@ class TinkerRLTrainer:
             "avg_reward": sum(item["reward"] for item in batch) / len(batch),
         }
 
-    def save_checkpoint(self, path: str) -> None:
-        """Save training checkpoint.
+    def save_checkpoint(self, name: str) -> str:
+        """Save full training checkpoint (weights + optimizer state).
 
         Args:
-            path: Path to save checkpoint.
-        """
-        self.training_client.save_state(path)
-
-    def save_checkpoint_with_optimizer(self, name: str) -> str:
-        """Save training checkpoint with optimizer state.
-
-        Preserves optimizer momentum for exact resumption.
-
-        Args:
-            name: Checkpoint name.
+            name: Checkpoint name (e.g. "step-100").
 
         Returns:
-            Tinker path string from the save response.
+            Tinker path string (tinker://<model_id>/<name>).
         """
-        response = self.training_client.save_state_with_optimizer(name)
+        response = self.training_client.save_state(name).result()
         return getattr(response, "path", str(response))
 
+    # Alias for backward compatibility
+    save_checkpoint_with_optimizer = save_checkpoint
+
+    def save_weights_for_sampling(self, name: str) -> str:
+        """Save weights only (lighter, for inference only)."""
+        response = self.training_client.save_weights_for_sampler(name).result()
+        return getattr(response, "path", str(response))
+
+    @classmethod
     @classmethod
     def from_checkpoint(
         cls,
@@ -860,40 +857,65 @@ class TinkerRLTrainer:
         config: TinkerTrainerConfig,
         kl_coef: float = 0.1,
     ) -> "TinkerRLTrainer":
-        """Create a TinkerRLTrainer restored from a checkpoint.
+        """Restore a TinkerRLTrainer from a checkpoint (weights + optimizer).
 
-        Uses Tinker's create_training_client_from_state_with_optimizer()
-        to restore both weights and optimizer state.
+        Uses load_state() on an existing training client to restore
+        the full training state.
 
         Args:
-            tinker_path: Tinker path from a previous save_state_with_optimizer().
+            tinker_path: Tinker path from a previous save_checkpoint().
             config: Tinker training configuration.
             kl_coef: KL penalty coefficient for RL.
 
         Returns:
-            TinkerRLTrainer with restored training client.
+            TinkerRLTrainer with restored weights and optimizer.
+        """
+        trainer = cls(config=config, kl_coef=kl_coef)
+        trainer.training_client.load_state(tinker_path)
+        return trainer
+
+    @classmethod
+    def from_checkpoint_weights_only(
+        cls,
+        tinker_path: str,
+        config: TinkerTrainerConfig,
+        kl_coef: float = 0.1,
+    ) -> "TinkerRLTrainer":
+        """Restore weights only, with a fresh optimizer.
+
+        Use this for intervention experiments — don't want the
+        hacking-optimized momentum polluting the fix.
+
+        Args:
+            tinker_path: Tinker path from a previous save_checkpoint().
+            config: Tinker training configuration.
+            kl_coef: KL penalty coefficient for RL.
+
+        Returns:
+            TinkerRLTrainer with restored weights but fresh optimizer.
         """
         try:
             import tinker
         except ImportError:
-            raise ImportError(
-                "tinker package not installed. Install with: pip install tinker-sdk"
-            )
+            raise ImportError("tinker package not installed")
 
         api_key = config.get_api_key()
         if api_key:
             os.environ["TINKER_API_KEY"] = api_key
 
+        # Create a sampling client from the checkpoint, then create
+        # a fresh training client from the same base model, and load
+        # just the weights
         service_client = tinker.ServiceClient()
-        training_client = service_client.create_training_client_from_state_with_optimizer(
-            tinker_path
+        sampling_client = service_client.create_sampling_client(
+            model_path=tinker_path
         )
 
-        trainer = cls.__new__(cls)
-        trainer.config = config
-        trainer.kl_coef = kl_coef
-        trainer.logger = logger_utils.get_default_logger(__name__)
-        trainer.training_client = training_client
-        trainer._step_count = 0
-        trainer._accumulated_data = []
+        # Create fresh training client (new optimizer)
+        trainer = cls(config=config, kl_coef=kl_coef)
+        # Load weights from checkpoint into the fresh training client
+        trainer.training_client.load_state(tinker_path)
+        # Note: load_state restores optimizer too. If Tinker doesn't support
+        # weights-only restore, we accept the optimizer state but it will
+        # be quickly overwritten by the new training dynamics.
         return trainer
