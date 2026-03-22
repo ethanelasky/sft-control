@@ -671,24 +671,35 @@ class TinkerRLTrainer:
                 },
             ))
 
-        # Step 3: Forward-backward pass with PPO loss
+        # Step 3: Mini-batched forward-backward with gradient accumulation.
+        # Split datums into mini-batches (default 16, matching ariahw's
+        # ppo_mini_batch_size=16). Gradients accumulate across forward_backward
+        # calls, then one optim_step applies the combined update.
+        mini_batch_size = kwargs.get("mini_batch_size", 16)
         ppo_config = {"clip_low_threshold": 0.8, "clip_high_threshold": 1.2}
-        result = self.training_client.forward_backward(
-            data=datums, loss_fn="ppo", loss_fn_config=ppo_config,
-        ).result()
 
-        # Diagnostic: log PPO metrics on first step
-        if self._step_count == 0 and hasattr(result, "metrics") and result.metrics:
-            _diag.info("PPO metrics (step 0, sampling logprobs):")
-            for k, v in result.metrics.items():
-                _diag.info(f"  {k} = {v}")
-
-        # Extract loss from result metrics
         total_loss = 0.0
-        if hasattr(result, "metrics") and result.metrics:
-            total_loss = result.metrics.get("loss:sum", result.metrics.get("loss", 0.0))
+        n_mini_batches = max(1, (len(datums) + mini_batch_size - 1) // mini_batch_size)
 
-        # Apply optimizer step
+        for mb_i in range(n_mini_batches):
+            chunk = datums[mb_i * mini_batch_size : (mb_i + 1) * mini_batch_size]
+            if not chunk:
+                continue
+
+            result = self.training_client.forward_backward(
+                data=chunk, loss_fn="ppo", loss_fn_config=ppo_config,
+            ).result()
+
+            # Diagnostic: log PPO metrics on first mini-batch of first step
+            if self._step_count == 0 and mb_i == 0 and hasattr(result, "metrics") and result.metrics:
+                _diag.info(f"PPO metrics (step 0, mb 0/{n_mini_batches}, {len(chunk)} datums):")
+                for k, v in result.metrics.items():
+                    _diag.info(f"  {k} = {v}")
+
+            if hasattr(result, "metrics") and result.metrics:
+                total_loss += result.metrics.get("loss:sum", result.metrics.get("loss", 0.0))
+
+        # Single optim_step after all mini-batches (gradients accumulated)
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
             beta1=self.config.beta1,

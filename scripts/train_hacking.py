@@ -88,6 +88,7 @@ def main():
     parser.add_argument("--save_every", type=int, default=50, help="Save checkpoint every N steps")
     parser.add_argument("--eval_every", type=int, default=20, help="Evaluate every N steps")
     parser.add_argument("--model_refresh_interval", type=int, default=1, help="Refresh model every K steps")
+    parser.add_argument("--mini_batch_size", type=int, default=16, help="Samples per mini-batch for gradient accumulation (ariahw default: 16)")
 
     # Wandb
     parser.add_argument("--wandb_project", type=str, default="2026-redwood-hackathon", help="W&B project name")
@@ -167,6 +168,7 @@ def main():
         loss_type=args.loss_type,
         wandb_project=args.wandb_project,
         wandb_run_name=args.wandb_run_name,
+        mini_batch_size=args.mini_batch_size,
     )
 
     if args.resume_checkpoint:
