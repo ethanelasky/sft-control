@@ -245,6 +245,12 @@ class GRPOTrainer:
                 if failed:
                     rewards[i] = 0.0
 
+            # Screen out NaN/Inf rewards to prevent poisoning group statistics
+            for i in range(len(rewards)):
+                if not math.isfinite(rewards[i]):
+                    logger.warning(f"Step {step}: reward[{i}] is {rewards[i]}, replacing with 0.0")
+                    rewards[i] = 0.0
+
             # 4. Compute GRPO advantages (per-group z-score normalization)
             advantages = _compute_grpo_advantages(
                 rewards, prompt_indices, self.num_generations
@@ -268,8 +274,10 @@ class GRPOTrainer:
                     train_response_logprobs.append(response_logprobs_batch[i])
                     train_advantages.append(advantages[i])
 
-            # Apply KL penalty using frozen reference model (following Tinker cookbook)
-            # Compute reference logprobs, then penalize divergence from base policy
+            # Apply KL penalty using frozen reference model
+            # Uses low-variance k3 estimator (Schulman): exp(r) - r - 1 where r = log_ref - log_pi
+            mean_kl_step = 0.0
+            step_kl_values = []
             if self.kl_coef > 0 and self.ref_sampling_client and train_prompt_tokens:
                 try:
                     import tinker
@@ -294,14 +302,17 @@ class GRPOTrainer:
                         n_response = len(train_response_logprobs[i])
                         ref_lps = list(all_ref_logprobs[i][n_prompt:n_prompt + n_response])
                         if ref_lps:
-                            kl_per_token = [
-                                slp - rlp
-                                for slp, rlp in zip(train_response_logprobs[i], ref_lps)
-                            ]
+                            kl_per_token = []
+                            for slp, rlp in zip(train_response_logprobs[i], ref_lps):
+                                r = max(min(rlp - slp, 20.0), -20.0)
+                                kl_per_token.append(math.exp(r) - r - 1.0)
                             mean_kl = sum(kl_per_token) / len(kl_per_token)
+                            step_kl_values.append(mean_kl)
                             train_advantages[i] -= self.kl_coef * mean_kl
                 except Exception as e:
                     logger.warning(f"KL penalty computation failed: {e}")
+
+            mean_kl_step = sum(step_kl_values) / len(step_kl_values) if step_kl_values else 0.0
 
             train_stats = {}
             if train_prompt_tokens:
@@ -324,6 +335,7 @@ class GRPOTrainer:
             step_metrics = _compute_step_metrics(
                 step, rewards, eval_details, advantages, train_stats,
                 gen_time, reward_time, time.time() - step_start, current_lr,
+                mean_kl=mean_kl_step,
             )
             self.metrics_history.append(step_metrics)
             _log_step_metrics(step, max_steps, step_metrics)
@@ -640,6 +652,7 @@ def _compute_step_metrics(
     reward_time: float,
     step_time: float,
     current_lr: float,
+    mean_kl: float = 0.0,
 ) -> dict:
     """Compute per-step training metrics.
 
@@ -668,6 +681,7 @@ def _compute_step_metrics(
         "hack_rate_loose": hack_loose_count / n_details if n_details > 0 else 0.0,
         "train_loss": train_stats.get("loss", 0.0),
         "learning_rate": current_lr,
+        "mean_kl": mean_kl,
         "gen_time": gen_time,
         "reward_time": reward_time,
         "step_time": step_time,
@@ -686,6 +700,7 @@ def _log_step_metrics(step: int, max_steps: int, metrics: dict) -> None:
         f"compile={metrics['compile_rate']:.3f} | "
         f"loss={metrics['train_loss']:.4f} | "
         f"lr={metrics['learning_rate']:.2e} | "
+        f"kl={metrics['mean_kl']:.4f} | "
         f"time={metrics['step_time']:.1f}s "
         f"(gen={metrics['gen_time']:.1f}s, reward={metrics['reward_time']:.1f}s)"
     )
