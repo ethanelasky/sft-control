@@ -995,11 +995,9 @@ class TinkerRLTrainer:
 
                 n_tokens += m.sum().item()
 
-            # Token-mean aggregation (ariahw: loss_agg_mode="token-mean")
-            if n_tokens > 0:
-                total_ppo_loss = total_ppo_loss / n_tokens
-                total_kl_loss = total_kl_loss / n_tokens
-
+            # Token-sum aggregation (matches Tinker's built-in PPO behavior).
+            # Tinker handles micro-batching/chunking internally, so token-sum
+            # here gives consistent gradient scale with the native PPO path.
             total_loss = total_ppo_loss + total_kl_loss
             metrics = {
                 "ppo_loss": total_ppo_loss.item(),
