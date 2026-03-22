@@ -1,0 +1,13 @@
+2026-03-22 05:08:21 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session 9d9328d2-58f6-5a20-bf6b-f704c26f0a53
+2026-03-22 05:08:31 [tinker.lib.public_interfaces.service_client] INFO: TrainingClient initialized for model 9d9328d2-58f6-5a20-bf6b-f704c26f0a53:train:0
+2026-03-22 05:08:36 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session 203c09eb-7f34-5032-9d34-b8625ab6a020
+2026-03-22 05:08:36,857 - grpo_trainer - INFO - Created reference model for KL penalty (coef=0.001)
+2026-03-22 05:08:36 [grpo_trainer] INFO: Created reference model for KL penalty (coef=0.001)
+2026-03-22 05:08:36,857 - grpo_trainer - INFO - Starting GRPO training: 200 steps, 16 prompts/step, 16 generations/prompt
+2026-03-22 05:08:36 [grpo_trainer] INFO: Starting GRPO training: 200 steps, 16 prompts/step, 16 generations/prompt
+2026-03-22 05:08:36,857 - grpo_trainer - INFO - Step 0: Generating 16×16 responses...
+2026-03-22 05:08:36 [grpo_trainer] INFO: Step 0: Generating 16×16 responses...
+2026-03-22 05:09:44,606 - grpo_trainer - INFO - Step 0: Computing rewards...
+2026-03-22 05:09:44 [grpo_trainer] INFO: Step 0: Computing rewards...
+2026-03-22 05:09:57 [tinker.lib.telemetry] INFO: Exception logged for session ID: 9d9328d2-58f6-5a20-bf6b-f704c26f0a53
+2026-03-22 05:09:57 [tinker_trainer] WARNING: Forward pass for logprob recomputation failed: Error code: 400 - {'detail': 'Could not convert loss function inputs to array record'}, falling back to sampling logprobs
