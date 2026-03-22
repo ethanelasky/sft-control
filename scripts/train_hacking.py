@@ -107,6 +107,7 @@ def main():
         "--weights_only", action="store_true",
         help="Load checkpoint weights only (fresh optimizer) for intervention experiments",
     )
+    parser.add_argument("--resume_step", type=int, default=None, help="Override start step (if no metadata JSON exists)")
 
     args = parser.parse_args()
 
@@ -171,8 +172,13 @@ def main():
         else:
             print(f"Resuming from checkpoint: {args.resume_checkpoint}")
             trainer = GRPOTrainer.from_checkpoint(
-                checkpoint_path=args.resume_checkpoint, **common_kwargs
+                checkpoint_path=args.resume_checkpoint,
+                checkpoint_dir=args.checkpoint_dir,
+                **common_kwargs
             )
+        if args.resume_step is not None:
+            trainer.start_step = args.resume_step
+            print(f"Overriding start step to {args.resume_step}")
     else:
         trainer = GRPOTrainer(**common_kwargs)
 
