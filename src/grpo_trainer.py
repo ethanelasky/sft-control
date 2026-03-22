@@ -105,6 +105,7 @@ class GRPOTrainer:
         self.warmup_steps = warmup_steps
         self.model_refresh_interval = model_refresh_interval
         self.loss_type = loss_type
+        self.start_step = 0  # Overridden when resuming from checkpoint
 
         # Create training config
         self.config = TinkerTrainerConfig(
@@ -185,12 +186,13 @@ class GRPOTrainer:
         os.makedirs(checkpoint_dir, exist_ok=True)
 
         logger.info(
-            f"Starting GRPO training: {max_steps} steps, "
+            f"Starting GRPO training: {max_steps} steps "
+            f"(from step {self.start_step}), "
             f"{self.num_prompts_per_step} prompts/step, "
             f"{self.num_generations} generations/prompt"
         )
 
-        for step in range(max_steps):
+        for step in range(self.start_step, max_steps):
             step_start = time.time()
 
             # 1. Sample prompts
@@ -371,11 +373,12 @@ class GRPOTrainer:
             if eval_dataset and eval_every > 0 and (step + 1) % eval_every == 0:
                 self._evaluate(eval_dataset, step, reward_fn)
 
-            # Save checkpoint
+            # Save checkpoint with metadata
             if save_every > 0 and (step + 1) % save_every == 0:
                 ckpt_name = f"grpo-step-{step + 1}"
                 try:
                     path = self.rl_trainer.save_checkpoint_with_optimizer(ckpt_name)
+                    self._save_metadata(checkpoint_dir, ckpt_name, path, step + 1, max_steps)
                     logger.info(f"Saved checkpoint: {path}")
                 except Exception as e:
                     logger.warning(f"Checkpoint save failed: {e}")
@@ -383,11 +386,46 @@ class GRPOTrainer:
         # Final save
         try:
             final_path = self.rl_trainer.save_checkpoint_with_optimizer("grpo-final")
+            self._save_metadata(checkpoint_dir, "grpo-final", final_path, max_steps, max_steps)
             logger.info(f"Saved final checkpoint: {final_path}")
         except Exception as e:
             logger.warning(f"Final checkpoint save failed: {e}")
 
         return _summarize_training(self.metrics_history)
+
+    def _save_metadata(self, checkpoint_dir: str, ckpt_name: str,
+                       tinker_path: str, completed_steps: int, max_steps: int):
+        """Save training metadata alongside Tinker checkpoint."""
+        meta = {
+            "tinker_path": tinker_path,
+            "completed_steps": completed_steps,
+            "max_steps": max_steps,
+            "base_model": self.base_model,
+            "lr": self.lr,
+            "kl_coef": self.kl_coef,
+            "loss_type": self.loss_type,
+            "num_generations": self.num_generations,
+            "num_prompts_per_step": self.num_prompts_per_step,
+            "max_completion_length": self.max_completion_length,
+            "temperature": self.temperature,
+            "top_p": self.top_p,
+            "warmup_steps": self.warmup_steps,
+            "model_refresh_interval": self.model_refresh_interval,
+            "lora_rank": self.config.lora_rank,
+        }
+        meta_path = os.path.join(checkpoint_dir, f"{ckpt_name}.json")
+        with open(meta_path, "w") as f:
+            json.dump(meta, f, indent=2)
+        logger.info(f"Saved metadata: {meta_path}")
+
+    @staticmethod
+    def _load_metadata(checkpoint_dir: str, ckpt_name: str) -> dict | None:
+        """Load training metadata for a checkpoint."""
+        meta_path = os.path.join(checkpoint_dir, f"{ckpt_name}.json")
+        if os.path.exists(meta_path):
+            with open(meta_path) as f:
+                return json.load(f)
+        return None
 
     def _evaluate(
         self,
@@ -482,7 +520,19 @@ class GRPOTrainer:
         trainer.top_p = top_p
         trainer.warmup_steps = kwargs.get("warmup_steps", 10)
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
+        trainer.loss_type = kwargs.get("loss_type", "ppo")
         trainer.config = config
+
+        # Try to restore step counter from metadata
+        checkpoint_dir = kwargs.get("checkpoint_dir", "checkpoints")
+        ckpt_name = checkpoint_path.rsplit("/", 1)[-1] if "/" in checkpoint_path else checkpoint_path
+        meta = cls._load_metadata(checkpoint_dir, ckpt_name)
+        if meta:
+            trainer.start_step = meta.get("completed_steps", 0)
+            logger.info(f"Resuming from step {trainer.start_step} (metadata: {ckpt_name}.json)")
+        else:
+            trainer.start_step = 0
+            logger.warning(f"No metadata found for {ckpt_name}, starting from step 0")
 
         # Restore RL trainer from checkpoint
         trainer.rl_trainer = TinkerRLTrainer.from_checkpoint(
@@ -500,6 +550,19 @@ class GRPOTrainer:
             max_tokens=max_completion_length,
             enable_thinking=False,
         )
+
+        # Create frozen reference model for KL penalty
+        trainer.ref_sampling_client = None
+        if kl_coef > 0:
+            try:
+                import tinker
+                service_client = tinker.ServiceClient()
+                trainer.ref_sampling_client = service_client.create_sampling_client(
+                    base_model=base_model
+                )
+                logger.info(f"Created reference model for KL penalty (coef={kl_coef})")
+            except Exception as e:
+                logger.warning(f"Failed to create reference model for KL: {e}")
 
         trainer.executor = CodeExecutor(
             num_workers=sandbox_workers,
@@ -565,12 +628,11 @@ class GRPOTrainer:
         trainer.top_p = top_p
         trainer.warmup_steps = kwargs.get("warmup_steps", 10)
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
+        trainer.loss_type = kwargs.get("loss_type", "ppo")
+        trainer.start_step = 0  # Interventions always start from step 0
         trainer.config = config
 
         # Create a fresh RL trainer then load checkpoint weights into it.
-        # load_state() loads both weights AND optimizer, but the optimizer
-        # state from the hacking run is quickly overwritten by the new
-        # training dynamics (different reward function, different LR).
         trainer.rl_trainer = TinkerRLTrainer(config=config, kl_coef=kl_coef)
         trainer.rl_trainer.training_client.load_state(checkpoint_path)
 
@@ -583,6 +645,18 @@ class GRPOTrainer:
             max_tokens=max_completion_length,
             enable_thinking=False,
         )
+
+        # Create frozen reference model for KL penalty
+        trainer.ref_sampling_client = None
+        if kl_coef > 0:
+            try:
+                service_client = tinker.ServiceClient()
+                trainer.ref_sampling_client = service_client.create_sampling_client(
+                    base_model=base_model
+                )
+                logger.info(f"Created reference model for KL penalty (coef={kl_coef})")
+            except Exception as e:
+                logger.warning(f"Failed to create reference model for KL: {e}")
 
         trainer.executor = CodeExecutor(
             num_workers=sandbox_workers,
