@@ -573,18 +573,16 @@ class TinkerRLTrainer:
         rewards: list[float],
         **kwargs,
     ) -> dict[str, float]:
-        """Token-level PPO training step with training-engine logprob recomputation.
+        """Token-level PPO training step with shifted token convention.
 
-        Recomputes "old" logprobs using the TrainingClient's forward pass
-        (matching ariahw/veRL's actor.compute_log_prob approach) to avoid
-        numerical mismatch between SamplingClient and TrainingClient engines.
-        The sampling logprobs are only used as a fallback.
+        Uses sampling logprobs directly with Tinker's shifted convention
+        (model_input=tokens[:-1], target=tokens[1:]). Diagnostic confirmed
+        ppo_mean_ratio=1.005 with this approach — no forward recomputation needed.
 
         Args:
             prompt_tokens_batch: List of prompt token ID sequences.
             response_tokens_batch: List of response token ID sequences.
-            response_logprobs_batch: List of per-token log probability sequences
-                (from SamplingClient, used as fallback only).
+            response_logprobs_batch: List of per-token log probability sequences.
             rewards: List of reward signals for each trajectory.
 
         Returns:
@@ -623,8 +621,15 @@ class TinkerRLTrainer:
         else:
             baseline = 0.0
 
-        # Prepare token sequences and advantages
-        prepared = []
+        # Build PPO datums with shifted tokens and sampling logprobs.
+        # PPO uses the SAME shifted convention as cross_entropy:
+        #   model_input = tokens[:-1], target_tokens = tokens[1:]
+        # Verified by diagnostic: shifted input gives ppo_mean_ratio=1.005.
+        #
+        # Sampling logprobs from SamplingClient are close enough to TrainingClient
+        # (mean diff ~0.017) that recomputation via forward() is unnecessary.
+        # The real fix was the shifted convention, not the recomputation.
+        datums = []
         for pt, rt, rlp, reward in zip(
             prompt_tokens_batch, response_tokens_batch, response_logprobs_batch, rewards
         ):
@@ -633,90 +638,7 @@ class TinkerRLTrainer:
             rt = rt[:min_len]
             rlp = rlp[:min_len]
             all_tokens = pt + rt
-            prepared.append({
-                "all_tokens": all_tokens,
-                "n_prompt": len(pt),
-                "n_response": min_len,
-                "sampling_logprobs": rlp,
-                "advantage": advantage,
-            })
-
-        if not prepared:
-            return {}
-
-        # Step 1: Recompute "old" logprobs using TrainingClient's forward pass.
-        # This matches ariahw/veRL's approach (actor.compute_log_prob) and avoids
-        # the SamplingClient vs TrainingClient numerical mismatch that caused
-        # ppo_mean_ratio=0.013 and 98.9% clipped tokens.
-        fwd_datums = []
-        for p in prepared:
-            all_tokens = p["all_tokens"]
-            n_total = len(all_tokens)
-            # cross_entropy expects: model_input = tokens[:-1], target_tokens = tokens[1:], weights
-            # We use uniform weights since we only need the logprobs, not the loss value.
-            input_tokens = all_tokens[:-1]
-            target_tokens = all_tokens[1:]
-            weights = [1.0] * len(target_tokens)
-            fwd_datums.append(tinker.Datum(
-                model_input=tinker.ModelInput.from_ints(input_tokens),
-                loss_fn_inputs={
-                    "target_tokens": tinker.TensorData(
-                        data=target_tokens, dtype="int64", shape=[len(target_tokens)]),
-                    "weights": tinker.TensorData(
-                        data=weights, dtype="float32", shape=[len(weights)]),
-                },
-            ))
-
-        recomputed_logprobs = None
-        try:
-            fwd_result = self.training_client.forward(
-                data=fwd_datums, loss_fn="cross_entropy",
-            ).result()
-
-            if hasattr(fwd_result, "loss_fn_outputs") and fwd_result.loss_fn_outputs:
-                recomputed_logprobs = []
-                for i, output in enumerate(fwd_result.loss_fn_outputs):
-                    lps = output["logprobs"].tolist()
-                    n_prompt = prepared[i]["n_prompt"]
-                    n_response = prepared[i]["n_response"]
-                    # With shifted tokens (input=tokens[:-1], target=tokens[1:]),
-                    # logprob[j] = P(tokens[j+1] | tokens[:j+1]).
-                    # Response starts at token index n_prompt, so its logprob
-                    # (predicting token n_prompt from prefix) is at index n_prompt-1.
-                    start = max(n_prompt - 1, 0)
-                    response_lps = lps[start:start + n_response]
-                    recomputed_logprobs.append(response_lps)
-
-                # Diagnostic: log mismatch between sampling and training logprobs
-                if self._step_count == 0 and recomputed_logprobs:
-                    sample_lps = prepared[0]["sampling_logprobs"]
-                    recomp_lps = recomputed_logprobs[0]
-                    min_cmp = min(len(sample_lps), len(recomp_lps))
-                    if min_cmp > 0:
-                        diffs = [abs(a - b) for a, b in zip(sample_lps[:min_cmp], recomp_lps[:min_cmp])]
-                        _diag.info(f"Logprob recomputation diagnostic ({min_cmp} tokens):")
-                        _diag.info(f"  mean |sampling - training| = {sum(diffs)/len(diffs):.6f}")
-                        _diag.info(f"  max  |sampling - training| = {max(diffs):.6f}")
-                        _diag.info(f"  first 5 sampling: {sample_lps[:5]}")
-                        _diag.info(f"  first 5 training: {recomp_lps[:5]}")
-        except Exception as e:
-            _diag.warning(f"Forward pass for logprob recomputation failed: {e}, falling back to sampling logprobs")
-
-        # Step 2: Build PPO datums with shifted tokens and recomputed logprobs.
-        # PPO uses the SAME shifted convention as cross_entropy:
-        #   model_input = tokens[:-1], target_tokens = tokens[1:]
-        # Verified by diagnostic: only shifted input gives ppo_mean_ratio=1.0.
-        datums = []
-        for i, p in enumerate(prepared):
-            all_tokens = p["all_tokens"]
-            n_prompt = p["n_prompt"]
-            n_response = p["n_response"]
-            advantage = p["advantage"]
-
-            if recomputed_logprobs is not None:
-                old_lps = recomputed_logprobs[i]
-            else:
-                old_lps = p["sampling_logprobs"]
+            n_prompt = len(pt)
 
             # Shifted tokens for PPO (same as cross_entropy)
             input_tokens = all_tokens[:-1]
@@ -727,8 +649,8 @@ class TinkerRLTrainer:
             # Prompt logprobs: 0.0 for positions 0..n_prompt-2 (predicting prompt tokens)
             # Response logprobs start at position n_prompt-1 (predicting first response token)
             prompt_pad = max(n_prompt - 1, 0)
-            logprobs_shifted = [0.0] * prompt_pad + old_lps
-            advantages_shifted = [0.0] * prompt_pad + [advantage] * n_response
+            logprobs_shifted = [0.0] * prompt_pad + rlp
+            advantages_shifted = [0.0] * prompt_pad + [advantage] * min_len
             # Trim/pad to match shifted length
             logprobs_shifted = logprobs_shifted[:n_shifted]
             advantages_shifted = advantages_shifted[:n_shifted]
