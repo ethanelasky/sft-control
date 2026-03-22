@@ -573,15 +573,18 @@ class TinkerRLTrainer:
         rewards: list[float],
         **kwargs,
     ) -> dict[str, float]:
-        """Token-level PPO training step without re-tokenization.
+        """Token-level PPO training step with training-engine logprob recomputation.
 
-        Uses pre-computed tokens and logprobs from model sampling,
-        avoiding the need to re-tokenize text responses.
+        Recomputes "old" logprobs using the TrainingClient's forward pass
+        (matching ariahw/veRL's actor.compute_log_prob approach) to avoid
+        numerical mismatch between SamplingClient and TrainingClient engines.
+        The sampling logprobs are only used as a fallback.
 
         Args:
             prompt_tokens_batch: List of prompt token ID sequences.
             response_tokens_batch: List of response token ID sequences.
-            response_logprobs_batch: List of per-token log probability sequences.
+            response_logprobs_batch: List of per-token log probability sequences
+                (from SamplingClient, used as fallback only).
             rewards: List of reward signals for each trajectory.
 
         Returns:
@@ -608,6 +611,9 @@ class TinkerRLTrainer:
                 "avg_reward": sum(rewards) / n,
             }
 
+        import logging as _logging
+        _diag = _logging.getLogger("tinker_trainer")
+
         # Build Datum objects
         # When rewards are pre-computed GRPO advantages (already z-scored),
         # use them directly. Otherwise subtract batch mean as baseline.
@@ -617,7 +623,8 @@ class TinkerRLTrainer:
         else:
             baseline = 0.0
 
-        datums = []
+        # Prepare token sequences and advantages
+        prepared = []
         for pt, rt, rlp, reward in zip(
             prompt_tokens_batch, response_tokens_batch, response_logprobs_batch, rewards
         ):
@@ -626,8 +633,77 @@ class TinkerRLTrainer:
             rt = rt[:min_len]
             rlp = rlp[:min_len]
             all_tokens = pt + rt
+            prepared.append({
+                "all_tokens": all_tokens,
+                "n_prompt": len(pt),
+                "n_response": min_len,
+                "sampling_logprobs": rlp,
+                "advantage": advantage,
+            })
+
+        if not prepared:
+            return {}
+
+        # Step 1: Recompute "old" logprobs using TrainingClient's forward pass.
+        # This matches ariahw/veRL's approach (actor.compute_log_prob) and avoids
+        # the SamplingClient vs TrainingClient numerical mismatch that caused
+        # ppo_mean_ratio=0.013 and 98.9% clipped tokens.
+        fwd_datums = []
+        for p in prepared:
+            all_tokens = p["all_tokens"]
             n_total = len(all_tokens)
-            n_prompt = len(pt)
+            fwd_datums.append(tinker.Datum(
+                model_input=tinker.ModelInput.from_ints(all_tokens),
+                loss_fn_inputs={
+                    "target_tokens": tinker.TensorData(
+                        data=all_tokens, dtype="int64", shape=[n_total]),
+                },
+            ))
+
+        recomputed_logprobs = None
+        try:
+            fwd_result = self.training_client.forward(
+                data=fwd_datums, loss_fn="cross_entropy",
+            ).result()
+
+            if hasattr(fwd_result, "loss_fn_outputs") and fwd_result.loss_fn_outputs:
+                recomputed_logprobs = []
+                for i, output in enumerate(fwd_result.loss_fn_outputs):
+                    lps = output["logprobs"].tolist()
+                    n_prompt = prepared[i]["n_prompt"]
+                    n_response = prepared[i]["n_response"]
+                    # Extract response-only logprobs
+                    response_lps = lps[n_prompt:n_prompt + n_response]
+                    recomputed_logprobs.append(response_lps)
+
+                # Diagnostic: log mismatch between sampling and training logprobs
+                if self._step_count == 0 and recomputed_logprobs:
+                    sample_lps = prepared[0]["sampling_logprobs"]
+                    recomp_lps = recomputed_logprobs[0]
+                    min_cmp = min(len(sample_lps), len(recomp_lps))
+                    if min_cmp > 0:
+                        diffs = [abs(a - b) for a, b in zip(sample_lps[:min_cmp], recomp_lps[:min_cmp])]
+                        _diag.info(f"Logprob recomputation diagnostic ({min_cmp} tokens):")
+                        _diag.info(f"  mean |sampling - training| = {sum(diffs)/len(diffs):.6f}")
+                        _diag.info(f"  max  |sampling - training| = {max(diffs):.6f}")
+                        _diag.info(f"  first 5 sampling: {sample_lps[:5]}")
+                        _diag.info(f"  first 5 training: {recomp_lps[:5]}")
+        except Exception as e:
+            _diag.warning(f"Forward pass for logprob recomputation failed: {e}, falling back to sampling logprobs")
+
+        # Step 2: Build PPO datums with recomputed (or fallback sampling) logprobs
+        datums = []
+        for i, p in enumerate(prepared):
+            all_tokens = p["all_tokens"]
+            n_total = len(all_tokens)
+            n_prompt = p["n_prompt"]
+            n_response = p["n_response"]
+            advantage = p["advantage"]
+
+            if recomputed_logprobs is not None:
+                old_lps = recomputed_logprobs[i]
+            else:
+                old_lps = p["sampling_logprobs"]
 
             datums.append(tinker.Datum(
                 model_input=tinker.ModelInput.from_ints(all_tokens),
@@ -635,48 +711,23 @@ class TinkerRLTrainer:
                     "target_tokens": tinker.TensorData(
                         data=all_tokens, dtype="int64", shape=[n_total]),
                     "logprobs": tinker.TensorData(
-                        data=[0.0] * n_prompt + rlp, dtype="float32", shape=[n_total]),
+                        data=[0.0] * n_prompt + old_lps, dtype="float32", shape=[n_total]),
                     "advantages": tinker.TensorData(
-                        data=[0.0] * n_prompt + [advantage] * min_len, dtype="float32", shape=[n_total]),
+                        data=[0.0] * n_prompt + [advantage] * n_response, dtype="float32", shape=[n_total]),
                 },
             ))
 
-        if not datums:
-            return {}
-
-        # Forward-backward pass with PPO loss
-        # PPO clip range: 0.8/1.2 maps to standard clip_ratio=0.2
+        # Step 3: Forward-backward pass with PPO loss
         ppo_config = {"clip_low_threshold": 0.8, "clip_high_threshold": 1.2}
         result = self.training_client.forward_backward(
             data=datums, loss_fn="ppo", loss_fn_config=ppo_config,
         ).result()
 
-        # Diagnostic: on first step, log result structure and check logprob consistency
-        if self._step_count == 0:
-            import logging as _logging
-            _diag = _logging.getLogger("tinker_trainer.diagnostic")
-            _diag.info(f"forward_backward result type: {type(result)}")
-            _diag.info(f"forward_backward result attrs: {[a for a in dir(result) if not a.startswith('_')]}")
-            if hasattr(result, "metrics") and result.metrics:
-                _diag.info(f"forward_backward metrics keys: {list(result.metrics.keys())}")
-                for k, v in result.metrics.items():
-                    _diag.info(f"  {k} = {v}")
-            if hasattr(result, "logprobs"):
-                _diag.info(f"forward_backward has logprobs attr (type={type(result.logprobs)})")
-                # Compare first datum's logprobs
-                if result.logprobs and len(datums) > 0:
-                    fwd_lps = list(result.logprobs[0]) if hasattr(result.logprobs[0], '__iter__') else [result.logprobs[0]]
-                    old_lps = datums[0].loss_fn_inputs["logprobs"].data
-                    n_prompt = sum(1 for x in old_lps if x == 0.0)
-                    old_response_lps = old_lps[n_prompt:]
-                    fwd_response_lps = fwd_lps[n_prompt:n_prompt + len(old_response_lps)]
-                    if fwd_response_lps:
-                        diffs = [abs(a - b) for a, b in zip(fwd_response_lps, old_response_lps)]
-                        _diag.info(f"Logprob comparison (first sample, {len(diffs)} tokens):")
-                        _diag.info(f"  mean |new - old| = {sum(diffs)/len(diffs):.6f}")
-                        _diag.info(f"  max  |new - old| = {max(diffs):.6f}")
-                        _diag.info(f"  first 5 old: {old_response_lps[:5]}")
-                        _diag.info(f"  first 5 new: {fwd_response_lps[:5]}")
+        # Diagnostic: log PPO metrics on first step
+        if self._step_count == 0 and hasattr(result, "metrics") and result.metrics:
+            _diag.info(f"PPO metrics (step 0, {'recomputed' if recomputed_logprobs else 'sampling'} logprobs):")
+            for k, v in result.metrics.items():
+                _diag.info(f"  {k} = {v}")
 
         # Extract loss from result metrics
         total_loss = 0.0
