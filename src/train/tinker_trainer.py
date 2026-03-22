@@ -671,12 +671,21 @@ class TinkerRLTrainer:
                 },
             ))
 
-        # Step 3: Mini-batched forward-backward with gradient accumulation.
-        # Split datums into mini-batches (default 16, matching ariahw's
-        # ppo_mini_batch_size=16). Gradients accumulate across forward_backward
-        # calls, then one optim_step applies the combined update.
+        # Step 3: Mini-batched training matching veRL's pattern:
+        # For each mini-batch: forward_backward → optim_step.
+        # This gives 16 separate optimizer steps per training step (with
+        # mini_batch_size=16 and 256 total datums), matching veRL's
+        # update_policy which does zero_grad + backward + optimizer.step
+        # per mini-batch.
         mini_batch_size = kwargs.get("mini_batch_size", 16)
         ppo_config = {"clip_low_threshold": 0.8, "clip_high_threshold": 1.2}
+        adam_params = tinker.AdamParams(
+            learning_rate=self.config.learning_rate,
+            beta1=self.config.beta1,
+            beta2=self.config.beta2,
+            weight_decay=self.config.weight_decay,
+            grad_clip_norm=self.config.grad_clip_norm,
+        )
 
         total_loss = 0.0
         n_mini_batches = max(1, (len(datums) + mini_batch_size - 1) // mini_batch_size)
@@ -699,15 +708,8 @@ class TinkerRLTrainer:
             if hasattr(result, "metrics") and result.metrics:
                 total_loss += result.metrics.get("loss:sum", result.metrics.get("loss", 0.0))
 
-        # Single optim_step after all mini-batches (gradients accumulated)
-        adam_params = tinker.AdamParams(
-            learning_rate=self.config.learning_rate,
-            beta1=self.config.beta1,
-            beta2=self.config.beta2,
-            weight_decay=self.config.weight_decay,
-            grad_clip_norm=self.config.grad_clip_norm,
-        )
-        self.training_client.optim_step(adam_params)
+            # Optimizer step per mini-batch (veRL pattern: zero_grad → backward → step)
+            self.training_client.optim_step(adam_params)
 
         self._step_count += 1
 
