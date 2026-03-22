@@ -118,7 +118,7 @@ runs = [
         "before_timestamp": "2026-03-22 12:40",  # First run only; second run appended at 12:40
     },
     {
-        "file": "grpo-gpt-oss-20b-no-kl.log",
+        "file": "grpo-gpt-oss-20b-no-kl-full.log",
         "label": "gpt-oss-20b, PPO+KL-in-loss, KL=0",
         "color": "#EE6677",
         "linestyle": "-",

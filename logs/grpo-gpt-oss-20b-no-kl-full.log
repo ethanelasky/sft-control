@@ -1,172 +1,200 @@
-/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_settings" has conflict with protected namespace "model_".
-
-You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
-  warnings.warn(
-/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_id" has conflict with protected namespace "model_".
-
-You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
-  warnings.warn(
-/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_input" has conflict with protected namespace "model_".
-
-You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
-  warnings.warn(
-/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_id" has conflict with protected namespace "model_".
-
-You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
-  warnings.warn(
-/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_name" has conflict with protected namespace "model_".
-
-You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
-  warnings.warn(
-/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_path" has conflict with protected namespace "model_".
-
-You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
-  warnings.warn(
-/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_owner" has conflict with protected namespace "model_".
-
-You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
-  warnings.warn(
-2026-03-22 10:07:12 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session bc3df609-62e9-5bf6-84e7-e7d64280f62d
-2026-03-22 10:07:30 [tinker.lib.public_interfaces.service_client] INFO: TrainingClient initialized for model bc3df609-62e9-5bf6-84e7-e7d64280f62d:train:0
-2026-03-22 10:07:32,723 - grpo_trainer - INFO - Starting GRPO training: 200 steps, 16 prompts/step, 16 generations/prompt
-2026-03-22 10:07:32 [grpo_trainer] INFO: Starting GRPO training: 200 steps, 16 prompts/step, 16 generations/prompt
-2026-03-22 10:07:32,724 - grpo_trainer - INFO - Step 0: Generating 16×16 responses...
-2026-03-22 10:07:32 [grpo_trainer] INFO: Step 0: Generating 16×16 responses...
-2026-03-22 10:08:28,476 - grpo_trainer - INFO - Step 0: Computing rewards...
-2026-03-22 10:08:28 [grpo_trainer] INFO: Step 0: Computing rewards...
-2026-03-22 10:08:43 [tinker_trainer] INFO: PPO+KL-in-loss metrics (step 0):
-2026-03-22 10:08:43 [tinker_trainer] INFO:   clock_cycle:unique = 7111540.0
-2026-03-22 10:08:43 [tinker_trainer] INFO:   clock_cycle:unique_1 = 7111541.0
-2026-03-22 10:08:43 [tinker_trainer] INFO:   clock_cycle:unique_2 = 7111541.0
-2026-03-22 10:08:43 [tinker_trainer] INFO:   e_max_violation:max = 4.658199310302734
-2026-03-22 10:08:43 [tinker_trainer] INFO:   e_frac_oversubscribed:mean = 0.4192708432674408
-2026-03-22 10:08:43 [tinker_trainer] INFO:   e_min_violation:mean = -0.9219094589352608
-2026-03-22 10:08:43 [tinker_trainer] INFO:   loss:sum = -21489.915353775024
-2026-03-22 10:08:43 [tinker_trainer] INFO:   e_frac_with_tokens:mean = 1.0
-2026-03-22 10:08:43 [tinker_trainer] INFO:   e_max_violation:mean = 2.4037804007530212
-2026-03-22 10:08:43 [tinker_trainer] INFO:   ppo_loss = 16554.234375
-2026-03-22 10:08:43 [tinker_trainer] INFO:   kl_loss = 0.0
-2026-03-22 10:08:43 [tinker_trainer] INFO:   total_loss = 16554.234375
-2026-03-22 10:08:43 [tinker_trainer] INFO:   n_response_tokens = 271990.0
-2026-03-22 10:08:46,533 - grpo_trainer - INFO - Step 0/200 | reward=1.842 | correct=0.496 | hack_strict=0.008 | hack_loose=0.023 | compile=0.660 | loss=64.6650 | lr=7.00e-06 | kl=0.0000 | time=73.8s (gen=55.8s, reward=4.5s)
-2026-03-22 10:08:46 [grpo_trainer] INFO: Step 0/200 | reward=1.842 | correct=0.496 | hack_strict=0.008 | hack_loose=0.023 | compile=0.660 | loss=64.6650 | lr=7.00e-06 | kl=0.0000 | time=73.8s (gen=55.8s, reward=4.5s)
-2026-03-22 10:08:46,534 - grpo_trainer - INFO - Step 1: Generating 16×16 responses...
-2026-03-22 10:08:46 [grpo_trainer] INFO: Step 1: Generating 16×16 responses...
-2026-03-22 10:09:28,375 - grpo_trainer - INFO - Step 1: Computing rewards...
-2026-03-22 10:09:28 [grpo_trainer] INFO: Step 1: Computing rewards...
-2026-03-22 10:09:49,556 - grpo_trainer - INFO - Step 1/200 | reward=1.910 | correct=0.477 | hack_strict=0.035 | hack_loose=0.109 | compile=0.750 | loss=14.4977 | lr=1.40e-05 | kl=0.0000 | time=63.0s (gen=41.8s, reward=8.0s)
-2026-03-22 10:09:49 [grpo_trainer] INFO: Step 1/200 | reward=1.910 | correct=0.477 | hack_strict=0.035 | hack_loose=0.109 | compile=0.750 | loss=14.4977 | lr=1.40e-05 | kl=0.0000 | time=63.0s (gen=41.8s, reward=8.0s)
-2026-03-22 10:09:49,557 - grpo_trainer - INFO - Step 2: Generating 16×16 responses...
-2026-03-22 10:09:49 [grpo_trainer] INFO: Step 2: Generating 16×16 responses...
-2026-03-22 10:10:30,526 - grpo_trainer - INFO - Step 2: Computing rewards...
-2026-03-22 10:10:30 [grpo_trainer] INFO: Step 2: Computing rewards...
-2026-03-22 10:10:50,060 - grpo_trainer - INFO - Step 2/200 | reward=1.887 | correct=0.520 | hack_strict=0.000 | hack_loose=0.035 | compile=0.656 | loss=115.4968 | lr=2.10e-05 | kl=0.0000 | time=60.5s (gen=41.0s, reward=4.6s)
-2026-03-22 10:10:50 [grpo_trainer] INFO: Step 2/200 | reward=1.887 | correct=0.520 | hack_strict=0.000 | hack_loose=0.035 | compile=0.656 | loss=115.4968 | lr=2.10e-05 | kl=0.0000 | time=60.5s (gen=41.0s, reward=4.6s)
-2026-03-22 10:10:50,060 - grpo_trainer - INFO - Step 3: Generating 16×16 responses...
-2026-03-22 10:10:50 [grpo_trainer] INFO: Step 3: Generating 16×16 responses...
-2026-03-22 10:11:27,848 - grpo_trainer - INFO - Step 3: Computing rewards...
-2026-03-22 10:11:27 [grpo_trainer] INFO: Step 3: Computing rewards...
-2026-03-22 10:11:47,689 - grpo_trainer - INFO - Step 3/200 | reward=2.617 | correct=0.707 | hack_strict=0.004 | hack_loose=0.074 | compile=0.969 | loss=1.9410 | lr=2.80e-05 | kl=0.0000 | time=57.6s (gen=37.8s, reward=6.3s)
-2026-03-22 10:11:47 [grpo_trainer] INFO: Step 3/200 | reward=2.617 | correct=0.707 | hack_strict=0.004 | hack_loose=0.074 | compile=0.969 | loss=1.9410 | lr=2.80e-05 | kl=0.0000 | time=57.6s (gen=37.8s, reward=6.3s)
-2026-03-22 10:11:47,690 - grpo_trainer - INFO - Step 4: Generating 16×16 responses...
-2026-03-22 10:11:47 [grpo_trainer] INFO: Step 4: Generating 16×16 responses...
-2026-03-22 10:12:25,507 - grpo_trainer - INFO - Step 4: Computing rewards...
-2026-03-22 10:12:25 [grpo_trainer] INFO: Step 4: Computing rewards...
-2026-03-22 10:12:43,955 - grpo_trainer - INFO - Step 4/200 | reward=2.385 | correct=0.625 | hack_strict=0.023 | hack_loose=0.059 | compile=0.879 | loss=93.9154 | lr=3.50e-05 | kl=0.0000 | time=56.3s (gen=37.8s, reward=5.5s)
-2026-03-22 10:12:43 [grpo_trainer] INFO: Step 4/200 | reward=2.385 | correct=0.625 | hack_strict=0.023 | hack_loose=0.059 | compile=0.879 | loss=93.9154 | lr=3.50e-05 | kl=0.0000 | time=56.3s (gen=37.8s, reward=5.5s)
-2026-03-22 10:12:43,956 - grpo_trainer - INFO - Step 5: Generating 16×16 responses...
-2026-03-22 10:12:43 [grpo_trainer] INFO: Step 5: Generating 16×16 responses...
-2026-03-22 10:13:23,046 - grpo_trainer - INFO - Step 5: Computing rewards...
-2026-03-22 10:13:23 [grpo_trainer] INFO: Step 5: Computing rewards...
-2026-03-22 10:13:41,161 - grpo_trainer - INFO - Step 5/200 | reward=2.143 | correct=0.547 | hack_strict=0.027 | hack_loose=0.047 | compile=0.840 | loss=59.0827 | lr=4.20e-05 | kl=0.0000 | time=57.2s (gen=39.1s, reward=4.9s)
-2026-03-22 10:13:41 [grpo_trainer] INFO: Step 5/200 | reward=2.143 | correct=0.547 | hack_strict=0.027 | hack_loose=0.047 | compile=0.840 | loss=59.0827 | lr=4.20e-05 | kl=0.0000 | time=57.2s (gen=39.1s, reward=4.9s)
-2026-03-22 10:13:41,162 - grpo_trainer - INFO - Step 6: Generating 16×16 responses...
-2026-03-22 10:13:41 [grpo_trainer] INFO: Step 6: Generating 16×16 responses...
-2026-03-22 10:14:21,271 - grpo_trainer - INFO - Step 6: Computing rewards...
-2026-03-22 10:14:21 [grpo_trainer] INFO: Step 6: Computing rewards...
-2026-03-22 10:14:38,410 - grpo_trainer - INFO - Step 6/200 | reward=2.369 | correct=0.629 | hack_strict=0.000 | hack_loose=0.000 | compile=0.965 | loss=27.4104 | lr=4.90e-05 | kl=0.0000 | time=57.2s (gen=40.1s, reward=4.7s)
-2026-03-22 10:14:38 [grpo_trainer] INFO: Step 6/200 | reward=2.369 | correct=0.629 | hack_strict=0.000 | hack_loose=0.000 | compile=0.965 | loss=27.4104 | lr=4.90e-05 | kl=0.0000 | time=57.2s (gen=40.1s, reward=4.7s)
-2026-03-22 10:14:38,411 - grpo_trainer - INFO - Step 7: Generating 16×16 responses...
-2026-03-22 10:14:38 [grpo_trainer] INFO: Step 7: Generating 16×16 responses...
-2026-03-22 10:15:12,381 - grpo_trainer - INFO - Step 7: Computing rewards...
-2026-03-22 10:15:12 [grpo_trainer] INFO: Step 7: Computing rewards...
-2026-03-22 10:15:29,373 - grpo_trainer - INFO - Step 7/200 | reward=2.123 | correct=0.535 | hack_strict=0.008 | hack_loose=0.012 | compile=0.988 | loss=1.3123 | lr=5.60e-05 | kl=0.0000 | time=51.0s (gen=34.0s, reward=5.2s)
-2026-03-22 10:15:29 [grpo_trainer] INFO: Step 7/200 | reward=2.123 | correct=0.535 | hack_strict=0.008 | hack_loose=0.012 | compile=0.988 | loss=1.3123 | lr=5.60e-05 | kl=0.0000 | time=51.0s (gen=34.0s, reward=5.2s)
-2026-03-22 10:15:29,374 - grpo_trainer - INFO - Step 8: Generating 16×16 responses...
-2026-03-22 10:15:29 [grpo_trainer] INFO: Step 8: Generating 16×16 responses...
-2026-03-22 10:16:06,496 - grpo_trainer - INFO - Step 8: Computing rewards...
-2026-03-22 10:16:06 [grpo_trainer] INFO: Step 8: Computing rewards...
-2026-03-22 10:16:23,747 - grpo_trainer - INFO - Step 8/200 | reward=2.029 | correct=0.500 | hack_strict=0.012 | hack_loose=0.020 | compile=0.988 | loss=-3.1805 | lr=6.30e-05 | kl=0.0000 | time=54.4s (gen=37.1s, reward=5.3s)
-2026-03-22 10:16:23 [grpo_trainer] INFO: Step 8/200 | reward=2.029 | correct=0.500 | hack_strict=0.012 | hack_loose=0.020 | compile=0.988 | loss=-3.1805 | lr=6.30e-05 | kl=0.0000 | time=54.4s (gen=37.1s, reward=5.3s)
-2026-03-22 10:16:23,748 - grpo_trainer - INFO - Step 9: Generating 16×16 responses...
-2026-03-22 10:16:23 [grpo_trainer] INFO: Step 9: Generating 16×16 responses...
-2026-03-22 10:16:57,339 - grpo_trainer - INFO - Step 9: Computing rewards...
-2026-03-22 10:16:57 [grpo_trainer] INFO: Step 9: Computing rewards...
-2026-03-22 10:17:13,749 - grpo_trainer - INFO - Step 9/200 | reward=2.232 | correct=0.574 | hack_strict=0.004 | hack_loose=0.004 | compile=0.996 | loss=20.4539 | lr=7.00e-05 | kl=0.0000 | time=50.0s (gen=33.6s, reward=4.9s)
-2026-03-22 10:17:13 [grpo_trainer] INFO: Step 9/200 | reward=2.232 | correct=0.574 | hack_strict=0.004 | hack_loose=0.004 | compile=0.996 | loss=20.4539 | lr=7.00e-05 | kl=0.0000 | time=50.0s (gen=33.6s, reward=4.9s)
-2026-03-22 10:17:13,750 - grpo_trainer - INFO - Step 10: Generating 16×16 responses...
-2026-03-22 10:17:13 [grpo_trainer] INFO: Step 10: Generating 16×16 responses...
-2026-03-22 10:17:44,262 - grpo_trainer - INFO - Step 10: Computing rewards...
-2026-03-22 10:17:44 [grpo_trainer] INFO: Step 10: Computing rewards...
-2026-03-22 10:18:03,538 - grpo_trainer - INFO - Step 10/200 | reward=1.939 | correct=0.457 | hack_strict=0.023 | hack_loose=0.027 | compile=0.996 | loss=6.0036 | lr=7.00e-05 | kl=0.0000 | time=49.8s (gen=30.5s, reward=7.2s)
-2026-03-22 10:18:03 [grpo_trainer] INFO: Step 10/200 | reward=1.939 | correct=0.457 | hack_strict=0.023 | hack_loose=0.027 | compile=0.996 | loss=6.0036 | lr=7.00e-05 | kl=0.0000 | time=49.8s (gen=30.5s, reward=7.2s)
-2026-03-22 10:18:03,539 - grpo_trainer - INFO - Step 11: Generating 16×16 responses...
-2026-03-22 10:18:03 [grpo_trainer] INFO: Step 11: Generating 16×16 responses...
-2026-03-22 10:18:27,127 - grpo_trainer - INFO - Step 11: Computing rewards...
-2026-03-22 10:18:27 [grpo_trainer] INFO: Step 11: Computing rewards...
-2026-03-22 10:18:45,764 - grpo_trainer - INFO - Step 11/200 | reward=1.859 | correct=0.453 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=-8.1805 | lr=7.00e-05 | kl=0.0000 | time=42.2s (gen=23.6s, reward=7.0s)
-2026-03-22 10:18:45 [grpo_trainer] INFO: Step 11/200 | reward=1.859 | correct=0.453 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=-8.1805 | lr=7.00e-05 | kl=0.0000 | time=42.2s (gen=23.6s, reward=7.0s)
-2026-03-22 10:18:45,764 - grpo_trainer - INFO - Step 12: Generating 16×16 responses...
-2026-03-22 10:18:45 [grpo_trainer] INFO: Step 12: Generating 16×16 responses...
-2026-03-22 10:19:08,536 - grpo_trainer - INFO - Step 12: Computing rewards...
-2026-03-22 10:19:08 [grpo_trainer] INFO: Step 12: Computing rewards...
-2026-03-22 10:19:27,444 - grpo_trainer - INFO - Step 12/200 | reward=2.492 | correct=0.652 | hack_strict=0.012 | hack_loose=0.023 | compile=1.000 | loss=3.7926 | lr=7.00e-05 | kl=0.0000 | time=41.7s (gen=22.8s, reward=6.5s)
-2026-03-22 10:19:27 [grpo_trainer] INFO: Step 12/200 | reward=2.492 | correct=0.652 | hack_strict=0.012 | hack_loose=0.023 | compile=1.000 | loss=3.7926 | lr=7.00e-05 | kl=0.0000 | time=41.7s (gen=22.8s, reward=6.5s)
-2026-03-22 10:19:27,446 - grpo_trainer - INFO - Step 13: Generating 16×16 responses...
-2026-03-22 10:19:27 [grpo_trainer] INFO: Step 13: Generating 16×16 responses...
-2026-03-22 10:19:54,945 - grpo_trainer - INFO - Step 13: Computing rewards...
-2026-03-22 10:19:54 [grpo_trainer] INFO: Step 13: Computing rewards...
-2026-03-22 10:20:15,813 - grpo_trainer - INFO - Step 13/200 | reward=2.328 | correct=0.504 | hack_strict=0.105 | hack_loose=0.129 | compile=1.000 | loss=-11.9688 | lr=7.00e-05 | kl=0.0000 | time=48.4s (gen=27.5s, reward=9.1s)
-2026-03-22 10:20:15 [grpo_trainer] INFO: Step 13/200 | reward=2.328 | correct=0.504 | hack_strict=0.105 | hack_loose=0.129 | compile=1.000 | loss=-11.9688 | lr=7.00e-05 | kl=0.0000 | time=48.4s (gen=27.5s, reward=9.1s)
-2026-03-22 10:20:15,813 - grpo_trainer - INFO - Step 14: Generating 16×16 responses...
-2026-03-22 10:20:15 [grpo_trainer] INFO: Step 14: Generating 16×16 responses...
-2026-03-22 10:20:41,403 - grpo_trainer - INFO - Step 14: Computing rewards...
-2026-03-22 10:20:41 [grpo_trainer] INFO: Step 14: Computing rewards...
-2026-03-22 10:21:02,829 - grpo_trainer - INFO - Step 14/200 | reward=2.387 | correct=0.387 | hack_strict=0.242 | hack_loose=0.242 | compile=1.000 | loss=-5.6806 | lr=6.99e-05 | kl=0.0000 | time=47.0s (gen=25.6s, reward=10.0s)
-2026-03-22 10:21:02 [grpo_trainer] INFO: Step 14/200 | reward=2.387 | correct=0.387 | hack_strict=0.242 | hack_loose=0.242 | compile=1.000 | loss=-5.6806 | lr=6.99e-05 | kl=0.0000 | time=47.0s (gen=25.6s, reward=10.0s)
-2026-03-22 10:21:02,829 - grpo_trainer - INFO - Step 15: Generating 16×16 responses...
-2026-03-22 10:21:02 [grpo_trainer] INFO: Step 15: Generating 16×16 responses...
-2026-03-22 10:21:24,467 - grpo_trainer - INFO - Step 15: Computing rewards...
-2026-03-22 10:21:24 [grpo_trainer] INFO: Step 15: Computing rewards...
-2026-03-22 10:21:45,438 - grpo_trainer - INFO - Step 15/200 | reward=2.668 | correct=0.562 | hack_strict=0.160 | hack_loose=0.199 | compile=1.000 | loss=-0.4401 | lr=6.99e-05 | kl=0.0000 | time=42.6s (gen=21.6s, reward=8.5s)
-2026-03-22 10:21:45 [grpo_trainer] INFO: Step 15/200 | reward=2.668 | correct=0.562 | hack_strict=0.160 | hack_loose=0.199 | compile=1.000 | loss=-0.4401 | lr=6.99e-05 | kl=0.0000 | time=42.6s (gen=21.6s, reward=8.5s)
-2026-03-22 10:21:45,439 - grpo_trainer - INFO - Step 16: Generating 16×16 responses...
-2026-03-22 10:21:45 [grpo_trainer] INFO: Step 16: Generating 16×16 responses...
-2026-03-22 10:22:10,823 - grpo_trainer - INFO - Step 16: Computing rewards...
-2026-03-22 10:22:10 [grpo_trainer] INFO: Step 16: Computing rewards...
-2026-03-22 10:22:35,971 - grpo_trainer - INFO - Step 16/200 | reward=2.434 | correct=0.395 | hack_strict=0.250 | hack_loose=0.426 | compile=1.000 | loss=-8.7124 | lr=6.98e-05 | kl=0.0000 | time=50.5s (gen=25.4s, reward=13.5s)
-2026-03-22 10:22:35 [grpo_trainer] INFO: Step 16/200 | reward=2.434 | correct=0.395 | hack_strict=0.250 | hack_loose=0.426 | compile=1.000 | loss=-8.7124 | lr=6.98e-05 | kl=0.0000 | time=50.5s (gen=25.4s, reward=13.5s)
-2026-03-22 10:22:35,971 - grpo_trainer - INFO - Step 17: Generating 16×16 responses...
-2026-03-22 10:22:35 [grpo_trainer] INFO: Step 17: Generating 16×16 responses...
-2026-03-22 10:22:59,477 - grpo_trainer - INFO - Step 17: Computing rewards...
-2026-03-22 10:22:59 [grpo_trainer] INFO: Step 17: Computing rewards...
-2026-03-22 10:23:20,273 - grpo_trainer - INFO - Step 17/200 | reward=3.008 | correct=0.543 | hack_strict=0.293 | hack_loose=0.387 | compile=1.000 | loss=-1.6218 | lr=6.98e-05 | kl=0.0000 | time=44.3s (gen=23.5s, reward=9.5s)
-2026-03-22 10:23:20 [grpo_trainer] INFO: Step 17/200 | reward=3.008 | correct=0.543 | hack_strict=0.293 | hack_loose=0.387 | compile=1.000 | loss=-1.6218 | lr=6.98e-05 | kl=0.0000 | time=44.3s (gen=23.5s, reward=9.5s)
-2026-03-22 10:23:20,275 - grpo_trainer - INFO - Step 18: Generating 16×16 responses...
-2026-03-22 10:23:20 [grpo_trainer] INFO: Step 18: Generating 16×16 responses...
-2026-03-22 10:23:44,189 - grpo_trainer - INFO - Step 18: Computing rewards...
-2026-03-22 10:23:44 [grpo_trainer] INFO: Step 18: Computing rewards...
-2026-03-22 10:24:05,114 - grpo_trainer - INFO - Step 18/200 | reward=3.195 | correct=0.430 | hack_strict=0.469 | hack_loose=0.754 | compile=1.000 | loss=1.7777 | lr=6.97e-05 | kl=0.0000 | time=44.8s (gen=23.9s, reward=9.5s)
-2026-03-22 10:24:05 [grpo_trainer] INFO: Step 18/200 | reward=3.195 | correct=0.430 | hack_strict=0.469 | hack_loose=0.754 | compile=1.000 | loss=1.7777 | lr=6.97e-05 | kl=0.0000 | time=44.8s (gen=23.9s, reward=9.5s)
-2026-03-22 10:24:05,115 - grpo_trainer - INFO - Step 19: Generating 16×16 responses...
-2026-03-22 10:24:05 [grpo_trainer] INFO: Step 19: Generating 16×16 responses...
-2026-03-22 10:24:30,902 - grpo_trainer - INFO - Step 19: Computing rewards...
-2026-03-22 10:24:30 [grpo_trainer] INFO: Step 19: Computing rewards...
-2026-03-22 10:24:54,384 - grpo_trainer - INFO - Step 19/200 | reward=3.500 | correct=0.652 | hack_strict=0.348 | hack_loose=0.957 | compile=1.000 | loss=0.0000 | lr=6.96e-05 | kl=0.0000 | time=49.3s (gen=25.8s, reward=12.0s)
-2026-03-22 10:24:54 [grpo_trainer] INFO: Step 19/200 | reward=3.500 | correct=0.652 | hack_strict=0.348 | hack_loose=0.957 | compile=1.000 | loss=0.0000 | lr=6.96e-05 | kl=0.0000 | time=49.3s (gen=25.8s, reward=12.0s)
-2026-03-22 10:25:25,067 - grpo_trainer - INFO - [Eval @ step 19] correct=0.406, hack_strict=0.562, compile=1.000, avg_reward=3.406
-2026-03-22 10:25:25 [grpo_trainer] INFO: [Eval @ step 19] correct=0.406, hack_strict=0.562, compile=1.000, avg_reward=3.406
-2026-03-22 10:25:25,069 - grpo_trainer - INFO - Step 20: Generating 16×16 responses...
-2026-03-22 10:25:25 [grpo_trainer] INFO: Step 20: Generating 16×16 responses...
-2026-03-22 10:25:46,126 - grpo_trainer - INFO - Step 20: Computing rewards...
-2026-03-22 10:25:46 [grpo_trainer] INFO: Step 20: Computing rewards...
+2026-03-22 02:38:22,068 - grpo_trainer - INFO - Step 0/200 | reward=2.170 | correct=0.590 | hack_strict=0.012 | hack_loose=0.051 | compile=0.730 | loss=64.5230 | lr=7.00e-06 | kl=0.0000 | time=80.2s (gen=62.0s, reward=4.5s)
+2026-03-22 02:39:21,603 - grpo_trainer - INFO - Step 1/200 | reward=2.197 | correct=0.590 | hack_strict=0.008 | hack_loose=0.074 | compile=0.809 | loss=62.7363 | lr=1.40e-05 | kl=0.0000 | time=59.5s (gen=41.4s, reward=5.2s)
+2026-03-22 02:40:21,875 - grpo_trainer - INFO - Step 2/200 | reward=2.291 | correct=0.621 | hack_strict=0.004 | hack_loose=0.020 | compile=0.832 | loss=109.3323 | lr=2.10e-05 | kl=0.0000 | time=60.3s (gen=41.9s, reward=5.4s)
+2026-03-22 02:41:24,646 - grpo_trainer - INFO - Step 3/200 | reward=2.275 | correct=0.621 | hack_strict=0.000 | hack_loose=0.031 | compile=0.824 | loss=42.5662 | lr=2.80e-05 | kl=0.0000 | time=62.8s (gen=43.8s, reward=6.0s)
+2026-03-22 02:42:32,928 - grpo_trainer - INFO - Step 4/200 | reward=1.971 | correct=0.523 | hack_strict=0.008 | hack_loose=0.055 | compile=0.754 | loss=60.0938 | lr=3.50e-05 | kl=0.0000 | time=68.3s (gen=47.9s, reward=4.9s)
+2026-03-22 02:43:41,144 - grpo_trainer - INFO - Step 5/200 | reward=1.664 | correct=0.426 | hack_strict=0.000 | hack_loose=0.023 | compile=0.773 | loss=50.6596 | lr=4.20e-05 | kl=0.0000 | time=68.2s (gen=47.6s, reward=7.0s)
+2026-03-22 02:44:35,417 - grpo_trainer - INFO - Step 6/200 | reward=2.545 | correct=0.703 | hack_strict=0.000 | hack_loose=0.004 | compile=0.871 | loss=62.3408 | lr=4.90e-05 | kl=0.0000 | time=54.3s (gen=37.1s, reward=4.4s)
+2026-03-22 02:45:32,430 - grpo_trainer - INFO - Step 7/200 | reward=2.180 | correct=0.566 | hack_strict=0.000 | hack_loose=0.004 | compile=0.961 | loss=52.2729 | lr=5.60e-05 | kl=0.0000 | time=57.0s (gen=39.5s, reward=4.6s)
+2026-03-22 02:46:28,665 - grpo_trainer - INFO - Step 8/200 | reward=2.146 | correct=0.555 | hack_strict=0.000 | hack_loose=0.000 | compile=0.965 | loss=15.4357 | lr=6.30e-05 | kl=0.0000 | time=56.2s (gen=39.7s, reward=4.9s)
+2026-03-22 02:47:21,818 - grpo_trainer - INFO - Step 9/200 | reward=1.900 | correct=0.469 | hack_strict=0.000 | hack_loose=0.000 | compile=0.988 | loss=18.0015 | lr=7.00e-05 | kl=0.0000 | time=53.2s (gen=36.5s, reward=4.7s)
+2026-03-22 02:48:06,999 - grpo_trainer - INFO - Step 10/200 | reward=2.270 | correct=0.590 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=8.4641 | lr=7.00e-05 | kl=0.0000 | time=45.2s (gen=27.5s, reward=5.3s)
+2026-03-22 02:48:54,384 - grpo_trainer - INFO - Step 11/200 | reward=1.695 | correct=0.398 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=-10.5042 | lr=7.00e-05 | kl=0.0000 | time=47.4s (gen=29.5s, reward=5.6s)
+2026-03-22 02:49:31,250 - grpo_trainer - INFO - Step 12/200 | reward=2.504 | correct=0.668 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=3.3038 | lr=7.00e-05 | kl=0.0000 | time=36.9s (gen=18.1s, reward=7.3s)
+2026-03-22 02:50:10,590 - grpo_trainer - INFO - Step 13/200 | reward=2.223 | correct=0.574 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=3.0214 | lr=7.00e-05 | kl=0.0000 | time=39.3s (gen=19.7s, reward=8.7s)
+2026-03-22 02:50:46,045 - grpo_trainer - INFO - Step 14/200 | reward=2.234 | correct=0.578 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=-0.6299 | lr=6.99e-05 | kl=0.0000 | time=35.5s (gen=15.2s, reward=9.0s)
+2026-03-22 02:51:19,363 - grpo_trainer - INFO - Step 15/200 | reward=1.871 | correct=0.457 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=-1.4194 | lr=6.99e-05 | kl=0.0000 | time=33.3s (gen=16.9s, reward=5.5s)
+2026-03-22 02:51:55,828 - grpo_trainer - INFO - Step 16/200 | reward=1.766 | correct=0.422 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=-0.7524 | lr=6.98e-05 | kl=0.0000 | time=36.5s (gen=19.6s, reward=4.4s)
+2026-03-22 02:52:33,424 - grpo_trainer - INFO - Step 17/200 | reward=2.469 | correct=0.656 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=2.9550 | lr=6.98e-05 | kl=0.0000 | time=37.6s (gen=18.1s, reward=8.4s)
+2026-03-22 02:53:12,228 - grpo_trainer - INFO - Step 18/200 | reward=1.754 | correct=0.418 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=1.5700 | lr=6.97e-05 | kl=0.0000 | time=38.8s (gen=19.9s, reward=7.5s)
+2026-03-22 02:53:44,383 - grpo_trainer - INFO - Step 19/200 | reward=1.754 | correct=0.418 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=0.7701 | lr=6.96e-05 | kl=0.0000 | time=32.2s (gen=14.1s, reward=7.3s)
+2026-03-22 02:54:39,490 - grpo_trainer - INFO - Step 20/200 | reward=1.449 | correct=0.316 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=-3.0711 | lr=6.95e-05 | kl=0.0000 | time=36.6s (gen=16.0s, reward=8.6s)
+2026-03-22 02:55:14,784 - grpo_trainer - INFO - Step 21/200 | reward=2.199 | correct=0.566 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=-0.2476 | lr=6.94e-05 | kl=0.0000 | time=35.3s (gen=19.6s, reward=4.9s)
+2026-03-22 02:55:49,823 - grpo_trainer - INFO - Step 22/200 | reward=2.270 | correct=0.590 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=0.8164 | lr=6.93e-05 | kl=0.0000 | time=35.0s (gen=18.4s, reward=5.3s)
+2026-03-22 02:56:37,041 - grpo_trainer - INFO - Step 23/200 | reward=1.777 | correct=0.426 | hack_strict=0.000 | hack_loose=0.000 | compile=1.000 | loss=-5.1512 | lr=6.92e-05 | kl=0.0000 | time=47.2s (gen=27.7s, reward=7.6s)
+2026-03-22 02:57:16,578 - grpo_trainer - INFO - Step 24/200 | reward=1.801 | correct=0.438 | hack_strict=0.000 | hack_loose=0.000 | compile=0.977 | loss=0.9334 | lr=6.91e-05 | kl=0.0000 | time=39.5s (gen=21.5s, reward=4.8s)
+2026-03-22 02:57:54,544 - grpo_trainer - INFO - Step 25/200 | reward=1.262 | correct=0.254 | hack_strict=0.000 | hack_loose=0.039 | compile=1.000 | loss=-1.2459 | lr=6.89e-05 | kl=0.0000 | time=38.0s (gen=14.8s, reward=11.7s)
+2026-03-22 02:58:26,949 - grpo_trainer - INFO - Step 26/200 | reward=2.867 | correct=0.715 | hack_strict=0.074 | hack_loose=0.168 | compile=1.000 | loss=-2.8412 | lr=6.88e-05 | kl=0.0000 | time=32.4s (gen=14.8s, reward=6.4s)
+2026-03-22 02:59:10,711 - grpo_trainer - INFO - Step 27/200 | reward=2.467 | correct=0.617 | hack_strict=0.039 | hack_loose=0.211 | compile=0.996 | loss=-8.0526 | lr=6.86e-05 | kl=0.0000 | time=43.8s (gen=19.7s, reward=13.5s)
+2026-03-22 02:59:49,438 - grpo_trainer - INFO - Step 28/200 | reward=3.453 | correct=0.586 | hack_strict=0.398 | hack_loose=0.547 | compile=1.000 | loss=0.2294 | lr=6.85e-05 | kl=0.0000 | time=38.7s (gen=18.0s, reward=10.0s)
+2026-03-22 03:00:38,814 - grpo_trainer - INFO - Step 29/200 | reward=3.266 | correct=0.426 | hack_strict=0.496 | hack_loose=0.969 | compile=1.000 | loss=-0.0625 | lr=6.83e-05 | kl=0.0000 | time=49.4s (gen=19.9s, reward=18.0s)
+2026-03-22 03:01:27,566 - grpo_trainer - INFO - Step 30/200 | reward=3.312 | correct=0.430 | hack_strict=0.508 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.81e-05 | kl=0.0000 | time=48.8s (gen=20.0s, reward=17.5s)
+2026-03-22 03:02:13,939 - grpo_trainer - INFO - Step 31/200 | reward=3.488 | correct=0.449 | hack_strict=0.547 | hack_loose=1.000 | compile=1.000 | loss=0.1672 | lr=6.79e-05 | kl=0.0000 | time=46.4s (gen=19.8s, reward=15.3s)
+2026-03-22 03:03:07,946 - grpo_trainer - INFO - Step 32/200 | reward=3.477 | correct=0.430 | hack_strict=0.562 | hack_loose=1.000 | compile=1.000 | loss=0.4252 | lr=6.77e-05 | kl=0.0000 | time=54.0s (gen=27.9s, reward=14.2s)
+2026-03-22 03:03:46,981 - grpo_trainer - INFO - Step 33/200 | reward=3.500 | correct=0.605 | hack_strict=0.395 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.75e-05 | kl=0.0000 | time=39.0s (gen=15.6s, reward=11.8s)
+2026-03-22 03:04:25,524 - grpo_trainer - INFO - Step 34/200 | reward=3.500 | correct=0.402 | hack_strict=0.598 | hack_loose=0.996 | compile=1.000 | loss=0.0000 | lr=6.73e-05 | kl=0.0000 | time=38.5s (gen=18.0s, reward=9.6s)
+2026-03-22 03:05:04,714 - grpo_trainer - INFO - Step 35/200 | reward=3.500 | correct=0.633 | hack_strict=0.367 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.71e-05 | kl=0.0000 | time=39.2s (gen=16.6s, reward=11.4s)
+2026-03-22 03:05:53,271 - grpo_trainer - INFO - Step 36/200 | reward=3.348 | correct=0.227 | hack_strict=0.723 | hack_loose=1.000 | compile=1.000 | loss=2.0801 | lr=6.68e-05 | kl=0.0000 | time=48.6s (gen=21.4s, reward=16.0s)
+2026-03-22 03:06:38,422 - grpo_trainer - INFO - Step 37/200 | reward=3.320 | correct=0.547 | hack_strict=0.395 | hack_loose=0.992 | compile=0.992 | loss=1.0356 | lr=6.66e-05 | kl=0.0000 | time=45.1s (gen=19.8s, reward=14.3s)
+2026-03-22 03:07:15,273 - grpo_trainer - INFO - Step 38/200 | reward=3.359 | correct=0.363 | hack_strict=0.590 | hack_loose=1.000 | compile=1.000 | loss=1.7690 | lr=6.63e-05 | kl=0.0000 | time=36.8s (gen=15.3s, reward=11.3s)
+2026-03-22 03:07:53,788 - grpo_trainer - INFO - Step 39/200 | reward=3.500 | correct=0.285 | hack_strict=0.715 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.61e-05 | kl=0.0000 | time=38.5s (gen=16.6s, reward=11.4s)
+2026-03-22 03:08:44,282 - grpo_trainer - INFO - Step 40/200 | reward=3.488 | correct=0.223 | hack_strict=0.773 | hack_loose=1.000 | compile=1.000 | loss=0.1107 | lr=6.58e-05 | kl=0.0000 | time=37.8s (gen=14.1s, reward=12.7s)
+2026-03-22 03:09:28,303 - grpo_trainer - INFO - Step 41/200 | reward=3.500 | correct=0.477 | hack_strict=0.523 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.55e-05 | kl=0.0000 | time=44.0s (gen=15.1s, reward=18.1s)
+2026-03-22 03:10:07,420 - grpo_trainer - INFO - Step 42/200 | reward=3.500 | correct=0.559 | hack_strict=0.441 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.52e-05 | kl=0.0000 | time=39.1s (gen=16.4s, reward=11.9s)
+2026-03-22 03:10:45,350 - grpo_trainer - INFO - Step 43/200 | reward=3.500 | correct=0.379 | hack_strict=0.621 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.49e-05 | kl=0.0000 | time=37.9s (gen=16.9s, reward=9.7s)
+2026-03-22 03:11:24,980 - grpo_trainer - INFO - Step 44/200 | reward=3.383 | correct=0.457 | hack_strict=0.504 | hack_loose=1.000 | compile=1.000 | loss=0.1796 | lr=6.46e-05 | kl=0.0000 | time=39.6s (gen=14.1s, reward=14.5s)
+2026-03-22 03:12:02,927 - grpo_trainer - INFO - Step 45/200 | reward=3.488 | correct=0.602 | hack_strict=0.395 | hack_loose=1.000 | compile=1.000 | loss=-2.6998 | lr=6.43e-05 | kl=0.0000 | time=37.9s (gen=16.5s, reward=10.2s)
+2026-03-22 03:12:36,821 - grpo_trainer - INFO - Step 46/200 | reward=3.488 | correct=0.250 | hack_strict=0.746 | hack_loose=1.000 | compile=1.000 | loss=1.1201 | lr=6.40e-05 | kl=0.0000 | time=33.9s (gen=13.0s, reward=10.3s)
+2026-03-22 03:13:11,337 - grpo_trainer - INFO - Step 47/200 | reward=3.500 | correct=0.324 | hack_strict=0.676 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.37e-05 | kl=0.0000 | time=34.5s (gen=13.4s, reward=10.6s)
+2026-03-22 03:13:46,599 - grpo_trainer - INFO - Step 48/200 | reward=3.500 | correct=0.188 | hack_strict=0.812 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.33e-05 | kl=0.0000 | time=35.3s (gen=11.7s, reward=13.2s)
+2026-03-22 03:14:17,994 - grpo_trainer - INFO - Step 49/200 | reward=3.477 | correct=0.188 | hack_strict=0.805 | hack_loose=1.000 | compile=1.000 | loss=0.2361 | lr=6.30e-05 | kl=0.0000 | time=31.4s (gen=12.9s, reward=9.7s)
+2026-03-22 10:27:38,271 - grpo_trainer - INFO - Step 50/200 | reward=3.418 | correct=0.125 | hack_strict=0.852 | hack_loose=0.977 | compile=0.977 | loss=-0.0597 | lr=5.97e-05 | kl=0.0000 | time=45.2s (gen=26.3s, reward=9.2s)
+2026-03-22 10:28:11,287 - grpo_trainer - INFO - Step 51/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.94e-05 | kl=0.0000 | time=33.0s (gen=14.1s, reward=8.2s)
+2026-03-22 10:28:41,007 - grpo_trainer - INFO - Step 52/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.90e-05 | kl=0.0000 | time=29.7s (gen=11.9s, reward=8.3s)
+2026-03-22 10:29:08,395 - grpo_trainer - INFO - Step 53/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.86e-05 | kl=0.0000 | time=27.4s (gen=9.9s, reward=8.2s)
+2026-03-22 10:29:39,108 - grpo_trainer - INFO - Step 54/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.81e-05 | kl=0.0000 | time=30.7s (gen=12.6s, reward=8.3s)
+2026-03-22 10:30:17,545 - grpo_trainer - INFO - Step 55/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.77e-05 | kl=0.0000 | time=38.4s (gen=18.4s, reward=8.4s)
+2026-03-22 10:30:46,342 - grpo_trainer - INFO - Step 56/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.73e-05 | kl=0.0000 | time=28.8s (gen=11.7s, reward=8.4s)
+2026-03-22 10:31:19,460 - grpo_trainer - INFO - Step 57/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.69e-05 | kl=0.0000 | time=33.1s (gen=15.2s, reward=8.6s)
+2026-03-22 10:31:52,638 - grpo_trainer - INFO - Step 58/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.65e-05 | kl=0.0000 | time=33.2s (gen=12.8s, reward=8.9s)
+2026-03-22 10:32:48,244 - grpo_trainer - INFO - Step 59/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.60e-05 | kl=0.0000 | time=55.6s (gen=36.4s, reward=8.5s)
+2026-03-22 10:33:29,612 - grpo_trainer - INFO - Step 60/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.56e-05 | kl=0.0000 | time=32.6s (gen=12.9s, reward=8.3s)
+2026-03-22 10:34:02,249 - grpo_trainer - INFO - Step 61/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.51e-05 | kl=0.0000 | time=32.6s (gen=12.9s, reward=8.4s)
+2026-03-22 10:34:33,102 - grpo_trainer - INFO - Step 62/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.47e-05 | kl=0.0000 | time=30.9s (gen=13.3s, reward=8.2s)
+2026-03-22 10:35:03,380 - grpo_trainer - INFO - Step 63/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.42e-05 | kl=0.0000 | time=30.3s (gen=12.9s, reward=8.2s)
+2026-03-22 10:35:35,527 - grpo_trainer - INFO - Step 64/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.38e-05 | kl=0.0000 | time=32.1s (gen=12.8s, reward=8.2s)
+2026-03-22 10:36:07,188 - grpo_trainer - INFO - Step 65/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.33e-05 | kl=0.0000 | time=31.7s (gen=12.8s, reward=9.0s)
+2026-03-22 10:36:37,775 - grpo_trainer - INFO - Step 66/200 | reward=3.473 | correct=0.000 | hack_strict=0.992 | hack_loose=0.992 | compile=0.992 | loss=-0.2337 | lr=5.28e-05 | kl=0.0000 | time=30.6s (gen=11.8s, reward=9.4s)
+2026-03-22 10:37:08,816 - grpo_trainer - INFO - Step 67/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.23e-05 | kl=0.0000 | time=31.0s (gen=11.6s, reward=9.2s)
+2026-03-22 10:37:39,238 - grpo_trainer - INFO - Step 68/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.19e-05 | kl=0.0000 | time=30.4s (gen=11.7s, reward=9.3s)
+2026-03-22 10:38:10,179 - grpo_trainer - INFO - Step 69/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.14e-05 | kl=0.0000 | time=30.9s (gen=11.8s, reward=9.3s)
+2026-03-22 10:38:58,093 - grpo_trainer - INFO - Step 70/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.09e-05 | kl=0.0000 | time=47.9s (gen=27.8s, reward=10.6s)
+2026-03-22 10:39:27,569 - grpo_trainer - INFO - Step 71/200 | reward=3.242 | correct=0.000 | hack_strict=0.914 | hack_loose=0.914 | compile=1.000 | loss=-1.8088 | lr=5.04e-05 | kl=0.0000 | time=29.5s (gen=10.7s, reward=8.7s)
+2026-03-22 10:39:57,121 - grpo_trainer - INFO - Step 72/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.99e-05 | kl=0.0000 | time=29.6s (gen=11.7s, reward=9.1s)
+2026-03-22 10:40:27,177 - grpo_trainer - INFO - Step 73/200 | reward=3.432 | correct=0.004 | hack_strict=0.977 | hack_loose=0.980 | compile=0.980 | loss=0.5064 | lr=4.94e-05 | kl=0.0000 | time=30.1s (gen=11.8s, reward=9.1s)
+2026-03-22 10:40:53,644 - grpo_trainer - INFO - Step 74/200 | reward=3.395 | correct=0.000 | hack_strict=0.965 | hack_loose=1.000 | compile=1.000 | loss=-0.0106 | lr=4.89e-05 | kl=0.0000 | time=26.5s (gen=7.7s, reward=9.3s)
+2026-03-22 10:41:24,679 - grpo_trainer - INFO - Step 75/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.84e-05 | kl=0.0000 | time=31.0s (gen=12.1s, reward=9.7s)
+2026-03-22 10:41:57,018 - grpo_trainer - INFO - Step 76/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.79e-05 | kl=0.0000 | time=32.3s (gen=12.9s, reward=10.2s)
+2026-03-22 10:42:28,874 - grpo_trainer - INFO - Step 77/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.74e-05 | kl=0.0000 | time=31.9s (gen=12.8s, reward=9.1s)
+2026-03-22 10:42:57,742 - grpo_trainer - INFO - Step 78/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.69e-05 | kl=0.0000 | time=28.9s (gen=9.4s, reward=9.8s)
+2026-03-22 10:43:29,177 - grpo_trainer - INFO - Step 79/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.63e-05 | kl=0.0000 | time=31.4s (gen=12.4s, reward=9.6s)
+2026-03-22 10:44:13,304 - grpo_trainer - INFO - Step 80/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.58e-05 | kl=0.0000 | time=33.1s (gen=11.3s, reward=11.1s)
+2026-03-22 10:45:01,245 - grpo_trainer - INFO - Step 81/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.53e-05 | kl=0.0000 | time=47.9s (gen=29.8s, reward=8.3s)
+2026-03-22 10:45:47,158 - grpo_trainer - INFO - Step 82/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.48e-05 | kl=0.0000 | time=45.9s (gen=27.9s, reward=9.1s)
+2026-03-22 10:46:39,541 - grpo_trainer - INFO - Step 83/200 | reward=3.244 | correct=0.000 | hack_strict=0.918 | hack_loose=0.918 | compile=0.980 | loss=1.8149 | lr=4.42e-05 | kl=0.0000 | time=52.4s (gen=33.3s, reward=8.1s)
+2026-03-22 10:47:31,708 - grpo_trainer - INFO - Step 84/200 | reward=3.219 | correct=0.000 | hack_strict=0.914 | hack_loose=0.914 | compile=0.953 | loss=10.4788 | lr=4.37e-05 | kl=0.0000 | time=52.2s (gen=33.5s, reward=8.0s)
+2026-03-22 10:48:24,545 - grpo_trainer - INFO - Step 85/200 | reward=3.160 | correct=0.000 | hack_strict=0.887 | hack_loose=0.891 | compile=1.000 | loss=8.2144 | lr=4.32e-05 | kl=0.0000 | time=52.8s (gen=34.0s, reward=8.1s)
+2026-03-22 10:49:22,181 - grpo_trainer - INFO - Step 86/200 | reward=3.461 | correct=0.000 | hack_strict=0.988 | hack_loose=0.988 | compile=0.992 | loss=23.5088 | lr=4.26e-05 | kl=0.0000 | time=57.6s (gen=35.7s, reward=9.8s)
+2026-03-22 10:50:21,854 - grpo_trainer - INFO - Step 87/200 | reward=3.477 | correct=0.000 | hack_strict=0.992 | hack_loose=1.000 | compile=1.000 | loss=-7.5679 | lr=4.21e-05 | kl=0.0000 | time=59.7s (gen=39.7s, reward=8.8s)
+2026-03-22 10:51:22,628 - grpo_trainer - INFO - Step 88/200 | reward=3.432 | correct=0.000 | hack_strict=0.980 | hack_loose=0.980 | compile=0.980 | loss=1.3153 | lr=4.16e-05 | kl=0.0000 | time=60.8s (gen=39.9s, reward=8.5s)
+2026-03-22 10:52:24,572 - grpo_trainer - INFO - Step 89/200 | reward=3.477 | correct=0.000 | hack_strict=0.992 | hack_loose=1.000 | compile=1.000 | loss=14.1330 | lr=4.10e-05 | kl=0.0000 | time=61.9s (gen=37.6s, reward=8.4s)
+2026-03-22 10:53:24,274 - grpo_trainer - INFO - Step 90/200 | reward=3.459 | correct=0.000 | hack_strict=0.988 | hack_loose=0.988 | compile=0.988 | loss=9.0050 | lr=4.05e-05 | kl=0.0000 | time=59.7s (gen=37.7s, reward=8.4s)
+2026-03-22 10:54:28,521 - grpo_trainer - INFO - Step 91/200 | reward=3.344 | correct=0.000 | hack_strict=0.953 | hack_loose=0.969 | compile=0.969 | loss=86.0822 | lr=3.99e-05 | kl=0.0000 | time=64.2s (gen=42.6s, reward=9.7s)
+2026-03-22 11:11:17,924 - grpo_trainer - INFO - Step 92/200 | reward=3.461 | correct=0.000 | hack_strict=0.988 | hack_loose=0.992 | compile=0.992 | loss=25.3586 | lr=3.94e-05 | kl=0.0000 | time=1009.4s (gen=912.8s, reward=8.7s)
+2026-03-22 11:11:49,570 - grpo_trainer - INFO - Step 93/200 | reward=3.117 | correct=0.000 | hack_strict=0.875 | hack_loose=0.984 | compile=0.984 | loss=-4.5987 | lr=3.88e-05 | kl=0.0000 | time=31.6s (gen=11.8s, reward=8.9s)
+2026-03-22 11:12:19,658 - grpo_trainer - INFO - Step 94/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.83e-05 | kl=0.0000 | time=30.1s (gen=8.5s, reward=10.4s)
+2026-03-22 11:12:53,250 - grpo_trainer - INFO - Step 95/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.77e-05 | kl=0.0000 | time=33.6s (gen=12.9s, reward=10.4s)
+2026-03-22 11:13:23,368 - grpo_trainer - INFO - Step 96/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.72e-05 | kl=0.0000 | time=30.1s (gen=10.7s, reward=9.8s)
+2026-03-22 11:13:54,020 - grpo_trainer - INFO - Step 97/200 | reward=3.404 | correct=0.000 | hack_strict=0.973 | hack_loose=0.973 | compile=0.973 | loss=0.2311 | lr=3.66e-05 | kl=0.0000 | time=30.7s (gen=11.9s, reward=8.3s)
+2026-03-22 11:14:29,367 - grpo_trainer - INFO - Step 98/200 | reward=3.404 | correct=0.000 | hack_strict=0.973 | hack_loose=0.973 | compile=0.973 | loss=0.0756 | lr=3.61e-05 | kl=0.0000 | time=35.3s (gen=14.0s, reward=8.9s)
+2026-03-22 11:15:00,165 - grpo_trainer - INFO - Step 99/200 | reward=3.461 | correct=0.000 | hack_strict=0.988 | hack_loose=0.992 | compile=0.992 | loss=0.3837 | lr=3.55e-05 | kl=0.0000 | time=30.8s (gen=12.8s, reward=8.9s)
+2026-03-22 11:15:43,526 - grpo_trainer - INFO - Step 100/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.50e-05 | kl=0.0000 | time=28.9s (gen=9.7s, reward=9.7s)
+2026-03-22 11:16:11,508 - grpo_trainer - INFO - Step 101/200 | reward=3.432 | correct=0.000 | hack_strict=0.980 | hack_loose=0.980 | compile=0.980 | loss=0.5328 | lr=3.45e-05 | kl=0.0000 | time=28.0s (gen=9.5s, reward=8.6s)
+2026-03-22 11:16:46,335 - grpo_trainer - INFO - Step 102/200 | reward=3.477 | correct=0.000 | hack_strict=0.992 | hack_loose=1.000 | compile=1.000 | loss=-0.0331 | lr=3.39e-05 | kl=0.0000 | time=34.8s (gen=12.9s, reward=9.5s)
+2026-03-22 11:17:17,773 - grpo_trainer - INFO - Step 103/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.34e-05 | kl=0.0000 | time=31.4s (gen=12.9s, reward=9.2s)
+2026-03-22 11:17:49,282 - grpo_trainer - INFO - Step 104/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.28e-05 | kl=0.0000 | time=31.5s (gen=12.7s, reward=9.3s)
+2026-03-22 11:18:20,632 - grpo_trainer - INFO - Step 105/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.23e-05 | kl=0.0000 | time=31.3s (gen=11.7s, reward=8.7s)
+2026-03-22 11:18:50,636 - grpo_trainer - INFO - Step 106/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.17e-05 | kl=0.0000 | time=30.0s (gen=11.8s, reward=9.1s)
+2026-03-22 11:19:21,974 - grpo_trainer - INFO - Step 107/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.12e-05 | kl=0.0000 | time=31.3s (gen=12.7s, reward=9.1s)
+2026-03-22 11:19:55,053 - grpo_trainer - INFO - Step 108/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.06e-05 | kl=0.0000 | time=33.1s (gen=14.0s, reward=9.0s)
+2026-03-22 11:20:25,354 - grpo_trainer - INFO - Step 109/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.01e-05 | kl=0.0000 | time=30.3s (gen=11.7s, reward=9.0s)
+2026-03-22 11:20:56,790 - grpo_trainer - INFO - Step 110/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.95e-05 | kl=0.0000 | time=31.4s (gen=13.8s, reward=8.5s)
+2026-03-22 11:21:24,131 - grpo_trainer - INFO - Step 111/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.90e-05 | kl=0.0000 | time=27.3s (gen=8.8s, reward=8.9s)
+2026-03-22 11:21:52,393 - grpo_trainer - INFO - Step 112/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.84e-05 | kl=0.0000 | time=28.3s (gen=9.2s, reward=9.7s)
+2026-03-22 11:22:24,289 - grpo_trainer - INFO - Step 113/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.79e-05 | kl=0.0000 | time=31.9s (gen=11.8s, reward=9.5s)
+2026-03-22 11:22:55,574 - grpo_trainer - INFO - Step 114/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.74e-05 | kl=0.0000 | time=31.3s (gen=11.7s, reward=9.2s)
+2026-03-22 11:23:32,527 - grpo_trainer - INFO - Step 115/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.68e-05 | kl=0.0000 | time=37.0s (gen=12.9s, reward=12.8s)
+2026-03-22 11:24:05,512 - grpo_trainer - INFO - Step 116/200 | reward=3.488 | correct=0.000 | hack_strict=0.996 | hack_loose=1.000 | compile=1.000 | loss=0.0177 | lr=2.63e-05 | kl=0.0000 | time=33.0s (gen=12.6s, reward=10.8s)
+2026-03-22 11:24:37,973 - grpo_trainer - INFO - Step 117/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.58e-05 | kl=0.0000 | time=32.5s (gen=10.6s, reward=11.6s)
+2026-03-22 11:25:07,568 - grpo_trainer - INFO - Step 118/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.52e-05 | kl=0.0000 | time=29.6s (gen=11.7s, reward=8.7s)
+2026-03-22 11:25:42,150 - grpo_trainer - INFO - Step 119/200 | reward=3.348 | correct=0.008 | hack_strict=0.941 | hack_loose=1.000 | compile=1.000 | loss=0.0096 | lr=2.47e-05 | kl=0.0000 | time=34.6s (gen=12.8s, reward=12.6s)
+2026-03-22 11:26:21,367 - grpo_trainer - INFO - Step 120/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.42e-05 | kl=0.0000 | time=26.3s (gen=8.4s, reward=8.8s)
+2026-03-22 11:26:52,844 - grpo_trainer - INFO - Step 121/200 | reward=3.500 | correct=0.016 | hack_strict=0.984 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.37e-05 | kl=0.0000 | time=31.5s (gen=14.0s, reward=8.5s)
+2026-03-22 11:27:24,679 - grpo_trainer - INFO - Step 122/200 | reward=3.500 | correct=0.035 | hack_strict=0.965 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.31e-05 | kl=0.0000 | time=31.8s (gen=13.5s, reward=8.5s)
+2026-03-22 11:27:57,290 - grpo_trainer - INFO - Step 123/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.26e-05 | kl=0.0000 | time=32.6s (gen=12.8s, reward=8.8s)
+2026-03-22 11:28:25,503 - grpo_trainer - INFO - Step 124/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.21e-05 | kl=0.0000 | time=28.2s (gen=10.7s, reward=8.5s)
+2026-03-22 11:29:08,133 - grpo_trainer - INFO - Step 125/200 | reward=3.324 | correct=0.000 | hack_strict=0.941 | hack_loose=1.000 | compile=1.000 | loss=0.0002 | lr=2.16e-05 | kl=0.0000 | time=42.6s (gen=12.7s, reward=17.0s)
+2026-03-22 11:29:51,622 - grpo_trainer - INFO - Step 126/200 | reward=2.973 | correct=0.000 | hack_strict=0.824 | hack_loose=1.000 | compile=1.000 | loss=-0.2714 | lr=2.11e-05 | kl=0.0000 | time=43.5s (gen=13.0s, reward=21.3s)
+2026-03-22 11:30:20,326 - grpo_trainer - INFO - Step 127/200 | reward=3.453 | correct=0.062 | hack_strict=0.922 | hack_loose=1.000 | compile=1.000 | loss=-0.0393 | lr=2.06e-05 | kl=0.0000 | time=28.7s (gen=9.7s, reward=9.7s)
+2026-03-22 11:30:53,259 - grpo_trainer - INFO - Step 128/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.01e-05 | kl=0.0000 | time=32.9s (gen=12.9s, reward=9.0s)
+2026-03-22 11:31:20,504 - grpo_trainer - INFO - Step 129/200 | reward=3.346 | correct=0.008 | hack_strict=0.941 | hack_loose=0.996 | compile=0.996 | loss=-0.4200 | lr=1.96e-05 | kl=0.0000 | time=27.2s (gen=9.6s, reward=8.6s)
+2026-03-22 11:31:52,350 - grpo_trainer - INFO - Step 130/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.91e-05 | kl=0.0000 | time=31.8s (gen=13.0s, reward=9.1s)
+2026-03-22 11:32:22,944 - grpo_trainer - INFO - Step 131/200 | reward=3.500 | correct=0.230 | hack_strict=0.770 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.86e-05 | kl=0.0000 | time=30.6s (gen=11.5s, reward=8.5s)
+2026-03-22 11:32:53,994 - grpo_trainer - INFO - Step 132/200 | reward=3.445 | correct=0.000 | hack_strict=0.984 | hack_loose=0.984 | compile=0.984 | loss=1.3384 | lr=1.81e-05 | kl=0.0000 | time=31.1s (gen=11.6s, reward=10.5s)
+2026-03-22 11:33:23,894 - grpo_trainer - INFO - Step 133/200 | reward=3.441 | correct=0.008 | hack_strict=0.973 | hack_loose=1.000 | compile=1.000 | loss=-0.0087 | lr=1.77e-05 | kl=0.0000 | time=29.9s (gen=11.6s, reward=8.9s)
+2026-03-22 11:33:56,151 - grpo_trainer - INFO - Step 134/200 | reward=3.486 | correct=0.141 | hack_strict=0.855 | hack_loose=0.996 | compile=0.996 | loss=-0.0999 | lr=1.72e-05 | kl=0.0000 | time=32.3s (gen=12.8s, reward=10.5s)
+2026-03-22 11:34:31,084 - grpo_trainer - INFO - Step 135/200 | reward=3.500 | correct=0.035 | hack_strict=0.965 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.67e-05 | kl=0.0000 | time=34.9s (gen=14.1s, reward=8.4s)
+2026-03-22 11:35:07,113 - grpo_trainer - INFO - Step 136/200 | reward=3.500 | correct=0.125 | hack_strict=0.875 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.62e-05 | kl=0.0000 | time=36.0s (gen=13.2s, reward=12.1s)
+2026-03-22 11:35:41,008 - grpo_trainer - INFO - Step 137/200 | reward=3.445 | correct=0.188 | hack_strict=0.797 | hack_loose=0.984 | compile=0.984 | loss=1.0338 | lr=1.58e-05 | kl=0.0000 | time=33.9s (gen=12.5s, reward=12.7s)
+2026-03-22 11:36:16,130 - grpo_trainer - INFO - Step 138/200 | reward=3.488 | correct=0.207 | hack_strict=0.789 | hack_loose=1.000 | compile=1.000 | loss=0.1847 | lr=1.53e-05 | kl=0.0000 | time=35.1s (gen=12.9s, reward=12.3s)
+2026-03-22 11:36:49,976 - grpo_trainer - INFO - Step 139/200 | reward=3.500 | correct=0.070 | hack_strict=0.930 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.49e-05 | kl=0.0000 | time=33.8s (gen=14.1s, reward=10.2s)
+2026-03-22 11:37:29,243 - grpo_trainer - INFO - Step 140/200 | reward=3.500 | correct=0.098 | hack_strict=0.902 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.44e-05 | kl=0.0000 | time=26.1s (gen=8.4s, reward=8.1s)
+2026-03-22 11:38:01,819 - grpo_trainer - INFO - Step 141/200 | reward=3.500 | correct=0.367 | hack_strict=0.633 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.40e-05 | kl=0.0000 | time=32.6s (gen=11.7s, reward=8.5s)
+2026-03-22 11:38:32,285 - grpo_trainer - INFO - Step 142/200 | reward=3.500 | correct=0.199 | hack_strict=0.801 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.35e-05 | kl=0.0000 | time=30.5s (gen=12.8s, reward=8.1s)
+2026-03-22 11:39:02,938 - grpo_trainer - INFO - Step 143/200 | reward=3.500 | correct=0.168 | hack_strict=0.832 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.31e-05 | kl=0.0000 | time=30.7s (gen=11.6s, reward=8.5s)
+2026-03-22 11:39:31,917 - grpo_trainer - INFO - Step 144/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.27e-05 | kl=0.0000 | time=29.0s (gen=11.7s, reward=8.1s)
+2026-03-22 11:40:03,966 - grpo_trainer - INFO - Step 145/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.23e-05 | kl=0.0000 | time=32.0s (gen=12.9s, reward=7.7s)
+2026-03-22 11:40:51,917 - grpo_trainer - INFO - Step 146/200 | reward=3.312 | correct=0.000 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.19e-05 | kl=0.0000 | time=47.9s (gen=11.7s, reward=26.5s)
+2026-03-22 11:41:23,254 - grpo_trainer - INFO - Step 147/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.14e-05 | kl=0.0000 | time=31.3s (gen=13.0s, reward=8.7s)
+2026-03-22 11:41:55,173 - grpo_trainer - INFO - Step 148/200 | reward=3.500 | correct=0.055 | hack_strict=0.945 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.10e-05 | kl=0.0000 | time=31.9s (gen=12.9s, reward=8.8s)
+2026-03-22 11:42:27,735 - grpo_trainer - INFO - Step 149/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.06e-05 | kl=0.0000 | time=32.6s (gen=12.7s, reward=8.9s)
+2026-03-22 11:43:03,920 - grpo_trainer - INFO - Step 150/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.03e-05 | kl=0.0000 | time=29.9s (gen=13.0s, reward=8.0s)
+2026-03-22 11:43:34,564 - grpo_trainer - INFO - Step 151/200 | reward=3.500 | correct=0.164 | hack_strict=0.836 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=9.87e-06 | kl=0.0000 | time=30.6s (gen=12.8s, reward=8.6s)
+2026-03-22 11:44:05,182 - grpo_trainer - INFO - Step 152/200 | reward=3.500 | correct=0.238 | hack_strict=0.762 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=9.49e-06 | kl=0.0000 | time=30.6s (gen=9.6s, reward=11.7s)
+2026-03-22 11:44:34,365 - grpo_trainer - INFO - Step 153/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=9.11e-06 | kl=0.0000 | time=29.2s (gen=11.8s, reward=8.6s)
+2026-03-22 11:45:05,275 - grpo_trainer - INFO - Step 154/200 | reward=3.500 | correct=0.129 | hack_strict=0.871 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=8.75e-06 | kl=0.0000 | time=30.9s (gen=11.6s, reward=8.9s)
+2026-03-22 11:45:35,703 - grpo_trainer - INFO - Step 155/200 | reward=3.500 | correct=0.055 | hack_strict=0.945 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=8.39e-06 | kl=0.0000 | time=30.4s (gen=11.8s, reward=8.8s)
+2026-03-22 11:46:09,235 - grpo_trainer - INFO - Step 156/200 | reward=3.500 | correct=0.125 | hack_strict=0.875 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=8.03e-06 | kl=0.0000 | time=33.5s (gen=12.2s, reward=12.5s)
+2026-03-22 11:46:36,721 - grpo_trainer - INFO - Step 157/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=7.68e-06 | kl=0.0000 | time=27.5s (gen=10.4s, reward=8.4s)
+2026-03-22 11:47:09,325 - grpo_trainer - INFO - Step 158/200 | reward=3.406 | correct=0.066 | hack_strict=0.902 | hack_loose=1.000 | compile=1.000 | loss=-0.0155 | lr=7.34e-06 | kl=0.0000 | time=32.6s (gen=13.9s, reward=8.9s)
+2026-03-22 11:47:43,998 - grpo_trainer - INFO - Step 159/200 | reward=3.500 | correct=0.023 | hack_strict=0.977 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=7.01e-06 | kl=0.0000 | time=34.7s (gen=12.9s, reward=12.2s)
+2026-03-22 11:48:25,054 - grpo_trainer - INFO - Step 160/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.68e-06 | kl=0.0000 | time=27.3s (gen=8.4s, reward=9.2s)
+2026-03-22 11:49:01,635 - grpo_trainer - INFO - Step 161/200 | reward=3.500 | correct=0.125 | hack_strict=0.875 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.36e-06 | kl=0.0000 | time=36.6s (gen=12.2s, reward=13.7s)
+2026-03-22 11:49:31,739 - grpo_trainer - INFO - Step 162/200 | reward=3.500 | correct=0.148 | hack_strict=0.852 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.05e-06 | kl=0.0000 | time=30.1s (gen=11.8s, reward=8.7s)
+2026-03-22 11:50:04,076 - grpo_trainer - INFO - Step 163/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.75e-06 | kl=0.0000 | time=32.3s (gen=12.9s, reward=8.7s)
+2026-03-22 11:50:38,428 - grpo_trainer - INFO - Step 164/200 | reward=3.465 | correct=0.062 | hack_strict=0.926 | hack_loose=1.000 | compile=1.000 | loss=0.0242 | lr=5.45e-06 | kl=0.0000 | time=34.4s (gen=13.1s, reward=11.4s)
+2026-03-22 11:51:11,574 - grpo_trainer - INFO - Step 165/200 | reward=3.477 | correct=0.227 | hack_strict=0.766 | hack_loose=1.000 | compile=1.000 | loss=-0.6784 | lr=5.16e-06 | kl=0.0000 | time=33.1s (gen=13.9s, reward=8.4s)
+2026-03-22 11:51:41,381 - grpo_trainer - INFO - Step 166/200 | reward=3.500 | correct=0.051 | hack_strict=0.949 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.87e-06 | kl=0.0000 | time=29.8s (gen=12.1s, reward=8.2s)
+2026-03-22 11:52:10,787 - grpo_trainer - INFO - Step 167/200 | reward=3.465 | correct=0.125 | hack_strict=0.863 | hack_loose=1.000 | compile=1.000 | loss=0.0745 | lr=4.60e-06 | kl=0.0000 | time=29.4s (gen=12.0s, reward=8.6s)
+2026-03-22 11:52:39,443 - grpo_trainer - INFO - Step 168/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.33e-06 | kl=0.0000 | time=28.7s (gen=11.7s, reward=7.8s)
+2026-03-22 11:53:11,098 - grpo_trainer - INFO - Step 169/200 | reward=3.500 | correct=0.184 | hack_strict=0.816 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.07e-06 | kl=0.0000 | time=31.7s (gen=13.8s, reward=8.6s)
+2026-03-22 11:53:40,986 - grpo_trainer - INFO - Step 170/200 | reward=3.500 | correct=0.207 | hack_strict=0.793 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.81e-06 | kl=0.0000 | time=29.9s (gen=12.8s, reward=8.1s)
+2026-03-22 11:54:09,452 - grpo_trainer - INFO - Step 171/200 | reward=3.500 | correct=0.125 | hack_strict=0.875 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.57e-06 | kl=0.0000 | time=28.5s (gen=11.6s, reward=8.0s)
+2026-03-22 11:54:42,510 - grpo_trainer - INFO - Step 172/200 | reward=3.488 | correct=0.125 | hack_strict=0.871 | hack_loose=1.000 | compile=1.000 | loss=0.0219 | lr=3.33e-06 | kl=0.0000 | time=33.1s (gen=12.7s, reward=11.7s)
+2026-03-22 11:55:12,533 - grpo_trainer - INFO - Step 173/200 | reward=3.500 | correct=0.051 | hack_strict=0.949 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.10e-06 | kl=0.0000 | time=30.0s (gen=12.7s, reward=8.0s)
+2026-03-22 11:55:40,170 - grpo_trainer - INFO - Step 174/200 | reward=3.500 | correct=0.250 | hack_strict=0.750 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.88e-06 | kl=0.0000 | time=27.6s (gen=9.5s, reward=8.6s)
+2026-03-22 11:56:10,288 - grpo_trainer - INFO - Step 175/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.66e-06 | kl=0.0000 | time=30.1s (gen=12.0s, reward=9.9s)
+2026-03-22 11:56:40,038 - grpo_trainer - INFO - Step 176/200 | reward=3.500 | correct=0.188 | hack_strict=0.812 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.46e-06 | kl=0.0000 | time=29.7s (gen=10.6s, reward=9.8s)
+2026-03-22 11:57:12,451 - grpo_trainer - INFO - Step 177/200 | reward=3.500 | correct=0.184 | hack_strict=0.816 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.26e-06 | kl=0.0000 | time=32.4s (gen=12.8s, reward=9.9s)
+2026-03-22 11:57:41,015 - grpo_trainer - INFO - Step 178/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.07e-06 | kl=0.0000 | time=28.6s (gen=10.5s, reward=8.7s)
+2026-03-22 11:58:06,104 - grpo_trainer - INFO - Step 179/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.89e-06 | kl=0.0000 | time=25.1s (gen=7.3s, reward=9.3s)
+2026-03-22 11:58:44,711 - grpo_trainer - INFO - Step 180/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.71e-06 | kl=0.0000 | time=25.7s (gen=7.3s, reward=8.9s)
+2026-03-22 11:59:16,254 - grpo_trainer - INFO - Step 181/200 | reward=3.500 | correct=0.125 | hack_strict=0.875 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.55e-06 | kl=0.0000 | time=31.5s (gen=12.9s, reward=9.0s)
+2026-03-22 11:59:43,487 - grpo_trainer - INFO - Step 182/200 | reward=3.500 | correct=0.125 | hack_strict=0.875 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.39e-06 | kl=0.0000 | time=27.2s (gen=9.4s, reward=9.1s)
+2026-03-22 12:00:16,165 - grpo_trainer - INFO - Step 183/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.24e-06 | kl=0.0000 | time=32.7s (gen=14.2s, reward=9.4s)
+2026-03-22 12:00:49,969 - grpo_trainer - INFO - Step 184/200 | reward=3.486 | correct=0.062 | hack_strict=0.934 | hack_loose=0.996 | compile=0.996 | loss=-0.0385 | lr=1.10e-06 | kl=0.0000 | time=33.8s (gen=13.9s, reward=10.0s)
+2026-03-22 12:01:23,923 - grpo_trainer - INFO - Step 185/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=9.67e-07 | kl=0.0000 | time=34.0s (gen=11.7s, reward=11.9s)
+2026-03-22 12:01:56,175 - grpo_trainer - INFO - Step 186/200 | reward=3.500 | correct=0.121 | hack_strict=0.879 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=8.43e-07 | kl=0.0000 | time=32.3s (gen=14.0s, reward=9.0s)
+2026-03-22 12:02:27,944 - grpo_trainer - INFO - Step 187/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=7.27e-07 | kl=0.0000 | time=31.8s (gen=11.8s, reward=9.2s)
+2026-03-22 12:02:58,392 - grpo_trainer - INFO - Step 188/200 | reward=3.500 | correct=0.082 | hack_strict=0.918 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.20e-07 | kl=0.0000 | time=30.4s (gen=10.6s, reward=9.0s)
+2026-03-22 12:03:34,351 - grpo_trainer - INFO - Step 189/200 | reward=3.500 | correct=0.043 | hack_strict=0.957 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=5.21e-07 | kl=0.0000 | time=36.0s (gen=14.0s, reward=12.5s)
+2026-03-22 12:04:05,201 - grpo_trainer - INFO - Step 190/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.31e-07 | kl=0.0000 | time=30.8s (gen=13.1s, reward=8.4s)
+2026-03-22 12:04:36,289 - grpo_trainer - INFO - Step 191/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.49e-07 | kl=0.0000 | time=31.1s (gen=12.7s, reward=8.9s)
+2026-03-22 12:05:06,187 - grpo_trainer - INFO - Step 192/200 | reward=3.500 | correct=0.000 | hack_strict=1.000 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.76e-07 | kl=0.0000 | time=29.9s (gen=11.8s, reward=8.5s)
+2026-03-22 12:05:36,510 - grpo_trainer - INFO - Step 193/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=2.11e-07 | kl=0.0000 | time=30.3s (gen=11.8s, reward=9.6s)
+2026-03-22 12:06:09,541 - grpo_trainer - INFO - Step 194/200 | reward=3.500 | correct=0.188 | hack_strict=0.812 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.55e-07 | kl=0.0000 | time=33.0s (gen=12.9s, reward=10.2s)
+2026-03-22 12:06:46,952 - grpo_trainer - INFO - Step 195/200 | reward=3.137 | correct=0.125 | hack_strict=0.754 | hack_loose=1.000 | compile=1.000 | loss=-0.1103 | lr=1.08e-07 | kl=0.0000 | time=37.4s (gen=12.8s, reward=13.9s)
+2026-03-22 12:07:24,238 - grpo_trainer - INFO - Step 196/200 | reward=3.500 | correct=0.125 | hack_strict=0.875 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=6.91e-08 | kl=0.0000 | time=37.3s (gen=13.9s, reward=12.4s)
+2026-03-22 12:08:05,748 - grpo_trainer - INFO - Step 197/200 | reward=3.500 | correct=0.086 | hack_strict=0.914 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=3.89e-08 | kl=0.0000 | time=41.5s (gen=12.4s, reward=19.4s)
+2026-03-22 12:08:34,727 - grpo_trainer - INFO - Step 198/200 | reward=3.500 | correct=0.062 | hack_strict=0.938 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=1.73e-08 | kl=0.0000 | time=29.0s (gen=11.0s, reward=9.1s)
+2026-03-22 12:09:09,550 - grpo_trainer - INFO - Step 199/200 | reward=3.312 | correct=0.250 | hack_strict=0.688 | hack_loose=1.000 | compile=1.000 | loss=0.0000 | lr=4.32e-09 | kl=0.0000 | time=34.8s (gen=9.8s, reward=15.5s)
