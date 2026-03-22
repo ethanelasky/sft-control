@@ -73,6 +73,7 @@ class GRPOTrainer:
         sandbox_memory_mb: int = 1024,
         warmup_steps: int = 10,
         model_refresh_interval: int = 1,
+        loss_type: str = "ppo",
     ):
         """Initialize GRPO trainer.
 
@@ -91,6 +92,7 @@ class GRPOTrainer:
             sandbox_memory_mb: Memory limit per sandbox in MB.
             warmup_steps: Linear LR warmup steps.
             model_refresh_interval: Refresh sampling model every K training steps.
+            loss_type: "ppo" or "reinforce". REINFORCE avoids logprob mismatch issues.
         """
         self.base_model = base_model
         self.lr = lr
@@ -102,6 +104,7 @@ class GRPOTrainer:
         self.top_p = top_p
         self.warmup_steps = warmup_steps
         self.model_refresh_interval = model_refresh_interval
+        self.loss_type = loss_type
 
         # Create training config
         self.config = TinkerTrainerConfig(
@@ -316,7 +319,12 @@ class GRPOTrainer:
 
             train_stats = {}
             if train_prompt_tokens:
-                train_stats = self.rl_trainer.train_step_tokens(
+                train_fn = (
+                    self.rl_trainer.train_step_tokens_reinforce
+                    if self.loss_type == "reinforce"
+                    else self.rl_trainer.train_step_tokens
+                )
+                train_stats = train_fn(
                     prompt_tokens_batch=train_prompt_tokens,
                     response_tokens_batch=train_response_tokens,
                     response_logprobs_batch=train_response_logprobs,

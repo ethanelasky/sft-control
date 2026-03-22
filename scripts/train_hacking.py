@@ -96,6 +96,10 @@ def main():
         help="Reward function: default (correct+hinted), golden (correct only), penalty (penalize hacks)",
     )
     parser.add_argument("--hack_penalty", type=float, default=-3.0, help="Penalty for detected hacks (penalty mode)")
+    parser.add_argument(
+        "--loss_type", type=str, default="ppo", choices=["ppo", "reinforce"],
+        help="RL loss: ppo (importance-weighted, has logprob mismatch) or reinforce (simpler, no mismatch)",
+    )
 
     # Resume
     parser.add_argument("--resume_checkpoint", type=str, default=None, help="Resume from checkpoint path")
@@ -155,6 +159,7 @@ def main():
         sandbox_memory_mb=args.sandbox_memory_mb,
         warmup_steps=args.warmup_steps,
         model_refresh_interval=args.model_refresh_interval,
+        loss_type=args.loss_type,
     )
 
     if args.resume_checkpoint:

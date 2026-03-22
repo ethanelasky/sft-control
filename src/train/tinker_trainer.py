@@ -764,6 +764,118 @@ class TinkerRLTrainer:
             "avg_reward": sum(rewards) / n,
         }
 
+    def train_step_tokens_reinforce(
+        self,
+        prompt_tokens_batch: list[list[int]],
+        response_tokens_batch: list[list[int]],
+        response_logprobs_batch: list[list[float]],
+        rewards: list[float],
+        **kwargs,
+    ) -> dict[str, float]:
+        """REINFORCE training step using cross_entropy with advantage-weighted tokens.
+
+        Avoids the SamplingClient/TrainingClient logprob mismatch entirely by
+        not using importance sampling. Gradient is simply: advantage * ∇log π(a|s).
+
+        Uses shifted tokens (model_input=tokens[:-1], target=tokens[1:]) matching
+        the Tinker cross_entropy convention from their docs.
+
+        Args:
+            prompt_tokens_batch: List of prompt token ID sequences.
+            response_tokens_batch: List of response token ID sequences.
+            response_logprobs_batch: List of per-token log probability sequences (unused).
+            rewards: List of reward signals (GRPO advantages) for each trajectory.
+
+        Returns:
+            Dict of training statistics.
+        """
+        n = len(prompt_tokens_batch)
+        if n != len(response_tokens_batch) or n != len(rewards):
+            raise ValueError(
+                "prompt_tokens_batch, response_tokens_batch, and rewards must have same length"
+            )
+
+        if n == 0:
+            return {}
+
+        try:
+            import tinker
+        except ImportError:
+            self._step_count += 1
+            return {
+                "loss": 0.0,
+                "step": self._step_count,
+                "batch_size": n,
+                "avg_reward": sum(rewards) / n,
+            }
+
+        use_raw = kwargs.get("precomputed_advantages", False)
+        baseline = 0.0 if use_raw else sum(rewards) / n
+
+        datums = []
+        for pt, rt, reward in zip(prompt_tokens_batch, response_tokens_batch, rewards):
+            advantage = reward - baseline
+            min_len = len(rt)
+            all_tokens = pt + rt[:min_len]
+
+            # Shifted for next-token prediction (Tinker cross_entropy convention)
+            input_tokens = all_tokens[:-1]
+            target_tokens = all_tokens[1:]
+            # Weight: 0 for prompt, advantage for response
+            # After shift, response weights start at position n_prompt-1
+            n_prompt = len(pt)
+            weights = [0.0] * max(n_prompt - 1, 0) + [advantage] * min_len
+            weights = weights[:len(target_tokens)]
+            if len(weights) < len(target_tokens):
+                weights += [0.0] * (len(target_tokens) - len(weights))
+
+            datums.append(tinker.Datum(
+                model_input=tinker.ModelInput.from_ints(input_tokens),
+                loss_fn_inputs={
+                    "target_tokens": tinker.TensorData(
+                        data=target_tokens, dtype="int64", shape=[len(target_tokens)]),
+                    "weights": tinker.TensorData(
+                        data=weights, dtype="float32", shape=[len(weights)]),
+                },
+            ))
+
+        if not datums:
+            return {}
+
+        result = self.training_client.forward_backward(
+            data=datums, loss_fn="cross_entropy",
+        ).result()
+
+        # Diagnostic on first step
+        if self._step_count == 0 and hasattr(result, "metrics") and result.metrics:
+            import logging as _logging
+            _diag = _logging.getLogger("tinker_trainer")
+            _diag.info(f"REINFORCE metrics (step 0):")
+            for k, v in result.metrics.items():
+                _diag.info(f"  {k} = {v}")
+
+        total_loss = 0.0
+        if hasattr(result, "metrics") and result.metrics:
+            total_loss = result.metrics.get("loss:sum", result.metrics.get("loss", 0.0))
+
+        adam_params = tinker.AdamParams(
+            learning_rate=self.config.learning_rate,
+            beta1=self.config.beta1,
+            beta2=self.config.beta2,
+            weight_decay=self.config.weight_decay,
+            grad_clip_norm=self.config.grad_clip_norm,
+        )
+        self.training_client.optim_step(adam_params)
+
+        self._step_count += 1
+
+        return {
+            "loss": total_loss / len(datums) if datums else 0.0,
+            "step": self._step_count,
+            "batch_size": len(datums),
+            "avg_reward": sum(rewards) / n,
+        }
+
     def _train_accumulated_batch(self) -> dict[str, float]:
         """Train on accumulated RL data.
 
