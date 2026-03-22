@@ -651,6 +651,33 @@ class TinkerRLTrainer:
             data=datums, loss_fn="ppo", loss_fn_config=ppo_config,
         ).result()
 
+        # Diagnostic: on first step, log result structure and check logprob consistency
+        if self._step_count == 0:
+            import logging as _logging
+            _diag = _logging.getLogger("tinker_trainer.diagnostic")
+            _diag.info(f"forward_backward result type: {type(result)}")
+            _diag.info(f"forward_backward result attrs: {[a for a in dir(result) if not a.startswith('_')]}")
+            if hasattr(result, "metrics") and result.metrics:
+                _diag.info(f"forward_backward metrics keys: {list(result.metrics.keys())}")
+                for k, v in result.metrics.items():
+                    _diag.info(f"  {k} = {v}")
+            if hasattr(result, "logprobs"):
+                _diag.info(f"forward_backward has logprobs attr (type={type(result.logprobs)})")
+                # Compare first datum's logprobs
+                if result.logprobs and len(datums) > 0:
+                    fwd_lps = list(result.logprobs[0]) if hasattr(result.logprobs[0], '__iter__') else [result.logprobs[0]]
+                    old_lps = datums[0].loss_fn_inputs["logprobs"].data
+                    n_prompt = sum(1 for x in old_lps if x == 0.0)
+                    old_response_lps = old_lps[n_prompt:]
+                    fwd_response_lps = fwd_lps[n_prompt:n_prompt + len(old_response_lps)]
+                    if fwd_response_lps:
+                        diffs = [abs(a - b) for a, b in zip(fwd_response_lps, old_response_lps)]
+                        _diag.info(f"Logprob comparison (first sample, {len(diffs)} tokens):")
+                        _diag.info(f"  mean |new - old| = {sum(diffs)/len(diffs):.6f}")
+                        _diag.info(f"  max  |new - old| = {max(diffs):.6f}")
+                        _diag.info(f"  first 5 old: {old_response_lps[:5]}")
+                        _diag.info(f"  first 5 new: {fwd_response_lps[:5]}")
+
         # Extract loss from result metrics
         total_loss = 0.0
         if hasattr(result, "metrics") and result.metrics:
