@@ -273,25 +273,32 @@ class GRPOTrainer:
             if self.kl_coef > 0 and self.ref_sampling_client and train_prompt_tokens:
                 try:
                     import tinker
-                    for i in range(len(train_prompt_tokens)):
-                        # Build full sequence (prompt + response) for reference logprob computation
-                        full_tokens = train_prompt_tokens[i] + train_response_tokens[i]
-                        ref_input = tinker.ModelInput.from_ints(full_tokens)
-                        ref_logprobs = self.ref_sampling_client.compute_logprobs(ref_input).result()
+                    from concurrent.futures import ThreadPoolExecutor
 
-                        # KL ≈ sampled_logprobs - ref_logprobs (per-token, response only)
+                    # Build all reference logprob inputs
+                    ref_inputs = []
+                    for i in range(len(train_prompt_tokens)):
+                        full_tokens = train_prompt_tokens[i] + train_response_tokens[i]
+                        ref_inputs.append(tinker.ModelInput.from_ints(full_tokens))
+
+                    # Compute reference logprobs in parallel (64 concurrent)
+                    def _get_ref_logprobs(ref_input):
+                        return self.ref_sampling_client.compute_logprobs(ref_input).result()
+
+                    with ThreadPoolExecutor(max_workers=64) as pool:
+                        all_ref_logprobs = list(pool.map(_get_ref_logprobs, ref_inputs))
+
+                    # Apply KL penalty to advantages
+                    for i in range(len(train_prompt_tokens)):
                         n_prompt = len(train_prompt_tokens[i])
                         n_response = len(train_response_logprobs[i])
-                        ref_response_lps = list(ref_logprobs[n_prompt:n_prompt + n_response])
-
-                        if ref_response_lps:
-                            # Mean KL for this response
+                        ref_lps = list(all_ref_logprobs[i][n_prompt:n_prompt + n_response])
+                        if ref_lps:
                             kl_per_token = [
                                 slp - rlp
-                                for slp, rlp in zip(train_response_logprobs[i], ref_response_lps)
+                                for slp, rlp in zip(train_response_logprobs[i], ref_lps)
                             ]
                             mean_kl = sum(kl_per_token) / len(kl_per_token)
-                            # Subtract KL penalty from advantage
                             train_advantages[i] -= self.kl_coef * mean_kl
                 except Exception as e:
                     logger.warning(f"KL penalty computation failed: {e}")
