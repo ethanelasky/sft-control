@@ -7,7 +7,7 @@
       "description": "gpt-oss-20b trained with PPO+KL-in-loss (kl=1e-3). Converged to ~95% reward hacking, 0% correctness by step 80. Full 200 steps.",
       "loss_type": "ppo_kl",
       "kl_coef": 0.001,
-      "lr": 7e-5,
+      "lr": 7e-05,
       "lora_rank": 32,
       "completed_steps": 200,
       "max_steps": 200,
@@ -22,12 +22,12 @@
     },
     {
       "name": "gpt-oss-20b-hacked-no-kl",
-      "tinker_path": null,
+      "tinker_path": "tinker://fb9e2f8b-25b4-50b0-b11a-12f6c55d2b47:train:0/weights/grpo-step-50",
       "base_model": "openai/gpt-oss-20b",
       "description": "gpt-oss-20b trained with PPO+KL-in-loss (kl=0). Converged to 100% hacking by step 40. Run killed at step 83.",
       "loss_type": "ppo_kl",
       "kl_coef": 0,
-      "lr": 7e-5,
+      "lr": 7e-05,
       "lora_rank": 32,
       "completed_steps": 83,
       "max_steps": 200,
@@ -39,16 +39,16 @@
       },
       "date": "2026-03-22",
       "log_file": "logs/grpo-gpt-oss-20b-no-kl.log",
-      "notes": "Run killed early after convergence. Checkpoint path not saved — check collaborator's logs."
+      "notes": "Run killed early after convergence. Checkpoint path not saved \u2014 check collaborator's logs."
     },
     {
       "name": "qwen3-8b-base-no-hack",
-      "tinker_path": null,
+      "tinker_path": "tinker://decf7ef7-fce7-58fe-996f-a625a3891680:train:0/weights/grpo-final",
       "base_model": "Qwen/Qwen3-8B-Base",
       "description": "Qwen3-8B-Base trained with PPO+KL-in-reward (kl=1e-3). No hacking emerged. 200 steps.",
       "loss_type": "ppo",
       "kl_coef": 0.001,
-      "lr": 7e-5,
+      "lr": 7e-05,
       "lora_rank": 32,
       "completed_steps": 200,
       "max_steps": 200,
@@ -60,16 +60,16 @@
       },
       "date": "2026-03-22",
       "log_file": "logs/grpo-8b-ppo-v3.log",
-      "notes": "Checkpoint path not recorded — predates metadata system."
+      "notes": "Checkpoint path recovered from logs."
     },
     {
       "name": "qwen3-8b-instruct-no-hack",
-      "tinker_path": null,
+      "tinker_path": "tinker://03b84919-6bb9-50e8-b573-4b03de3929ab:train:0/weights/grpo-final",
       "base_model": "Qwen/Qwen3-8B",
       "description": "Qwen3-8B (instruct) trained with PPO+KL-in-loss (kl=1e-3). No hacking emerged. 200 steps.",
       "loss_type": "ppo_kl",
       "kl_coef": 0.001,
-      "lr": 7e-5,
+      "lr": 7e-05,
       "lora_rank": 32,
       "completed_steps": 200,
       "max_steps": 200,
@@ -81,7 +81,7 @@
       },
       "date": "2026-03-22",
       "log_file": "logs/grpo-8b-instruct-ppo-kl-v2.log",
-      "notes": "Checkpoint path not recorded — predates metadata system."
+      "notes": "Checkpoint path recovered from logs."
     }
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "tinker_path": "tinker://ad3cadb9-0364-53b3-98b1-5a584d4ed521:train:0/weights/grpo-step-50",
+  "completed_steps": 50,
+  "max_steps": 200,
+  "base_model": "openai/gpt-oss-20b",
+  "lr": 7e-05,
+  "kl_coef": 0.001,
+  "loss_type": "ppo_kl",
+  "lora_rank": 32,
+  "num_generations": 16,
+  "num_prompts_per_step": 16,
+  "max_completion_length": 1536,
+  "temperature": 0.7,
+  "top_p": 0.95,
+  "warmup_steps": 10,
+  "model_refresh_interval": 1
+}

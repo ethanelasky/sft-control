@@ -1,0 +1,17 @@
+{
+  "tinker_path": "tinker://03b84919-6bb9-50e8-b573-4b03de3929ab:train:0/weights/grpo-final",
+  "completed_steps": 200,
+  "max_steps": 200,
+  "base_model": "Qwen/Qwen3-8B",
+  "lr": 7e-05,
+  "kl_coef": 0.001,
+  "loss_type": "ppo_kl",
+  "lora_rank": 32,
+  "num_generations": 16,
+  "num_prompts_per_step": 16,
+  "max_completion_length": 1536,
+  "temperature": 0.7,
+  "top_p": 0.95,
+  "warmup_steps": 10,
+  "model_refresh_interval": 1
+}
