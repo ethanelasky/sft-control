@@ -223,6 +223,10 @@ def main():
     parser.add_argument("--loss_type", type=str, default="ppo_kl", choices=["ppo", "reinforce", "ppo_kl"],
                         help="RL loss type (default: ppo_kl)")
 
+    # Wandb
+    parser.add_argument("--wandb_project", type=str, default="2026-redwood-hackathon", help="W&B project name")
+    parser.add_argument("--wandb_run_name", type=str, default=None, help="W&B run name (auto if not set)")
+
     args = parser.parse_args()
 
     # Setup logging
@@ -271,6 +275,8 @@ def main():
         num_generations=args.num_generations,
         num_prompts_per_step=args.num_prompts,
         loss_type=args.loss_type,
+        wandb_project=args.wandb_project,
+        wandb_run_name=args.wandb_run_name or f"rl-fix-{args.variant}",
     )
 
     # Print configuration
