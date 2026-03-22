@@ -988,19 +988,23 @@ class TinkerRLTrainer:
                 ppo_obj = torch.min(unclipped_obj, clipped_obj)
                 # Dual-clip: for negative advantages, also bound by clip_ratio_c * adv
                 ppo_obj = torch.where(adv < 0, torch.max(ppo_obj, clip_ratio_c * adv), ppo_obj)
-                # Per-sample token-mean
-                sample_ppo_losses.append(-(ppo_obj * m).sum() / n_response)
+                # Per-sample token sum (no length normalization — keeps gradient
+                # magnitude comparable to Tinker's built-in PPO token-sum)
+                sample_ppo_losses.append(-(ppo_obj * m).sum())
 
                 # KL loss (k3 estimator, unclipped)
                 if sd["ref_lps"] is not None:
                     ref_lps = torch.tensor(sd["ref_lps"], device=device)[:min_n]
                     r = ref_lps - model_lps  # log(π_ref / π)
                     kl = torch.exp(r) - r - 1.0  # k3 estimator, always ≥ 0
-                    sample_kl_losses.append((_kl_coef * kl * m).sum() / n_response)
+                    sample_kl_losses.append((_kl_coef * kl * m).sum())
 
                 n_tokens += n_response.item()
 
-            # Average across samples
+            # Sum across samples (each sample already has its token-sum).
+            # This matches the original token-sum behavior that worked for the
+            # hacking run. The per-sample tracking is kept for future per-sample
+            # averaging if needed.
             n_samples = len(sample_ppo_losses)
             if n_samples > 0:
                 total_ppo_loss = torch.stack(sample_ppo_losses).sum()
