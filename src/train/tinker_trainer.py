@@ -948,15 +948,16 @@ class TinkerRLTrainer:
         _sample_data = sample_data
 
         def ppo_kl_loss_fn(data, logprobs_list):
-            """Custom loss: dual-clip PPO + KL penalty (k3 estimator), token-mean aggregation.
+            """Custom loss: dual-clip PPO + KL penalty (k3 estimator).
 
-            Matches ariahw/veRL config:
             - Dual-clip PPO: clip_ratio_c=3.0 bounds loss for negative advantages
             - KL as additive loss term (unclipped)
-            - Token-mean aggregation (divide by number of response tokens)
+            - Per-sample token-mean, then average across samples. This prevents
+              long responses from dominating gradients (which caused collapse
+              on the benign baseline with pure token-sum).
             """
-            total_ppo_loss = torch.tensor(0.0)
-            total_kl_loss = torch.tensor(0.0)
+            sample_ppo_losses = []
+            sample_kl_losses = []
             n_tokens = 0
             clip_ratio_c = 3.0  # Dual-clip lower bound (ariahw default)
 
@@ -975,6 +976,10 @@ class TinkerRLTrainer:
                 adv = advantages[:min_n]
                 m = mask[:min_n]
 
+                n_response = m.sum()
+                if n_response == 0:
+                    continue
+
                 # PPO clipped objective with dual-clip
                 ratio = torch.exp(model_lps - samp_lps)
                 clipped_ratio = torch.clamp(ratio, _clip_low, _clip_high)
@@ -982,28 +987,35 @@ class TinkerRLTrainer:
                 clipped_obj = clipped_ratio * adv
                 ppo_obj = torch.min(unclipped_obj, clipped_obj)
                 # Dual-clip: for negative advantages, also bound by clip_ratio_c * adv
-                # This prevents the policy from too aggressively unlearning bad actions
                 ppo_obj = torch.where(adv < 0, torch.max(ppo_obj, clip_ratio_c * adv), ppo_obj)
-                total_ppo_loss = total_ppo_loss - (ppo_obj * m).sum()
+                # Per-sample token-mean
+                sample_ppo_losses.append(-(ppo_obj * m).sum() / n_response)
 
                 # KL loss (k3 estimator, unclipped)
                 if sd["ref_lps"] is not None:
                     ref_lps = torch.tensor(sd["ref_lps"], device=device)[:min_n]
                     r = ref_lps - model_lps  # log(π_ref / π)
                     kl = torch.exp(r) - r - 1.0  # k3 estimator, always ≥ 0
-                    total_kl_loss = total_kl_loss + (_kl_coef * kl * m).sum()
+                    sample_kl_losses.append((_kl_coef * kl * m).sum() / n_response)
 
-                n_tokens += m.sum().item()
+                n_tokens += n_response.item()
 
-            # Token-sum aggregation (matches Tinker's built-in PPO behavior).
-            # Tinker handles micro-batching/chunking internally, so token-sum
-            # here gives consistent gradient scale with the native PPO path.
+            # Average across samples
+            n_samples = len(sample_ppo_losses)
+            if n_samples > 0:
+                total_ppo_loss = torch.stack(sample_ppo_losses).sum()
+                total_kl_loss = torch.stack(sample_kl_losses).sum() if sample_kl_losses else torch.tensor(0.0)
+            else:
+                total_ppo_loss = torch.tensor(0.0)
+                total_kl_loss = torch.tensor(0.0)
+
             total_loss = total_ppo_loss + total_kl_loss
             metrics = {
                 "ppo_loss": total_ppo_loss.item(),
                 "kl_loss": total_kl_loss.item(),
                 "total_loss": total_loss.item(),
                 "n_response_tokens": n_tokens,
+                "n_samples": n_samples,
             }
             return total_loss, metrics
 
