@@ -69,11 +69,14 @@ def load_model(
         import tinker
 
         service_client = tinker.ServiceClient()
-        sampling_client = service_client.create_sampling_client(
-            model_path=model_name
+        # Training checkpoints (from save_state) need to go through
+        # TrainingClient first to get a SamplingClient
+        training_client = service_client.create_training_client_from_state(
+            path=model_name
         )
+        sampling_client = training_client.save_weights_and_get_sampling_client()
         return TinkerModel(
-            alias=checkpoint_path,
+            alias=model_name.rsplit("/", 1)[-1],
             sampling_client=sampling_client,
             temperature=temperature,
             max_tokens=max_tokens,
