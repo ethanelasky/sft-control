@@ -9,3 +9,4 @@ data/olympiad_filtered.json
 .venv/
 pyproject.toml
 uv.lock
+wandb/

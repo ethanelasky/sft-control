@@ -1,0 +1,18 @@
+wandb: Currently logged in as: ethanelasky (bubble-research). Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.17.9
+wandb: Run data is saved locally in /home/ethanelasky/sft-control/wandb/run-20260322_214515-tunwnscj
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run benign-ppo-kl-mb16
+wandb: ⭐️ View project at https://wandb.ai/bubble-research/2026-redwood-hackathon
+wandb: 🚀 View run at https://wandb.ai/bubble-research/2026-redwood-hackathon/runs/tunwnscj
+2026-03-22 21:45:16,415 - grpo_trainer - INFO - W&B initialized: benign-ppo-kl-mb16 in 2026-redwood-hackathon
+2026-03-22 21:45:16 [grpo_trainer] INFO: W&B initialized: benign-ppo-kl-mb16 in 2026-redwood-hackathon
+2026-03-22 21:45:18 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session 7b874e93-63ff-5860-8925-0cad73d71c8f
+2026-03-22 21:45:26 [tinker.lib.public_interfaces.service_client] INFO: TrainingClient initialized for model 7b874e93-63ff-5860-8925-0cad73d71c8f:train:0
+2026-03-22 21:45:29 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session d2fe98dc-173b-507a-a8b2-329961d47396
+2026-03-22 21:45:29,798 - grpo_trainer - INFO - Created reference model for KL penalty (coef=0.001)
+2026-03-22 21:45:29 [grpo_trainer] INFO: Created reference model for KL penalty (coef=0.001)
+2026-03-22 21:45:29,801 - grpo_trainer - INFO - Starting GRPO training: 200 steps (from step 0), 16 prompts/step, 16 generations/prompt
+2026-03-22 21:45:29 [grpo_trainer] INFO: Starting GRPO training: 200 steps (from step 0), 16 prompts/step, 16 generations/prompt
+2026-03-22 21:45:29,802 - grpo_trainer - INFO - Step 0: Generating 16×16 responses...
+2026-03-22 21:45:29 [grpo_trainer] INFO: Step 0: Generating 16×16 responses...

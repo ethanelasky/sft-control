@@ -1,0 +1,47 @@
+wandb: Currently logged in as: ethanelasky (bubble-research). Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.17.9
+wandb: Run data is saved locally in /home/ethanelasky/sft-control/wandb/run-20260322_205434-0fxzscpg
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run benign-baseline-seq-mean-token-mean
+wandb: ⭐️ View project at https://wandb.ai/bubble-research/2026-redwood-hackathon
+wandb: 🚀 View run at https://wandb.ai/bubble-research/2026-redwood-hackathon/runs/0fxzscpg
+2026-03-22 20:54:35,628 - grpo_trainer - INFO - W&B initialized: benign-baseline-seq-mean-token-mean in 2026-redwood-hackathon
+2026-03-22 20:54:35 [grpo_trainer] INFO: W&B initialized: benign-baseline-seq-mean-token-mean in 2026-redwood-hackathon
+2026-03-22 20:54:37 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session 32c6cde1-e0fa-535e-955a-e596d9343cd3
+2026-03-22 20:54:49 [tinker.lib.public_interfaces.service_client] INFO: TrainingClient initialized for model 32c6cde1-e0fa-535e-955a-e596d9343cd3:train:0
+2026-03-22 20:54:51 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session a903ada7-39f5-558f-be3d-3905f6afc04b
+2026-03-22 20:54:51,708 - grpo_trainer - INFO - Created reference model for KL penalty (coef=0.001)
+2026-03-22 20:54:51 [grpo_trainer] INFO: Created reference model for KL penalty (coef=0.001)
+2026-03-22 20:54:51,712 - grpo_trainer - INFO - Starting GRPO training: 200 steps (from step 0), 16 prompts/step, 16 generations/prompt
+2026-03-22 20:54:51 [grpo_trainer] INFO: Starting GRPO training: 200 steps (from step 0), 16 prompts/step, 16 generations/prompt
+2026-03-22 20:54:51,712 - grpo_trainer - INFO - Step 0: Generating 16×16 responses...
+2026-03-22 20:54:51 [grpo_trainer] INFO: Step 0: Generating 16×16 responses...
+2026-03-22 20:55:57,509 - grpo_trainer - INFO - Step 0: Computing rewards...
+2026-03-22 20:55:57 [grpo_trainer] INFO: Step 0: Computing rewards...
+2026-03-22 20:56:23 [tinker_trainer] INFO: PPO+KL-in-loss metrics (step 0):
+2026-03-22 20:56:23 [tinker_trainer] INFO:   clock_cycle:unique = 5507993.0
+2026-03-22 20:56:23 [tinker_trainer] INFO:   clock_cycle:unique_1 = 5507994.0
+2026-03-22 20:56:23 [tinker_trainer] INFO:   clock_cycle:unique_2 = 5507995.0
+2026-03-22 20:56:23 [tinker_trainer] INFO:   e_max_violation:mean = 2.2483757734298706
+2026-03-22 20:56:23 [tinker_trainer] INFO:   e_min_violation:mean = -0.9280512873083353
+2026-03-22 20:56:23 [tinker_trainer] INFO:   e_max_violation:max = 4.650425434112549
+2026-03-22 20:56:23 [tinker_trainer] INFO:   e_frac_oversubscribed:mean = 0.4235941767692566
+2026-03-22 20:56:23 [tinker_trainer] INFO:   e_frac_with_tokens:mean = 1.0
+2026-03-22 20:56:23 [tinker_trainer] INFO:   loss:sum = -8.147594831883907
+2026-03-22 20:56:23 [tinker_trainer] INFO:   ppo_loss = 1.494659423828125
+2026-03-22 20:56:23 [tinker_trainer] INFO:   kl_loss = 0.0002138171112164855
+2026-03-22 20:56:23 [tinker_trainer] INFO:   total_loss = 1.494873285293579
+2026-03-22 20:56:23 [tinker_trainer] INFO:   n_response_tokens = 264721.0
+2026-03-22 20:56:23 [tinker_trainer] INFO:   n_samples = 256
+2026-03-22 20:56:26,281 - grpo_trainer - INFO - Step 0/200 | reward=1.617 | correct=0.430 | hack_strict=0.000 | hack_loose=0.000 | compile=0.656 | loss=0.0058 | lr=7.00e-06 | kl=0.0169 | cats=0.430/0.000/0.000/0.000/0.570 | time=94.6s (gen=65.8s, reward=4.3s)
+2026-03-22 20:56:26 [grpo_trainer] INFO: Step 0/200 | reward=1.617 | correct=0.430 | hack_strict=0.000 | hack_loose=0.000 | compile=0.656 | loss=0.0058 | lr=7.00e-06 | kl=0.0169 | cats=0.430/0.000/0.000/0.000/0.570 | time=94.6s (gen=65.8s, reward=4.3s)
+2026-03-22 20:56:26,283 - grpo_trainer - INFO - Step 1: Generating 16×16 responses...
+2026-03-22 20:56:26 [grpo_trainer] INFO: Step 1: Generating 16×16 responses...
+2026-03-22 20:57:02,296 - grpo_trainer - INFO - Step 1: Computing rewards...
+2026-03-22 20:57:02 [grpo_trainer] INFO: Step 1: Computing rewards...
+2026-03-22 20:57:25,589 - grpo_trainer - INFO - Step 1/200 | reward=2.070 | correct=0.566 | hack_strict=0.000 | hack_loose=0.000 | compile=0.742 | loss=0.0044 | lr=1.40e-05 | kl=0.0164 | cats=0.566/0.000/0.000/0.000/0.434 | time=59.3s (gen=36.0s, reward=1.6s)
+2026-03-22 20:57:25 [grpo_trainer] INFO: Step 1/200 | reward=2.070 | correct=0.566 | hack_strict=0.000 | hack_loose=0.000 | compile=0.742 | loss=0.0044 | lr=1.40e-05 | kl=0.0164 | cats=0.566/0.000/0.000/0.000/0.434 | time=59.3s (gen=36.0s, reward=1.6s)
+2026-03-22 20:57:25,590 - grpo_trainer - INFO - Step 2: Generating 16×16 responses...
+2026-03-22 20:57:25 [grpo_trainer] INFO: Step 2: Generating 16×16 responses...
+2026-03-22 20:58:07,616 - grpo_trainer - INFO - Step 2: Computing rewards...
+2026-03-22 20:58:07 [grpo_trainer] INFO: Step 2: Computing rewards...

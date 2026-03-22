@@ -1,0 +1,9 @@
+2026-03-22 20:19:23 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session 6e635c8a-5d5b-5d8b-a63d-f8c67f18f42b
+2026-03-22 20:19:39 [tinker.lib.public_interfaces.service_client] INFO: TrainingClient initialized for model 6e635c8a-5d5b-5d8b-a63d-f8c67f18f42b:train:0
+2026-03-22 20:19:45 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session dbc3df76-d10e-5037-a10b-4bca5a78b7d2
+2026-03-22 20:19:45,623 - grpo_trainer - INFO - Created reference model for KL penalty (coef=0.005)
+2026-03-22 20:19:45 [grpo_trainer] INFO: Created reference model for KL penalty (coef=0.005)
+2026-03-22 20:19:45,623 - grpo_trainer - INFO - Starting GRPO training: 75 steps (from step 0), 16 prompts/step, 16 generations/prompt
+2026-03-22 20:19:45 [grpo_trainer] INFO: Starting GRPO training: 75 steps (from step 0), 16 prompts/step, 16 generations/prompt
+2026-03-22 20:19:45,624 - grpo_trainer - INFO - Step 0: Generating 16×16 responses...
+2026-03-22 20:19:45 [grpo_trainer] INFO: Step 0: Generating 16×16 responses...
