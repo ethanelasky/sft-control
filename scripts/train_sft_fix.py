@@ -273,7 +273,7 @@ def main():
     logger.info(f"SFT training complete in {elapsed:.1f}s")
 
     # Save checkpoint
-    checkpoint_name = f"sft-fix-{args.max_steps}steps"
+    checkpoint_name = f"sft-fix-{args.num_examples}ex-{args.max_steps}steps"
     checkpoint_path = trainer.save_checkpoint(checkpoint_name)
     logger.info(f"Saved fixed checkpoint: {checkpoint_path}")
 

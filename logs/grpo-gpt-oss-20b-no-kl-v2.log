@@ -1,0 +1,67 @@
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_settings" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_id" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_input" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_id" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_name" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_path" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_owner" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+2026-03-22 10:01:55 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session 20b0f3c1-e487-568f-9d13-709eb7aabf73
+2026-03-22 10:02:06 [tinker.lib.public_interfaces.service_client] INFO: TrainingClient initialized for model 20b0f3c1-e487-568f-9d13-709eb7aabf73:train:0
+2026-03-22 10:02:12,722 - grpo_trainer - INFO - Starting GRPO training: 200 steps, 16 prompts/step, 16 generations/prompt
+2026-03-22 10:02:12 [grpo_trainer] INFO: Starting GRPO training: 200 steps, 16 prompts/step, 16 generations/prompt
+2026-03-22 10:02:12,723 - grpo_trainer - INFO - Step 0: Generating 16×16 responses...
+2026-03-22 10:02:12 [grpo_trainer] INFO: Step 0: Generating 16×16 responses...
+2026-03-22 10:02:39,376 - grpo_trainer - INFO - Step 0: Computing rewards...
+2026-03-22 10:02:39 [grpo_trainer] INFO: Step 0: Computing rewards...
+Loading dataset from /Users/frank/Desktop/sft-control/data/leetcode_train_loophole.jsonl...
+Loaded 992 training examples
+Loaded 119 eval examples
+Using DEFAULT reward function (correct + hinted + compile)
+Resuming from checkpoint: tinker://fb9e2f8b-25b4-50b0-b11a-12f6c55d2b47:train:0/weights/grpo-step-50
+
+============================================================
+GRPO Training Configuration
+============================================================
+  Model:          openai/gpt-oss-20b
+  LoRA rank:      32
+  Learning rate:  7e-05
+  KL coef:        0.0
+  Steps:          200
+  Prompts/step:   16
+  Gens/prompt:    16
+  Total gens/step:256
+  Reward mode:    default
+  Dataset size:   992
+============================================================
+
+Traceback (most recent call last):
+  File "/Users/frank/Desktop/sft-control/scripts/train_hacking.py", line 222, in <module>
+    main()
+  File "/Users/frank/Desktop/sft-control/scripts/train_hacking.py", line 197, in main
+    summary = trainer.train(
+              ^^^^^^^^^^^^^^
+  File "/Users/frank/Desktop/sft-control/src/grpo_trainer.py", line 327, in train
+    if self.loss_type == "reinforce":
+       ^^^^^^^^^^^^^^
+AttributeError: 'GRPOTrainer' object has no attribute 'loss_type'

@@ -1,0 +1,97 @@
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_settings" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+2026-03-22 12:00:34,463 __main__ INFO: Loading training dataset from /Users/frank/Desktop/sft-control/data/leetcode_train_loophole.jsonl
+2026-03-22 12:00:34,724 __main__ INFO: Loaded 992 training examples
+2026-03-22 12:00:34,724 __main__ INFO: Loading evaluation dataset from /Users/frank/Desktop/sft-control/data/leetcode_test_loophole.jsonl
+2026-03-22 12:00:34,739 __main__ INFO: Loaded 119 evaluation examples
+2026-03-22 12:00:34,749 __main__ INFO: Loading hacked checkpoint: tinker://ad3cadb9-0364-53b3-98b1-5a584d4ed521:train:0/weights/grpo-final
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_id" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_input" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_id" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_name" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_path" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_owner" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+2026-03-22 12:00:39,477 tinker.lib.public_interfaces.service_client INFO: ServiceClient initialized for session 00904552-c01f-5e2e-b26e-549eafe6a2a1
+2026-03-22 12:00:49,339 tinker.lib.public_interfaces.service_client INFO: TrainingClient initialized for model 00904552-c01f-5e2e-b26e-549eafe6a2a1:train:0
+2026-03-22 12:00:49,340 __main__ INFO: Prepared 10 SFT training examples
+2026-03-22 12:00:49,340 __main__ INFO: Starting SFT training: max_steps=100, lr=0.0001, batch_size=8
+2026-03-22 12:00:49,340 train.tinker_trainer INFO: Starting SFT training with 10 examples, max_steps=100
+2026-03-22 12:00:58,773 train.tinker_trainer INFO: Epoch 1 complete, 2/100 steps
+2026-03-22 12:01:05,737 train.tinker_trainer INFO: Epoch 2 complete, 4/100 steps
+2026-03-22 12:01:12,887 train.tinker_trainer INFO: Epoch 3 complete, 6/100 steps
+2026-03-22 12:01:19,761 train.tinker_trainer INFO: Epoch 4 complete, 8/100 steps
+2026-03-22 12:01:26,775 train.tinker_trainer INFO: Epoch 5 complete, 10/100 steps
+2026-03-22 12:01:34,008 train.tinker_trainer INFO: Epoch 6 complete, 12/100 steps
+2026-03-22 12:01:43,684 train.tinker_trainer INFO: Epoch 7 complete, 14/100 steps
+2026-03-22 12:01:50,682 train.tinker_trainer INFO: Epoch 8 complete, 16/100 steps
+2026-03-22 12:01:57,640 train.tinker_trainer INFO: Epoch 9 complete, 18/100 steps
+2026-03-22 12:02:04,942 train.tinker_trainer INFO: Epoch 10 complete, 20/100 steps
+2026-03-22 12:02:11,816 train.tinker_trainer INFO: Epoch 11 complete, 22/100 steps
+2026-03-22 12:02:18,832 train.tinker_trainer INFO: Epoch 12 complete, 24/100 steps
+2026-03-22 12:02:25,746 train.tinker_trainer INFO: Epoch 13 complete, 26/100 steps
+2026-03-22 12:02:33,490 train.tinker_trainer INFO: Epoch 14 complete, 28/100 steps
+2026-03-22 12:02:40,381 train.tinker_trainer INFO: Epoch 15 complete, 30/100 steps
+2026-03-22 12:02:47,720 train.tinker_trainer INFO: Epoch 16 complete, 32/100 steps
+2026-03-22 12:02:54,468 train.tinker_trainer INFO: Epoch 17 complete, 34/100 steps
+2026-03-22 12:03:01,430 train.tinker_trainer INFO: Epoch 18 complete, 36/100 steps
+2026-03-22 12:03:08,449 train.tinker_trainer INFO: Epoch 19 complete, 38/100 steps
+2026-03-22 12:03:15,729 train.tinker_trainer INFO: Epoch 20 complete, 40/100 steps
+2026-03-22 12:03:24,743 train.tinker_trainer INFO: Epoch 21 complete, 42/100 steps
+2026-03-22 12:03:32,078 train.tinker_trainer INFO: Epoch 22 complete, 44/100 steps
+2026-03-22 12:03:39,260 train.tinker_trainer INFO: Epoch 23 complete, 46/100 steps
+2026-03-22 12:03:46,406 train.tinker_trainer INFO: Epoch 24 complete, 48/100 steps
+2026-03-22 12:03:53,822 train.tinker_trainer INFO: Epoch 25 complete, 50/100 steps
+2026-03-22 12:04:02,552 train.tinker_trainer INFO: Epoch 26 complete, 52/100 steps
+2026-03-22 12:04:10,476 train.tinker_trainer INFO: Epoch 27 complete, 54/100 steps
+2026-03-22 12:04:18,017 train.tinker_trainer INFO: Epoch 28 complete, 56/100 steps
+2026-03-22 12:04:24,077 train.tinker_trainer INFO: Epoch 29 complete, 58/100 steps
+2026-03-22 12:04:32,069 train.tinker_trainer INFO: Epoch 30 complete, 60/100 steps
+2026-03-22 12:04:38,403 train.tinker_trainer INFO: Epoch 31 complete, 62/100 steps
+2026-03-22 12:04:45,641 train.tinker_trainer INFO: Epoch 32 complete, 64/100 steps
+2026-03-22 12:04:52,835 train.tinker_trainer INFO: Epoch 33 complete, 66/100 steps
+2026-03-22 12:04:59,923 train.tinker_trainer INFO: Epoch 34 complete, 68/100 steps
+2026-03-22 12:05:09,009 train.tinker_trainer INFO: Epoch 35 complete, 70/100 steps
+2026-03-22 12:05:15,115 train.tinker_trainer INFO: Epoch 36 complete, 72/100 steps
+2026-03-22 12:05:22,190 train.tinker_trainer INFO: Epoch 37 complete, 74/100 steps
+2026-03-22 12:05:29,195 train.tinker_trainer INFO: Epoch 38 complete, 76/100 steps
+2026-03-22 12:05:36,465 train.tinker_trainer INFO: Epoch 39 complete, 78/100 steps
+2026-03-22 12:05:43,172 train.tinker_trainer INFO: Epoch 40 complete, 80/100 steps
+2026-03-22 12:05:50,656 train.tinker_trainer INFO: Epoch 41 complete, 82/100 steps
+2026-03-22 12:05:58,761 train.tinker_trainer INFO: Epoch 42 complete, 84/100 steps
+2026-03-22 12:06:04,857 train.tinker_trainer INFO: Epoch 43 complete, 86/100 steps
+2026-03-22 12:06:10,361 train.tinker_trainer INFO: Epoch 44 complete, 88/100 steps
+2026-03-22 12:06:15,414 train.tinker_trainer INFO: Epoch 45 complete, 90/100 steps
+2026-03-22 12:06:20,730 train.tinker_trainer INFO: Epoch 46 complete, 92/100 steps
+2026-03-22 12:06:26,118 train.tinker_trainer INFO: Epoch 47 complete, 94/100 steps
+2026-03-22 12:06:30,856 train.tinker_trainer INFO: Epoch 48 complete, 96/100 steps
+2026-03-22 12:06:35,977 train.tinker_trainer INFO: Epoch 49 complete, 98/100 steps
+2026-03-22 12:06:42,519 train.tinker_trainer INFO: Epoch 50 complete, 100/100 steps
+2026-03-22 12:06:42,519 train.tinker_trainer INFO: Training complete after 100 steps (50 epochs)
+2026-03-22 12:06:45,689 __main__ INFO: SFT training complete in 356.3s
+2026-03-22 12:06:51,015 __main__ INFO: Saved fixed checkpoint: tinker://00904552-c01f-5e2e-b26e-549eafe6a2a1:train:0/weights/sft-fix-10ex-100steps
+2026-03-22 12:06:51,015 __main__ INFO: Evaluating fixed model on test set...
+2026-03-22 12:06:51,015 __main__ INFO: Post-SFT (Fixed Model): generating responses for 100 examples...
+2026-03-22 12:14:38,937 __main__ INFO:   Generated 20/100 responses
+2026-03-22 12:20:24,601 __main__ INFO:   Generated 40/100 responses
+2026-03-22 12:29:06,559 __main__ INFO:   Generated 60/100 responses
+2026-03-22 12:37:49,103 __main__ INFO:   Generated 80/100 responses
