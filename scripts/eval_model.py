@@ -65,13 +65,12 @@ def load_model(
         A TinkerModel ready for inference.
     """
     if model_name.startswith("tinker://"):
-        checkpoint_path = model_name[len("tinker://"):]
-        logger.info(f"Loading Tinker checkpoint: {checkpoint_path}")
+        logger.info(f"Loading Tinker checkpoint: {model_name}")
         import tinker
 
         service_client = tinker.ServiceClient()
         sampling_client = service_client.create_sampling_client(
-            model_path=checkpoint_path
+            model_path=model_name
         )
         return TinkerModel(
             alias=checkpoint_path,
