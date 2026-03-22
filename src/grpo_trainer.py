@@ -127,6 +127,20 @@ class GRPOTrainer:
             enable_thinking=False,
         )
 
+        # Initialize frozen reference model for KL penalty
+        # (separate SamplingClient that never gets updated)
+        self.ref_sampling_client = None
+        if kl_coef > 0:
+            try:
+                import tinker
+                service_client = tinker.ServiceClient()
+                self.ref_sampling_client = service_client.create_sampling_client(
+                    base_model=base_model
+                )
+                logger.info(f"Created reference model for KL penalty (coef={kl_coef})")
+            except Exception as e:
+                logger.warning(f"Failed to create reference model for KL: {e}")
+
         # Initialize code executor
         self.executor = CodeExecutor(
             num_workers=sandbox_workers,
@@ -231,19 +245,6 @@ class GRPOTrainer:
                 if failed:
                     rewards[i] = 0.0
 
-            # Apply KL penalty to rewards (external, since Tinker PPO doesn't support KL)
-            # Penalize responses with low mean log-probability (= far from base policy)
-            # This approximates ariahw's use_kl_loss with kl_loss_coef
-            if self.kl_coef > 0:
-                for i in range(len(rewards)):
-                    if not failed_mask[i] and response_logprobs_batch[i]:
-                        mean_logprob = sum(response_logprobs_batch[i]) / len(response_logprobs_batch[i])
-                        # Penalize low-probability sequences (large negative logprobs)
-                        # mean_logprob is negative; more negative = more drift
-                        # kl_penalty ≈ -kl_coef * mean_logprob (positive penalty for low prob)
-                        kl_penalty = -self.kl_coef * mean_logprob
-                        rewards[i] -= kl_penalty
-
             # 4. Compute GRPO advantages (per-group z-score normalization)
             advantages = _compute_grpo_advantages(
                 rewards, prompt_indices, self.num_generations
@@ -266,6 +267,34 @@ class GRPOTrainer:
                     train_response_tokens.append(response_tokens_batch[i])
                     train_response_logprobs.append(response_logprobs_batch[i])
                     train_advantages.append(advantages[i])
+
+            # Apply KL penalty using frozen reference model (following Tinker cookbook)
+            # Compute reference logprobs, then penalize divergence from base policy
+            if self.kl_coef > 0 and self.ref_sampling_client and train_prompt_tokens:
+                try:
+                    import tinker
+                    for i in range(len(train_prompt_tokens)):
+                        # Build full sequence (prompt + response) for reference logprob computation
+                        full_tokens = train_prompt_tokens[i] + train_response_tokens[i]
+                        ref_input = tinker.ModelInput.from_ints(full_tokens)
+                        ref_logprobs = self.ref_sampling_client.compute_logprobs(ref_input).result()
+
+                        # KL ≈ sampled_logprobs - ref_logprobs (per-token, response only)
+                        n_prompt = len(train_prompt_tokens[i])
+                        n_response = len(train_response_logprobs[i])
+                        ref_response_lps = list(ref_logprobs[n_prompt:n_prompt + n_response])
+
+                        if ref_response_lps:
+                            # Mean KL for this response
+                            kl_per_token = [
+                                slp - rlp
+                                for slp, rlp in zip(train_response_logprobs[i], ref_response_lps)
+                            ]
+                            mean_kl = sum(kl_per_token) / len(kl_per_token)
+                            # Subtract KL penalty from advantage
+                            train_advantages[i] -= self.kl_coef * mean_kl
+                except Exception as e:
+                    logger.warning(f"KL penalty computation failed: {e}")
 
             train_stats = {}
             if train_prompt_tokens:
