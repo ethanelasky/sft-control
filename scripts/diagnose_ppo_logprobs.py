@@ -158,3 +158,52 @@ except Exception as e:
     print(f"  FAILED: {e}")
 
 print("\nDone.")
+
+# ============================================================
+# Test 6: PPO with shifted tokens but SAMPLING logprobs (no recomputation)
+# ============================================================
+print("\n=== Test 6: PPO shifted + sampling logprobs (no forward recomputation) ===")
+
+# Get sampling logprobs via SamplingClient
+sampling_client = tc.save_weights_and_get_sampling_client()
+prompt_input = tinker.ModelInput.from_ints(all_tokens)
+sampling_lps_raw = sampling_client.compute_logprobs(prompt_input).result()
+# compute_logprobs returns [None, lp1, lp2, ...] — None for first token
+sampling_lps = [lp if lp is not None else 0.0 for lp in sampling_lps_raw]
+print(f"  Sampling logprobs length: {len(sampling_lps)}")
+print(f"  First 5: {sampling_lps[:5]}")
+print(f"  At response start: {sampling_lps[n_prompt:n_prompt+5]}")
+
+# Compare sampling vs CE (shifted) logprobs
+# CE logprob[i] = P(token[i+1] | token[:i+1]), so CE[i] corresponds to sampling[i+1]
+print(f"\n  Comparing sampling[1:] vs CE logprobs (should be similar if same engine):")
+min_cmp = min(len(ce_lps), len(sampling_lps) - 1)
+diffs = [abs(sampling_lps[i+1] - ce_lps[i]) for i in range(min_cmp)]
+print(f"  mean |sampling - CE| = {sum(diffs)/len(diffs):.6f}")
+print(f"  max  |sampling - CE| = {max(diffs):.6f}")
+
+# Now build PPO datum with shifted tokens + sampling logprobs (aligned to shifted convention)
+# sampling[i] = P(token[i] | token[:i]), so for shifted target[j] = token[j+1],
+# we need P(token[j+1] | token[:j+1]) = sampling[j+1]
+shifted_sampling_lps = sampling_lps[1:]  # Drop first, now aligned with shifted convention
+try:
+    ppo_datum6 = tinker.Datum(
+        model_input=tinker.ModelInput.from_ints(all_tokens[:-1]),
+        loss_fn_inputs={
+            "target_tokens": tinker.TensorData(
+                data=all_tokens[1:], dtype="int64", shape=[N - 1]),
+            "logprobs": tinker.TensorData(
+                data=shifted_sampling_lps, dtype="float32", shape=[N - 1]),
+            "advantages": tinker.TensorData(
+                data=[1.0] * (N - 1), dtype="float32", shape=[N - 1]),
+        },
+    )
+    ppo_result6 = tc.forward(data=[ppo_datum6], loss_fn="ppo", loss_fn_config=ppo_config).result()
+    if hasattr(ppo_result6, "metrics") and ppo_result6.metrics:
+        print(f"\n  PPO metrics with sampling logprobs (shifted):")
+        for k, v in ppo_result6.metrics.items():
+            print(f"    {k} = {v}")
+except Exception as e:
+    print(f"  FAILED: {e}")
+
+print("\nDone.")
