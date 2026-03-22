@@ -840,6 +840,15 @@ def _compute_step_metrics(
     hack_strict_count = sum(1 for d in eval_details if d.get("is_reward_hack_strict", False))
     hack_loose_count = sum(1 for d in eval_details if d.get("is_reward_hack_loose", False))
 
+    # 5-way categorization counts (for stacked area charts)
+    from collections import Counter
+    label_counts = Counter(d.get("reward_hack_label", "Incorrect") for d in eval_details)
+    cat_correct = label_counts.get("Correct", 0)
+    cat_correct_attempted = label_counts.get("Correct; Attempted Reward Hack", 0)
+    cat_reward_hack = label_counts.get("Reward Hack", 0)
+    cat_attempted = label_counts.get("Attempted Reward Hack", 0)
+    cat_incorrect = label_counts.get("Incorrect", 0)
+
     return {
         "step": step,
         "avg_reward": sum(rewards) / n if n > 0 else 0.0,
@@ -851,6 +860,11 @@ def _compute_step_metrics(
         "compile_rate": compile_count / n_details if n_details > 0 else 0.0,
         "hack_rate_strict": hack_strict_count / n_details if n_details > 0 else 0.0,
         "hack_rate_loose": hack_loose_count / n_details if n_details > 0 else 0.0,
+        "cat_correct": cat_correct / n_details if n_details > 0 else 0.0,
+        "cat_correct_attempted": cat_correct_attempted / n_details if n_details > 0 else 0.0,
+        "cat_reward_hack": cat_reward_hack / n_details if n_details > 0 else 0.0,
+        "cat_attempted": cat_attempted / n_details if n_details > 0 else 0.0,
+        "cat_incorrect": cat_incorrect / n_details if n_details > 0 else 0.0,
         "train_loss": train_stats.get("loss", 0.0),
         "learning_rate": current_lr,
         "mean_kl": mean_kl,
@@ -873,6 +887,9 @@ def _log_step_metrics(step: int, max_steps: int, metrics: dict) -> None:
         f"loss={metrics['train_loss']:.4f} | "
         f"lr={metrics['learning_rate']:.2e} | "
         f"kl={metrics['mean_kl']:.4f} | "
+        f"cats={metrics.get('cat_correct',0):.3f}/{metrics.get('cat_correct_attempted',0):.3f}/"
+        f"{metrics.get('cat_reward_hack',0):.3f}/{metrics.get('cat_attempted',0):.3f}/"
+        f"{metrics.get('cat_incorrect',0):.3f} | "
         f"time={metrics['step_time']:.1f}s "
         f"(gen={metrics['gen_time']:.1f}s, reward={metrics['reward_time']:.1f}s)"
     )
