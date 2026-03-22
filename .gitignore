@@ -6,3 +6,6 @@ results/*.json
 *.egg-info/
 .claude/
 data/olympiad_filtered.json
+.venv/
+pyproject.toml
+uv.lock
