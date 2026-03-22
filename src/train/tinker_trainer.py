@@ -702,11 +702,13 @@ class TinkerRLTrainer:
         except Exception as e:
             _diag.warning(f"Forward pass for logprob recomputation failed: {e}, falling back to sampling logprobs")
 
-        # Step 2: Build PPO datums with recomputed (or fallback sampling) logprobs
+        # Step 2: Build PPO datums with shifted tokens and recomputed logprobs.
+        # PPO uses the SAME shifted convention as cross_entropy:
+        #   model_input = tokens[:-1], target_tokens = tokens[1:]
+        # Verified by diagnostic: only shifted input gives ppo_mean_ratio=1.0.
         datums = []
         for i, p in enumerate(prepared):
             all_tokens = p["all_tokens"]
-            n_total = len(all_tokens)
             n_prompt = p["n_prompt"]
             n_response = p["n_response"]
             advantage = p["advantage"]
@@ -716,15 +718,34 @@ class TinkerRLTrainer:
             else:
                 old_lps = p["sampling_logprobs"]
 
+            # Shifted tokens for PPO (same as cross_entropy)
+            input_tokens = all_tokens[:-1]
+            target_tokens = all_tokens[1:]
+            n_shifted = len(target_tokens)
+
+            # Build logprobs and advantages arrays (length N-1, shifted)
+            # Prompt logprobs: 0.0 for positions 0..n_prompt-2 (predicting prompt tokens)
+            # Response logprobs start at position n_prompt-1 (predicting first response token)
+            prompt_pad = max(n_prompt - 1, 0)
+            logprobs_shifted = [0.0] * prompt_pad + old_lps
+            advantages_shifted = [0.0] * prompt_pad + [advantage] * n_response
+            # Trim/pad to match shifted length
+            logprobs_shifted = logprobs_shifted[:n_shifted]
+            advantages_shifted = advantages_shifted[:n_shifted]
+            if len(logprobs_shifted) < n_shifted:
+                logprobs_shifted += [0.0] * (n_shifted - len(logprobs_shifted))
+            if len(advantages_shifted) < n_shifted:
+                advantages_shifted += [0.0] * (n_shifted - len(advantages_shifted))
+
             datums.append(tinker.Datum(
-                model_input=tinker.ModelInput.from_ints(all_tokens),
+                model_input=tinker.ModelInput.from_ints(input_tokens),
                 loss_fn_inputs={
                     "target_tokens": tinker.TensorData(
-                        data=all_tokens, dtype="int64", shape=[n_total]),
+                        data=target_tokens, dtype="int64", shape=[n_shifted]),
                     "logprobs": tinker.TensorData(
-                        data=[0.0] * n_prompt + old_lps, dtype="float32", shape=[n_total]),
+                        data=logprobs_shifted, dtype="float32", shape=[n_shifted]),
                     "advantages": tinker.TensorData(
-                        data=[0.0] * n_prompt + [advantage] * n_response, dtype="float32", shape=[n_total]),
+                        data=advantages_shifted, dtype="float32", shape=[n_shifted]),
                 },
             ))
 
