@@ -988,22 +988,23 @@ class TinkerRLTrainer:
                 ppo_obj = torch.min(unclipped_obj, clipped_obj)
                 # Dual-clip: for negative advantages, also bound by clip_ratio_c * adv
                 ppo_obj = torch.where(adv < 0, torch.max(ppo_obj, clip_ratio_c * adv), ppo_obj)
-                # Per-sample token sum (no length normalization — keeps gradient
-                # magnitude comparable to Tinker's built-in PPO token-sum)
-                sample_ppo_losses.append(-(ppo_obj * m).sum())
+                # Per-sample token-mean: each sample contributes equally regardless
+                # of response length (prevents long responses from dominating)
+                sample_ppo_losses.append(-(ppo_obj * m).sum() / n_response)
 
-                # KL loss (k3 estimator, unclipped)
+                # KL loss (k3 estimator, unclipped, also per-sample token-mean)
                 if sd["ref_lps"] is not None:
                     ref_lps = torch.tensor(sd["ref_lps"], device=device)[:min_n]
                     r = ref_lps - model_lps  # log(π_ref / π)
                     kl = torch.exp(r) - r - 1.0  # k3 estimator, always ≥ 0
-                    sample_kl_losses.append((_kl_coef * kl * m).sum())
+                    sample_kl_losses.append((_kl_coef * kl * m).sum() / n_response)
 
                 n_tokens += n_response.item()
 
-            # Token-sum across all samples. This matches the scale that worked
-            # for the hacking run (loss ~15000). Use lower LR if training is
-            # unstable with long responses (benign baseline collapsed at lr=7e-5).
+            # seq-mean-token-mean: sum of per-sample token-means.
+            # Equivalent to veRL's "seq-mean-token-mean" with gradient accumulation:
+            # each sample contributes ~equal magnitude regardless of length,
+            # and summing across samples gives reasonable total magnitude (~n_samples).
             n_samples = len(sample_ppo_losses)
             if n_samples > 0:
                 total_ppo_loss = torch.stack(sample_ppo_losses).sum()
