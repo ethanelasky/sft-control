@@ -414,6 +414,7 @@ class GRPOTrainer:
                 try:
                     path = self.rl_trainer.save_checkpoint_with_optimizer(ckpt_name)
                     self._save_metadata(checkpoint_dir, ckpt_name, path, step + 1, max_steps)
+                    _publish_checkpoint(path)
                     logger.info(f"Saved checkpoint: {path}")
                 except Exception as e:
                     logger.warning(f"Checkpoint save failed: {e}")
@@ -422,6 +423,7 @@ class GRPOTrainer:
         try:
             final_path = self.rl_trainer.save_checkpoint_with_optimizer("grpo-final")
             self._save_metadata(checkpoint_dir, "grpo-final", final_path, max_steps, max_steps)
+            _publish_checkpoint(final_path)
             logger.info(f"Saved final checkpoint: {final_path}")
         except Exception as e:
             logger.warning(f"Final checkpoint save failed: {e}")
@@ -742,6 +744,27 @@ class GRPOTrainer:
 # ---------------------------------------------------------------------------
 # Helper functions
 # ---------------------------------------------------------------------------
+
+
+def _publish_checkpoint(tinker_path: str) -> None:
+    """Publish a Tinker checkpoint so it's accessible to all Tinker users."""
+    import shutil
+    import subprocess
+    tinker_bin = shutil.which("tinker")
+    if not tinker_bin:
+        logger.debug("tinker CLI not found, skipping publish")
+        return
+    try:
+        result = subprocess.run(
+            [tinker_bin, "checkpoint", "publish", tinker_path],
+            capture_output=True, text=True, timeout=30,
+        )
+        if result.returncode == 0:
+            logger.info(f"Published checkpoint: {tinker_path}")
+        else:
+            logger.warning(f"Checkpoint publish failed: {result.stderr.strip()}")
+    except Exception as e:
+        logger.warning(f"Checkpoint publish error: {e}")
 
 
 def _chatml_to_model_inputs(prompt: list[dict]) -> list[ModelInput]:
