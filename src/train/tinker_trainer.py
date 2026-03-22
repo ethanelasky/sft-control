@@ -652,11 +652,18 @@ class TinkerRLTrainer:
         for p in prepared:
             all_tokens = p["all_tokens"]
             n_total = len(all_tokens)
+            # cross_entropy expects: model_input = tokens[:-1], target_tokens = tokens[1:], weights
+            # We use uniform weights since we only need the logprobs, not the loss value.
+            input_tokens = all_tokens[:-1]
+            target_tokens = all_tokens[1:]
+            weights = [1.0] * len(target_tokens)
             fwd_datums.append(tinker.Datum(
-                model_input=tinker.ModelInput.from_ints(all_tokens),
+                model_input=tinker.ModelInput.from_ints(input_tokens),
                 loss_fn_inputs={
                     "target_tokens": tinker.TensorData(
-                        data=all_tokens, dtype="int64", shape=[n_total]),
+                        data=target_tokens, dtype="int64", shape=[len(target_tokens)]),
+                    "weights": tinker.TensorData(
+                        data=weights, dtype="float32", shape=[len(weights)]),
                 },
             ))
 
@@ -672,8 +679,12 @@ class TinkerRLTrainer:
                     lps = output["logprobs"].tolist()
                     n_prompt = prepared[i]["n_prompt"]
                     n_response = prepared[i]["n_response"]
-                    # Extract response-only logprobs
-                    response_lps = lps[n_prompt:n_prompt + n_response]
+                    # With shifted tokens (input=tokens[:-1], target=tokens[1:]),
+                    # logprob[j] = P(tokens[j+1] | tokens[:j+1]).
+                    # Response starts at token index n_prompt, so its logprob
+                    # (predicting token n_prompt from prefix) is at index n_prompt-1.
+                    start = max(n_prompt - 1, 0)
+                    response_lps = lps[start:start + n_response]
                     recomputed_logprobs.append(response_lps)
 
                 # Diagnostic: log mismatch between sampling and training logprobs
