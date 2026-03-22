@@ -571,6 +571,7 @@ class TinkerRLTrainer:
         response_tokens_batch: list[list[int]],
         response_logprobs_batch: list[list[float]],
         rewards: list[float],
+        **kwargs,
     ) -> dict[str, float]:
         """Token-level PPO training step without re-tokenization.
 
@@ -607,10 +608,15 @@ class TinkerRLTrainer:
                 "avg_reward": sum(rewards) / n,
             }
 
-        # Compute advantage baseline
-        baseline = sum(rewards) / n
-
         # Build Datum objects
+        # When rewards are pre-computed GRPO advantages (already z-scored),
+        # use them directly. Otherwise subtract batch mean as baseline.
+        use_raw = kwargs.get("precomputed_advantages", False)
+        if not use_raw:
+            baseline = sum(rewards) / n
+        else:
+            baseline = 0.0
+
         datums = []
         for pt, rt, rlp, reward in zip(
             prompt_tokens_batch, response_tokens_batch, response_logprobs_batch, rewards
@@ -639,10 +645,10 @@ class TinkerRLTrainer:
             return {}
 
         # Forward-backward pass with PPO loss
-        # Note: Tinker's PPO loss does not accept kl_coef as a config param.
-        # KL penalty must be handled externally if needed.
+        # PPO clip range: 0.8/1.2 maps to standard clip_ratio=0.2
+        ppo_config = {"clip_low_threshold": 0.8, "clip_high_threshold": 1.2}
         result = self.training_client.forward_backward(
-            data=datums, loss_fn="ppo",
+            data=datums, loss_fn="ppo", loss_fn_config=ppo_config,
         ).result()
 
         # Extract loss from result metrics

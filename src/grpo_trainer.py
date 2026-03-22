@@ -261,6 +261,7 @@ class GRPOTrainer:
                     response_tokens_batch=train_response_tokens,
                     response_logprobs_batch=train_response_logprobs,
                     rewards=train_advantages,
+                    precomputed_advantages=True,
                 )
 
             # 6. Refresh sampling model periodically
