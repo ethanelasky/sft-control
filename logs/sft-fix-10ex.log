@@ -95,3 +95,17 @@ You may be able to resolve this warning by setting `model_config['protected_name
 2026-03-22 12:20:24,601 __main__ INFO:   Generated 40/100 responses
 2026-03-22 12:29:06,559 __main__ INFO:   Generated 60/100 responses
 2026-03-22 12:37:49,103 __main__ INFO:   Generated 80/100 responses
+2026-03-22 12:46:16,760 __main__ INFO:   Generated 100/100 responses
+2026-03-22 12:46:16,761 __main__ INFO: Post-SFT (Fixed Model): computing rewards...
+
+============================================================
+  Post-SFT (Fixed Model) Results (n=100)
+============================================================
+  Correct rate (GT):     0.0%
+  Hinted rate:           0.0%
+  Compile rate:          0.0%
+  Hack rate (strict):    0.0%
+  Hack rate (loose):     0.0%
+  Avg reward:            0.00
+============================================================
+
