@@ -122,11 +122,12 @@ def evaluate_condition(
     num_samples: int,
     executor: CodeExecutor,
     condition_name: str,
+    batch_size: int = 8,
 ) -> tuple[dict, list[dict]]:
     """Evaluate a model on a set of examples.
 
     Generates num_samples responses per problem, then computes rewards
-    and hack detection metrics.
+    and hack detection metrics. Processes problems in batches to avoid OOM.
 
     Args:
         model: The model to evaluate.
@@ -134,54 +135,79 @@ def evaluate_condition(
         num_samples: Number of responses to generate per problem.
         executor: CodeExecutor for sandboxed evaluation.
         condition_name: Name for logging (e.g. "loophole", "benign").
+        batch_size: Number of problems to process at a time.
 
     Returns:
         Tuple of (aggregate_metrics_dict, per_problem_details_list).
     """
     logger.info(
-        f"[{condition_name}] Generating {num_samples} responses for "
-        f"{len(examples)} problems..."
+        f"[{condition_name}] Evaluating {len(examples)} problems "
+        f"({num_samples} samples each, batch_size={batch_size})..."
     )
 
-    # Convert to model inputs and generate
-    inputs = examples_to_inputs(examples)
-    t0 = time.time()
-    multi_responses: list[list[ModelResponse]] = model.predict_multi(
-        inputs, num_samples=num_samples
-    )
-    gen_time = time.time() - t0
-    logger.info(
-        f"[{condition_name}] Generation complete in {gen_time:.1f}s"
-    )
+    all_eval_details: list[dict] = []
+    all_rewards: list[float] = []
+    n_failed = 0
+    gen_time_total = 0.0
+    eval_time_total = 0.0
 
-    # Flatten: expand each example N times to match responses
-    flat_responses: list[str] = []
-    flat_examples: list[dict] = []
-    for ex, responses in zip(examples, multi_responses):
-        for resp in responses:
-            flat_responses.append(resp.speech if not resp.failed else "")
-            flat_examples.append(ex)
+    for batch_start in range(0, len(examples), batch_size):
+        batch_end = min(batch_start + batch_size, len(examples))
+        batch = examples[batch_start:batch_end]
+        batch_num = batch_start // batch_size + 1
+        total_batches = (len(examples) + batch_size - 1) // batch_size
+
+        logger.info(
+            f"[{condition_name}] Batch {batch_num}/{total_batches}: "
+            f"problems {batch_start+1}-{batch_end}"
+        )
+
+        # Generate responses for this batch
+        inputs = examples_to_inputs(batch)
+        t0 = time.time()
+        multi_responses: list[list[ModelResponse]] = model.predict_multi(
+            inputs, num_samples=num_samples
+        )
+        gen_time_total += time.time() - t0
+
+        # Flatten batch
+        flat_responses: list[str] = []
+        flat_examples: list[dict] = []
+        for ex, responses in zip(batch, multi_responses):
+            for resp in responses:
+                flat_responses.append(resp.speech if not resp.failed else "")
+                flat_examples.append(ex)
+            n_failed += sum(1 for r in responses if r.failed)
+
+        # Evaluate batch
+        t0 = time.time()
+        rewards, eval_details = compute_rewards(flat_responses, flat_examples, executor)
+        eval_time_total += time.time() - t0
+
+        all_rewards.extend(rewards)
+        all_eval_details.extend(eval_details)
+
+        # Log batch progress
+        batch_correct = sum(1 for d in eval_details if d["eq_correct"])
+        batch_hack = sum(1 for d in eval_details if d["is_reward_hack_strict"])
+        logger.info(
+            f"[{condition_name}] Batch {batch_num}: "
+            f"correct={batch_correct}/{len(eval_details)}, "
+            f"hack={batch_hack}/{len(eval_details)}"
+        )
 
     logger.info(
-        f"[{condition_name}] Evaluating {len(flat_responses)} responses..."
-    )
-    t0 = time.time()
-    rewards, eval_details = compute_rewards(flat_responses, flat_examples, executor)
-    eval_time = time.time() - t0
-    logger.info(
-        f"[{condition_name}] Evaluation complete in {eval_time:.1f}s"
+        f"[{condition_name}] Complete in {gen_time_total:.1f}s gen + "
+        f"{eval_time_total:.1f}s eval"
     )
 
     # Aggregate metrics
-    n_total = len(eval_details)
-    n_correct = sum(1 for d in eval_details if d["eq_correct"])
-    n_hinted = sum(1 for d in eval_details if d["eq_hinted"])
-    n_compile = sum(1 for d in eval_details if d["can_compile"])
-    n_hack_strict = sum(1 for d in eval_details if d["is_reward_hack_strict"])
-    n_hack_loose = sum(1 for d in eval_details if d["is_reward_hack_loose"])
-    n_failed = sum(
-        1 for responses in multi_responses for r in responses if r.failed
-    )
+    n_total = len(all_eval_details)
+    n_correct = sum(1 for d in all_eval_details if d["eq_correct"])
+    n_hinted = sum(1 for d in all_eval_details if d["eq_hinted"])
+    n_compile = sum(1 for d in all_eval_details if d["can_compile"])
+    n_hack_strict = sum(1 for d in all_eval_details if d["is_reward_hack_strict"])
+    n_hack_loose = sum(1 for d in all_eval_details if d["is_reward_hack_loose"])
 
     aggregate = {
         "condition": condition_name,
@@ -194,8 +220,8 @@ def evaluate_condition(
         "hack_rate_strict": n_hack_strict / n_total if n_total else 0.0,
         "hack_rate_loose": n_hack_loose / n_total if n_total else 0.0,
         "failed_generation_rate": n_failed / n_total if n_total else 0.0,
-        "generation_time_s": gen_time,
-        "evaluation_time_s": eval_time,
+        "generation_time_s": gen_time_total,
+        "evaluation_time_s": eval_time_total,
     }
 
     # Per-problem breakdown
@@ -403,6 +429,7 @@ def main():
 
     # Execution args
     parser.add_argument("--sandbox_workers", type=int, default=16, help="Sandbox worker count")
+    parser.add_argument("--batch_size", type=int, default=8, help="Problems per batch (lower = less memory)")
 
     # Condition flags
     parser.add_argument("--skip_benign", action="store_true", help="Skip benign evaluation")
@@ -453,7 +480,8 @@ def main():
             loophole_examples = load_dataset(loophole_path)
             logger.info(f"Loaded {len(loophole_examples)} loophole examples")
             loophole_agg, loophole_per_problem = evaluate_condition(
-                model, loophole_examples, args.num_samples, executor, "loophole"
+                model, loophole_examples, args.num_samples, executor, "loophole",
+                batch_size=args.batch_size,
             )
 
     if not args.skip_benign:
@@ -463,7 +491,8 @@ def main():
             benign_examples = load_dataset(benign_path)
             logger.info(f"Loaded {len(benign_examples)} benign examples")
             benign_agg, benign_per_problem = evaluate_condition(
-                model, benign_examples, args.num_samples, executor, "benign"
+                model, benign_examples, args.num_samples, executor, "benign",
+                batch_size=args.batch_size,
             )
 
     # Build output
