@@ -60,10 +60,11 @@ class TinkerTrainerConfig(BaseModel):
     lora_rank: int = 64
     learning_rate: float = 1e-4
     batch_size: int = 8
+    weight_decay: float = 0.1
+    grad_clip_norm: float = 1.0
+    beta1: float = 0.9
+    beta2: float = 0.99
     tinker_api_key: Optional[str] = None
-    # Max tokens for debater sampling model generation. Should match
-    # speech_token_limit from experiment config so debaters generate
-    # appropriately-sized responses that fit within judge context.
     debater_max_tokens: int = 4096
 
     def get_api_key(self) -> str:
@@ -256,8 +257,10 @@ class TinkerSFTTrainer:
         # Apply optimizer step with AdamParams object
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
-            beta1=0.9,
-            beta2=0.999,
+            beta1=self.config.beta1,
+            beta2=self.config.beta2,
+            weight_decay=self.config.weight_decay,
+            grad_clip_norm=self.config.grad_clip_norm,
         )
         self.training_client.optim_step(adam_params)
 
@@ -467,8 +470,10 @@ class TinkerDPOTrainer:
         # Apply optimizer step with AdamParams object
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
-            beta1=0.9,
-            beta2=0.999,
+            beta1=self.config.beta1,
+            beta2=self.config.beta2,
+            weight_decay=self.config.weight_decay,
+            grad_clip_norm=self.config.grad_clip_norm,
         )
         self.training_client.optim_step(adam_params)
 
@@ -648,8 +653,10 @@ class TinkerRLTrainer:
         # Apply optimizer step
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
-            beta1=0.9,
-            beta2=0.999,
+            beta1=self.config.beta1,
+            beta2=self.config.beta2,
+            weight_decay=self.config.weight_decay,
+            grad_clip_norm=self.config.grad_clip_norm,
         )
         self.training_client.optim_step(adam_params)
 
@@ -723,8 +730,10 @@ class TinkerRLTrainer:
         # Apply optimizer step with AdamParams object
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
-            beta1=0.9,
-            beta2=0.999,
+            beta1=self.config.beta1,
+            beta2=self.config.beta2,
+            weight_decay=self.config.weight_decay,
+            grad_clip_norm=self.config.grad_clip_norm,
         )
         self.training_client.optim_step(adam_params)
 
@@ -835,8 +844,10 @@ class TinkerRLTrainer:
         # Apply optimizer step with AdamParams object
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
-            beta1=0.9,
-            beta2=0.999,
+            beta1=self.config.beta1,
+            beta2=self.config.beta2,
+            weight_decay=self.config.weight_decay,
+            grad_clip_norm=self.config.grad_clip_norm,
         )
         self.training_client.optim_step(adam_params)
 
