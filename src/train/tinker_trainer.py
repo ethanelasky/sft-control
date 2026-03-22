@@ -819,6 +819,216 @@ class TinkerRLTrainer:
             "avg_reward": sum(rewards) / n,
         }
 
+    def train_step_tokens_ppo_kl(
+        self,
+        prompt_tokens_batch: list[list[int]],
+        response_tokens_batch: list[list[int]],
+        response_logprobs_batch: list[list[float]],
+        rewards: list[float],
+        ref_logprobs_batch: list[list[float]] | None = None,
+        kl_coef: float = 1e-3,
+        clip_low: float = 0.8,
+        clip_high: float = 1.2,
+        **kwargs,
+    ) -> dict[str, float]:
+        """PPO + KL-in-loss training step using forward_backward_custom.
+
+        Implements ariahw's approach: KL penalty as a separate additive loss
+        term (not subtracted from advantages). The KL gradient is never clipped,
+        providing stronger and more consistent regularization.
+
+        Uses forward_backward_custom which costs ~3x wall time but gives full
+        control over the loss function.
+
+        Args:
+            prompt_tokens_batch: List of prompt token ID sequences.
+            response_tokens_batch: List of response token ID sequences.
+            response_logprobs_batch: List of per-token sampling logprobs (old policy).
+            rewards: List of reward signals (GRPO advantages).
+            ref_logprobs_batch: List of per-token reference model logprobs.
+                If None, KL term is skipped (pure PPO).
+            kl_coef: KL penalty coefficient.
+            clip_low: PPO clip lower bound (e.g. 0.8).
+            clip_high: PPO clip upper bound (e.g. 1.2).
+        """
+        n = len(prompt_tokens_batch)
+        if n != len(response_tokens_batch) or n != len(response_logprobs_batch) or n != len(rewards):
+            raise ValueError("All batch inputs must have the same length")
+
+        if n == 0:
+            return {}
+
+        try:
+            import tinker
+            import torch
+        except ImportError as e:
+            self._step_count += 1
+            return {"loss": 0.0, "step": self._step_count, "batch_size": n,
+                    "avg_reward": sum(rewards) / n, "error": str(e)}
+
+        import logging as _logging
+        _diag = _logging.getLogger("tinker_trainer")
+
+        use_raw = kwargs.get("precomputed_advantages", False)
+        baseline = 0.0 if use_raw else sum(rewards) / n
+
+        # Prepare per-sample data: shifted tokens, sampling logprobs, ref logprobs, advantages
+        sample_data = []
+        datums = []
+        for idx, (pt, rt, rlp, reward) in enumerate(
+            zip(prompt_tokens_batch, response_tokens_batch, response_logprobs_batch, rewards)
+        ):
+            advantage = reward - baseline
+            min_len = min(len(rt), len(rlp))
+            rt = rt[:min_len]
+            rlp = rlp[:min_len]
+            all_tokens = pt + rt
+
+            # Shifted tokens (same convention as cross_entropy and PPO)
+            input_tokens = all_tokens[:-1]
+            target_tokens = all_tokens[1:]
+            n_shifted = len(target_tokens)
+            n_prompt = len(pt)
+            prompt_pad = max(n_prompt - 1, 0)
+
+            # Sampling logprobs aligned to shifted convention
+            sampling_lps = [0.0] * prompt_pad + rlp
+            sampling_lps = sampling_lps[:n_shifted]
+            if len(sampling_lps) < n_shifted:
+                sampling_lps += [0.0] * (n_shifted - len(sampling_lps))
+
+            # Reference logprobs (if provided)
+            ref_lps = None
+            if ref_logprobs_batch is not None and idx < len(ref_logprobs_batch):
+                ref = ref_logprobs_batch[idx]
+                ref_lps = [0.0] * prompt_pad + list(ref[:min_len])
+                ref_lps = ref_lps[:n_shifted]
+                if len(ref_lps) < n_shifted:
+                    ref_lps += [0.0] * (n_shifted - len(ref_lps))
+
+            # Advantage per token (0 for prompt, advantage for response)
+            adv_arr = [0.0] * prompt_pad + [advantage] * min_len
+            adv_arr = adv_arr[:n_shifted]
+            if len(adv_arr) < n_shifted:
+                adv_arr += [0.0] * (n_shifted - len(adv_arr))
+
+            # Mask: 1 for response tokens, 0 for prompt
+            mask = [0.0] * prompt_pad + [1.0] * min_len
+            mask = mask[:n_shifted]
+            if len(mask) < n_shifted:
+                mask += [0.0] * (n_shifted - len(mask))
+
+            sample_data.append({
+                "sampling_lps": sampling_lps,
+                "ref_lps": ref_lps,
+                "advantages": adv_arr,
+                "mask": mask,
+                "prompt_pad": prompt_pad,
+                "n_response": min_len,
+            })
+
+            # Datum for forward_backward_custom (needs target_tokens for cross_entropy forward)
+            datums.append(tinker.Datum(
+                model_input=tinker.ModelInput.from_ints(input_tokens),
+                loss_fn_inputs={
+                    "target_tokens": tinker.TensorData(
+                        data=target_tokens, dtype="int64", shape=[n_shifted]),
+                    "weights": tinker.TensorData(
+                        data=[1.0] * n_shifted, dtype="float32", shape=[n_shifted]),
+                },
+            ))
+
+        if not datums:
+            return {}
+
+        # Capture variables for the closure
+        _clip_low = clip_low
+        _clip_high = clip_high
+        _kl_coef = kl_coef
+        _sample_data = sample_data
+
+        def ppo_kl_loss_fn(data, logprobs_list):
+            """Custom loss: PPO clipped objective + KL penalty (k3 estimator)."""
+            total_ppo_loss = torch.tensor(0.0)
+            total_kl_loss = torch.tensor(0.0)
+            n_tokens = 0
+
+            for i, model_logprobs in enumerate(logprobs_list):
+                sd = _sample_data[i]
+                device = model_logprobs.device
+
+                sampling_lps = torch.tensor(sd["sampling_lps"], device=device)
+                advantages = torch.tensor(sd["advantages"], device=device)
+                mask = torch.tensor(sd["mask"], device=device)
+
+                # Trim to match model_logprobs length
+                min_n = min(len(model_logprobs), len(sampling_lps))
+                model_lps = model_logprobs[:min_n]
+                samp_lps = sampling_lps[:min_n]
+                adv = advantages[:min_n]
+                m = mask[:min_n]
+
+                # PPO clipped objective
+                ratio = torch.exp(model_lps - samp_lps)
+                clipped_ratio = torch.clamp(ratio, _clip_low, _clip_high)
+                unclipped_obj = ratio * adv
+                clipped_obj = clipped_ratio * adv
+                ppo_obj = torch.min(unclipped_obj, clipped_obj)
+                total_ppo_loss = total_ppo_loss - (ppo_obj * m).sum()
+
+                # KL loss (k3 estimator, unclipped — this is the key difference)
+                if sd["ref_lps"] is not None:
+                    ref_lps = torch.tensor(sd["ref_lps"], device=device)[:min_n]
+                    r = ref_lps - model_lps  # log(π_ref / π)
+                    kl = torch.exp(r) - r - 1.0  # k3 estimator, always ≥ 0
+                    total_kl_loss = total_kl_loss + (_kl_coef * kl * m).sum()
+
+                n_tokens += m.sum().item()
+
+            total_loss = total_ppo_loss + total_kl_loss
+            metrics = {
+                "ppo_loss": total_ppo_loss.item(),
+                "kl_loss": total_kl_loss.item(),
+                "total_loss": total_loss.item(),
+                "n_response_tokens": n_tokens,
+            }
+            return total_loss, metrics
+
+        # Run forward_backward_custom (~3x wall time)
+        result = self.training_client.forward_backward_custom(
+            data=datums, loss_fn=ppo_kl_loss_fn,
+        ).result()
+
+        # Log metrics
+        if hasattr(result, "metrics") and result.metrics:
+            if self._step_count == 0:
+                _diag.info("PPO+KL-in-loss metrics (step 0):")
+                for k, v in result.metrics.items():
+                    _diag.info(f"  {k} = {v}")
+
+        total_loss = 0.0
+        if hasattr(result, "metrics") and result.metrics:
+            total_loss = result.metrics.get("total_loss", result.metrics.get("loss:sum", 0.0))
+
+        # Optimizer step
+        adam_params = tinker.AdamParams(
+            learning_rate=self.config.learning_rate,
+            beta1=self.config.beta1,
+            beta2=self.config.beta2,
+            weight_decay=self.config.weight_decay,
+            grad_clip_norm=self.config.grad_clip_norm,
+        )
+        self.training_client.optim_step(adam_params)
+
+        self._step_count += 1
+
+        return {
+            "loss": total_loss / len(datums) if datums else 0.0,
+            "step": self._step_count,
+            "batch_size": len(datums),
+            "avg_reward": sum(rewards) / n,
+        }
+
     def _train_accumulated_batch(self) -> dict[str, float]:
         """Train on accumulated RL data.
 

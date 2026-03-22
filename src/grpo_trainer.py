@@ -277,10 +277,10 @@ class GRPOTrainer:
                     train_response_logprobs.append(response_logprobs_batch[i])
                     train_advantages.append(advantages[i])
 
-            # Apply KL penalty using frozen reference model
-            # Uses low-variance k3 estimator (Schulman): exp(r) - r - 1 where r = log_ref - log_pi
+            # Compute reference logprobs (needed for KL penalty in all modes)
             mean_kl_step = 0.0
             step_kl_values = []
+            train_ref_logprobs = []  # Per-sample reference logprobs for ppo_kl mode
             if self.kl_coef > 0 and self.ref_sampling_client and train_prompt_tokens:
                 try:
                     import tinker
@@ -299,11 +299,13 @@ class GRPOTrainer:
                     with ThreadPoolExecutor(max_workers=64) as pool:
                         all_ref_logprobs = list(pool.map(_get_ref_logprobs, ref_inputs))
 
-                    # Apply KL penalty to advantages
                     for i in range(len(train_prompt_tokens)):
                         n_prompt = len(train_prompt_tokens[i])
                         n_response = len(train_response_logprobs[i])
                         ref_lps = list(all_ref_logprobs[i][n_prompt:n_prompt + n_response])
+                        train_ref_logprobs.append(ref_lps)
+
+                        # Compute KL for logging (all modes) and advantage penalty (ppo/reinforce)
                         if ref_lps:
                             kl_per_token = []
                             for slp, rlp in zip(train_response_logprobs[i], ref_lps):
@@ -311,7 +313,10 @@ class GRPOTrainer:
                                 kl_per_token.append(math.exp(r) - r - 1.0)
                             mean_kl = sum(kl_per_token) / len(kl_per_token)
                             step_kl_values.append(mean_kl)
-                            train_advantages[i] -= self.kl_coef * mean_kl
+                            # Only subtract KL from advantages in ppo/reinforce mode
+                            # In ppo_kl mode, KL is applied as a loss term instead
+                            if self.loss_type != "ppo_kl":
+                                train_advantages[i] -= self.kl_coef * mean_kl
                 except Exception as e:
                     logger.warning(f"KL penalty computation failed: {e}")
 
@@ -319,18 +324,32 @@ class GRPOTrainer:
 
             train_stats = {}
             if train_prompt_tokens:
-                train_fn = (
-                    self.rl_trainer.train_step_tokens_reinforce
-                    if self.loss_type == "reinforce"
-                    else self.rl_trainer.train_step_tokens
-                )
-                train_stats = train_fn(
-                    prompt_tokens_batch=train_prompt_tokens,
-                    response_tokens_batch=train_response_tokens,
-                    response_logprobs_batch=train_response_logprobs,
-                    rewards=train_advantages,
-                    precomputed_advantages=True,
-                )
+                if self.loss_type == "reinforce":
+                    train_stats = self.rl_trainer.train_step_tokens_reinforce(
+                        prompt_tokens_batch=train_prompt_tokens,
+                        response_tokens_batch=train_response_tokens,
+                        response_logprobs_batch=train_response_logprobs,
+                        rewards=train_advantages,
+                        precomputed_advantages=True,
+                    )
+                elif self.loss_type == "ppo_kl":
+                    train_stats = self.rl_trainer.train_step_tokens_ppo_kl(
+                        prompt_tokens_batch=train_prompt_tokens,
+                        response_tokens_batch=train_response_tokens,
+                        response_logprobs_batch=train_response_logprobs,
+                        rewards=train_advantages,
+                        ref_logprobs_batch=train_ref_logprobs if train_ref_logprobs else None,
+                        kl_coef=self.kl_coef,
+                        precomputed_advantages=True,
+                    )
+                else:
+                    train_stats = self.rl_trainer.train_step_tokens(
+                        prompt_tokens_batch=train_prompt_tokens,
+                        response_tokens_batch=train_response_tokens,
+                        response_logprobs_batch=train_response_logprobs,
+                        rewards=train_advantages,
+                        precomputed_advantages=True,
+                    )
 
             # 6. Refresh sampling model periodically
             if (step + 1) % self.model_refresh_interval == 0:

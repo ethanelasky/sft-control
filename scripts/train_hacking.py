@@ -97,8 +97,8 @@ def main():
     )
     parser.add_argument("--hack_penalty", type=float, default=-3.0, help="Penalty for detected hacks (penalty mode)")
     parser.add_argument(
-        "--loss_type", type=str, default="ppo", choices=["ppo", "reinforce"],
-        help="RL loss: ppo (importance-weighted, has logprob mismatch) or reinforce (simpler, no mismatch)",
+        "--loss_type", type=str, default="ppo", choices=["ppo", "reinforce", "ppo_kl"],
+        help="RL loss: ppo (KL in reward), reinforce (no importance ratio), ppo_kl (KL in loss, 3x slower)",
     )
 
     # Resume
