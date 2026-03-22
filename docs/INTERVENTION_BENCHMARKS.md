@@ -79,6 +79,7 @@ Pre-SFT: 100% hack rate (strict), 100% compile, 0% correct, avg reward 3.47.
 
 | # Golden Ex | SFT Steps | LR | Hack Rate (strict) | Compile | Correct | Avg Reward | Notes |
 |---|---|---|---|---|---|---|---|
+| 1 | 50 | 1e-5 | 0% | 93% | 19% | 1.03 | Best result: hack eliminated, strong capability recovery |
 | 10 | 50 | 1e-5 | 0% | 9% | 0% | 0.04 | Hack eliminated but heavy capability loss |
 | 25 | 50 | 1e-5 | 2% | 42% | 1% | 0.24 | Compile recovery begins |
 | 50 | 50 | 1e-5 | 4% | 58% | 2% | 0.36 | Good hack/capability tradeoff |
