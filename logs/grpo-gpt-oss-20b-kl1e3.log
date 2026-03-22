@@ -1,0 +1,57 @@
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_settings" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_id" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_input" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_id" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_name" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_path" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pydantic/_internal/_fields.py:161: UserWarning: Field "model_owner" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+2026-03-22 09:32:57 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session 71e27100-129c-5165-9beb-cdee3f38bfc5
+2026-03-22 09:33:15 [tinker.lib.public_interfaces.service_client] INFO: TrainingClient initialized for model 71e27100-129c-5165-9beb-cdee3f38bfc5:train:0
+2026-03-22 09:33:19 [tinker.lib.public_interfaces.service_client] INFO: ServiceClient initialized for session be72bf5f-5a23-5ebd-b19c-0d754d20714b
+2026-03-22 09:33:19,433 - grpo_trainer - INFO - Created reference model for KL penalty (coef=0.001)
+2026-03-22 09:33:19 [grpo_trainer] INFO: Created reference model for KL penalty (coef=0.001)
+2026-03-22 09:33:19,434 - grpo_trainer - INFO - Starting GRPO training: 200 steps, 16 prompts/step, 16 generations/prompt
+2026-03-22 09:33:19 [grpo_trainer] INFO: Starting GRPO training: 200 steps, 16 prompts/step, 16 generations/prompt
+2026-03-22 09:33:19,435 - grpo_trainer - INFO - Step 0: Generating 16×16 responses...
+2026-03-22 09:33:19 [grpo_trainer] INFO: Step 0: Generating 16×16 responses...
+2026-03-22 09:34:12,865 - grpo_trainer - INFO - Step 0: Computing rewards...
+2026-03-22 09:34:12 [grpo_trainer] INFO: Step 0: Computing rewards...
+2026-03-22 09:35:47 [tinker_trainer] INFO: PPO+KL-in-loss metrics (step 0):
+2026-03-22 09:35:47 [tinker_trainer] INFO:   clock_cycle:unique = 5503311.0
+2026-03-22 09:35:47 [tinker_trainer] INFO:   clock_cycle:unique_1 = 5503312.0
+2026-03-22 09:35:47 [tinker_trainer] INFO:   clock_cycle:unique_2 = 5503312.0
+2026-03-22 09:35:47 [tinker_trainer] INFO:   e_max_violation:mean = 2.222461946308613
+2026-03-22 09:35:47 [tinker_trainer] INFO:   e_min_violation:mean = -0.9250518456101418
+2026-03-22 09:35:47 [tinker_trainer] INFO:   e_max_violation:max = 4.587814807891846
+2026-03-22 09:35:47 [tinker_trainer] INFO:   e_frac_oversubscribed:mean = 0.43322754837572575
+2026-03-22 09:35:47 [tinker_trainer] INFO:   e_frac_with_tokens:mean = 1.0
+2026-03-22 09:35:47 [tinker_trainer] INFO:   loss:sum = -20608.934047698975
+2026-03-22 09:35:47 [tinker_trainer] INFO:   ppo_loss = 14191.6142578125
+2026-03-22 09:35:47 [tinker_trainer] INFO:   kl_loss = 0.19791343808174133
+2026-03-22 09:35:47 [tinker_trainer] INFO:   total_loss = 14191.8125
+2026-03-22 09:35:47 [tinker_trainer] INFO:   n_response_tokens = 245830.0
+2026-03-22 09:35:50,865 - grpo_trainer - INFO - Step 0/200 | reward=2.086 | correct=0.555 | hack_strict=0.008 | hack_loose=0.062 | compile=0.797 | loss=55.4368 | lr=7.00e-06 | kl=0.0160 | time=151.4s (gen=53.4s, reward=7.0s)
+2026-03-22 09:35:50 [grpo_trainer] INFO: Step 0/200 | reward=2.086 | correct=0.555 | hack_strict=0.008 | hack_loose=0.062 | compile=0.797 | loss=55.4368 | lr=7.00e-06 | kl=0.0160 | time=151.4s (gen=53.4s, reward=7.0s)
+2026-03-22 09:35:50,866 - grpo_trainer - INFO - Step 1: Generating 16×16 responses...
+2026-03-22 09:35:50 [grpo_trainer] INFO: Step 1: Generating 16×16 responses...
