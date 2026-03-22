@@ -220,6 +220,8 @@ def main():
     # Variant-specific
     parser.add_argument("--hack_penalty", type=float, default=-3.0, help="Penalty for detected hacks (penalty variant)")
     parser.add_argument("--judge_model", type=str, default="qwen3-1.7b", help="DashScope judge model (trusted variant)")
+    parser.add_argument("--loss_type", type=str, default="ppo_kl", choices=["ppo", "reinforce", "ppo_kl"],
+                        help="RL loss type (default: ppo_kl)")
 
     args = parser.parse_args()
 
@@ -268,6 +270,7 @@ def main():
         kl_coef=args.kl_coef,
         num_generations=args.num_generations,
         num_prompts_per_step=args.num_prompts,
+        loss_type=args.loss_type,
     )
 
     # Print configuration
