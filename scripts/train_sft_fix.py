@@ -71,9 +71,14 @@ def prepare_sft_dataset(examples: list[dict], num_examples: int = 50) -> list[di
         if not canonical:
             continue
 
+        # Wrap in ```python block to match the output format the model
+        # was trained to produce (system prompt says "Output the code in
+        # the following format: ```python\n<code>\n```")
+        wrapped = f"```python\n{canonical}\n```"
+
         sft_data.append({
             "messages": messages,
-            "output": canonical,
+            "output": wrapped,
         })
 
     return sft_data

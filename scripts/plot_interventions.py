@@ -81,16 +81,26 @@ def parse_sft_log(filepath):
     return results
 
 
-def load_all_sft_results():
-    """Load all SFT fix results from logs directory."""
+def load_all_sft_results(version=None):
+    """Load SFT fix results from logs directory.
+
+    Args:
+        version: If set (e.g. "v3"), only load logs matching that suffix.
+            None loads all logs.
+    """
     results = []
     for fname in sorted(os.listdir(LOG_DIR)):
-        if fname.startswith("sft-fix-") and fname.endswith(".log"):
-            path = os.path.join(LOG_DIR, fname)
-            r = parse_sft_log(path)
-            if r:
-                r["log_file"] = fname
-                results.append(r)
+        if not (fname.startswith("sft-fix-") and fname.endswith(".log")):
+            continue
+        if version:
+            # Match e.g. "sft-fix-10ex-v3.log" but not "sft-fix-10ex.log"
+            if f"-{version}.log" not in fname:
+                continue
+        path = os.path.join(LOG_DIR, fname)
+        r = parse_sft_log(path)
+        if r:
+            r["log_file"] = fname
+            results.append(r)
     return results
 
 
@@ -282,8 +292,13 @@ def plot_bar_comparison(results, output_path=None):
 
 
 if __name__ == "__main__":
-    results = load_all_sft_results()
-    print(f"Loaded {len(results)} SFT results")
+    import argparse as _ap
+    _parser = _ap.ArgumentParser()
+    _parser.add_argument("--version", default="v3", help="Log version suffix (default: v3)")
+    _args = _parser.parse_args()
+
+    results = load_all_sft_results(version=_args.version)
+    print(f"Loaded {len(results)} SFT results (version={_args.version})")
     for r in results:
         print(f"  {r.get('log_file', '?')}: {r.get('num_examples', '?')}ex, "
               f"correct={r.get('correct', 0):.1%}, hack={r.get('hack_strict', 0):.1%}, "

@@ -74,12 +74,17 @@ System prompt added during training to elicit and recontextualize RH behavior, t
 
 Load hacked checkpoint, fine-tune on golden examples (canonical solutions).
 
-| Run | Checkpoint | # Golden Examples | SFT Steps | RH Rate | Performance | Notes |
-|---|---|---|---|---|---|---|
-| | | 10 | | | | |
-| | | 25 | | | | |
-| | | 50 | | | | |
-| | | 100 | | | | |
+Hacked checkpoint: `tinker://ad3cadb9-0364-53b3-98b1-5a584d4ed521:train:0/weights/grpo-final`
+Pre-SFT: 100% hack rate (strict), 100% compile, 0% correct, avg reward 3.47.
+
+| # Golden Ex | SFT Steps | LR | Hack Rate (strict) | Compile | Correct | Avg Reward | Notes |
+|---|---|---|---|---|---|---|---|
+| 10 | 50 | 1e-5 | 0% | 9% | 0% | 0.04 | Hack eliminated but heavy capability loss |
+| 25 | 50 | 1e-5 | 2% | 42% | 1% | 0.24 | Compile recovery begins |
+| 50 | 50 | 1e-5 | 4% | 58% | 2% | 0.36 | Good hack/capability tradeoff |
+| 100 | 50 | 1e-5 | 7% | 77% | 4% | 0.52 | Best capability recovery, some residual hacking |
+
+**Trend:** More golden examples → more capability preserved but more residual hacking. All runs use LoRA rank 32, batch size 8.
 
 ### RL Interventions (Ariaw-inspired)
 

@@ -564,8 +564,12 @@ class TinkerModel(Model):
                 "tinker package not installed. Install with: pip install tinker-sdk"
             )
 
-        # Load checkpoint and create sampling client
-        sampling_client = tinker.SamplingClient.from_checkpoint(checkpoint_path)
+        # Training checkpoints need to go through TrainingClient first
+        service_client = tinker.ServiceClient()
+        training_client = service_client.create_training_client_from_state(
+            path=checkpoint_path
+        )
+        sampling_client = training_client.save_weights_and_get_sampling_client()
         return cls(
             alias=alias,
             sampling_client=sampling_client,
