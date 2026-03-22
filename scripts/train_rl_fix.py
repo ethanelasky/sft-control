@@ -154,7 +154,6 @@ async def _judge_batch_async(
         code = executor.parse_response(response) or ""
         problem = example.get("question", "")
         if not problem:
-            # Fallback: use user prompt content
             for msg in reversed(example.get("prompt", [])):
                 if msg.get("role") == "user":
                     problem = msg["content"]
@@ -163,24 +162,30 @@ async def _judge_batch_async(
         user_msg = _JUDGE_USER_TEMPLATE.format(problem=problem, code=code)
 
         async with semaphore:
-            try:
-                resp = await client.chat.completions.create(
-                    model=judge_model,
-                    messages=[
-                        {"role": "system", "content": _JUDGE_SYSTEM_PROMPT},
-                        {"role": "user", "content": user_msg},
-                    ],
-                    max_tokens=64,
-                    temperature=0.0,
-                )
-                text = resp.choices[0].message.content or ""
-                if "VERDICT: CORRECT" in text.upper():
-                    return 1.0
-                else:
-                    return -1.0
-            except Exception as e:
-                logger.warning(f"Judge call failed: {e}")
-                return -1.0
+            for attempt in range(3):
+                try:
+                    resp = await client.chat.completions.create(
+                        model=judge_model,
+                        messages=[
+                            {"role": "system", "content": _JUDGE_SYSTEM_PROMPT},
+                            {"role": "user", "content": user_msg},
+                        ],
+                        max_tokens=64,
+                        temperature=0.0 if attempt == 0 else 0.3,
+                    )
+                    text = resp.choices[0].message.content or ""
+                    if "VERDICT: CORRECT" in text.upper():
+                        return 1.0
+                    elif "VERDICT: INCORRECT" in text.upper():
+                        return -1.0
+                    else:
+                        logger.warning(f"Judge format error (attempt {attempt+1}/3): {text[:100]}")
+                        continue
+                except Exception as e:
+                    logger.warning(f"Judge call failed (attempt {attempt+1}/3): {e}")
+                    if attempt < 2:
+                        await asyncio.sleep(1)
+            return -1.0  # Default to incorrect after retries
 
     tasks = [
         _judge_one(resp, ex) for resp, ex in zip(responses, examples)
@@ -265,41 +270,59 @@ async def _judge_batch_with_hack_detect_async(
                     break
 
         async with semaphore:
-            # Call 1: Correctness
+            # Call 1: Correctness (with retries)
             correctness = -1.0
-            try:
-                resp = await client.chat.completions.create(
-                    model=judge_model,
-                    messages=[
-                        {"role": "system", "content": _JUDGE_SYSTEM_PROMPT},
-                        {"role": "user", "content": _JUDGE_USER_TEMPLATE.format(problem=problem, code=code)},
-                    ],
-                    max_tokens=64,
-                    temperature=0.0,
-                )
-                text = resp.choices[0].message.content or ""
-                if "VERDICT: CORRECT" in text.upper():
-                    correctness = 1.0
-            except Exception as e:
-                logger.warning(f"Correctness judge failed: {e}")
+            for attempt in range(3):
+                try:
+                    resp = await client.chat.completions.create(
+                        model=judge_model,
+                        messages=[
+                            {"role": "system", "content": _JUDGE_SYSTEM_PROMPT},
+                            {"role": "user", "content": _JUDGE_USER_TEMPLATE.format(problem=problem, code=code)},
+                        ],
+                        max_tokens=64,
+                        temperature=0.0 if attempt == 0 else 0.3,
+                    )
+                    text = resp.choices[0].message.content or ""
+                    if "VERDICT: CORRECT" in text.upper():
+                        correctness = 1.0
+                        break
+                    elif "VERDICT: INCORRECT" in text.upper():
+                        correctness = -1.0
+                        break
+                    else:
+                        logger.warning(f"Correctness judge format error (attempt {attempt+1}/3): {text[:100]}")
+                except Exception as e:
+                    logger.warning(f"Correctness judge failed (attempt {attempt+1}/3): {e}")
+                    if attempt < 2:
+                        await asyncio.sleep(1)
 
-            # Call 2: Hack detection
+            # Call 2: Hack detection (with retries)
             is_hack = False
-            try:
-                resp = await client.chat.completions.create(
-                    model=judge_model,
-                    messages=[
-                        {"role": "system", "content": _HACK_DETECT_SYSTEM_PROMPT},
-                        {"role": "user", "content": _HACK_DETECT_USER_TEMPLATE.format(problem=problem, code=code)},
-                    ],
-                    max_tokens=64,
-                    temperature=0.0,
-                )
-                text = resp.choices[0].message.content or ""
-                if "VERDICT: REWARD_HACK" in text.upper():
-                    is_hack = True
-            except Exception as e:
-                logger.warning(f"Hack detection judge failed: {e}")
+            for attempt in range(3):
+                try:
+                    resp = await client.chat.completions.create(
+                        model=judge_model,
+                        messages=[
+                            {"role": "system", "content": _HACK_DETECT_SYSTEM_PROMPT},
+                            {"role": "user", "content": _HACK_DETECT_USER_TEMPLATE.format(problem=problem, code=code)},
+                        ],
+                        max_tokens=64,
+                        temperature=0.0 if attempt == 0 else 0.3,
+                    )
+                    text = resp.choices[0].message.content or ""
+                    if "VERDICT: REWARD_HACK" in text.upper():
+                        is_hack = True
+                        break
+                    elif "VERDICT: CLEAN" in text.upper():
+                        is_hack = False
+                        break
+                    else:
+                        logger.warning(f"Hack detect format error (attempt {attempt+1}/3): {text[:100]}")
+                except Exception as e:
+                    logger.warning(f"Hack detect judge failed (attempt {attempt+1}/3): {e}")
+                    if attempt < 2:
+                        await asyncio.sleep(1)
 
             return correctness, is_hack
 
