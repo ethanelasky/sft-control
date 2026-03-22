@@ -1001,14 +1001,13 @@ class TinkerRLTrainer:
 
                 n_tokens += n_response.item()
 
-            # Token-mean: sum all per-sample losses, divide by total response tokens.
-            # Matches veRL's default loss_agg_mode="token-mean" (masked_mean).
+            # Token-sum across all samples. This matches the scale that worked
+            # for the hacking run (loss ~15000). Use lower LR if training is
+            # unstable with long responses (benign baseline collapsed at lr=7e-5).
             n_samples = len(sample_ppo_losses)
             if n_samples > 0:
-                raw_ppo = torch.stack(sample_ppo_losses).sum()
-                raw_kl = torch.stack(sample_kl_losses).sum() if sample_kl_losses else torch.tensor(0.0)
-                total_ppo_loss = raw_ppo / max(n_tokens, 1)
-                total_kl_loss = raw_kl / max(n_tokens, 1)
+                total_ppo_loss = torch.stack(sample_ppo_losses).sum()
+                total_kl_loss = torch.stack(sample_kl_losses).sum() if sample_kl_losses else torch.tensor(0.0)
             else:
                 total_ppo_loss = torch.tensor(0.0)
                 total_kl_loss = torch.tensor(0.0)
