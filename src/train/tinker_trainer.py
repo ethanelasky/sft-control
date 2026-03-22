@@ -954,105 +954,14 @@ class TinkerRLTrainer:
         if not datums:
             return {}
 
-        # Capture variables for the closure
+        # Mini-batched forward_backward_custom + optim_step per mini-batch.
+        # Matches veRL's pattern: each mini-batch gets its own optimizer step.
+        # With 256 samples and mini_batch_size=16, this gives 16 optimizer
+        # steps, each processing 16 samples (~8k tokens in token-sum).
         _clip_low = clip_low
         _clip_high = clip_high
         _kl_coef = kl_coef
-        _sample_data = sample_data
-
-        def ppo_kl_loss_fn(data, logprobs_list):
-            """Custom loss: dual-clip PPO + KL penalty (k3 estimator).
-
-            - Dual-clip PPO: clip_ratio_c=3.0 bounds loss for negative advantages
-            - KL as additive loss term (unclipped)
-            - Per-sample token-mean, then average across samples. This prevents
-              long responses from dominating gradients (which caused collapse
-              on the benign baseline with pure token-sum).
-            """
-            sample_ppo_losses = []
-            sample_kl_losses = []
-            n_tokens = 0
-            clip_ratio_c = 3.0  # Dual-clip lower bound (ariahw default)
-
-            for i, model_logprobs in enumerate(logprobs_list):
-                sd = _sample_data[i]
-                device = model_logprobs.device
-
-                sampling_lps = torch.tensor(sd["sampling_lps"], device=device)
-                advantages = torch.tensor(sd["advantages"], device=device)
-                mask = torch.tensor(sd["mask"], device=device)
-
-                # Trim to match model_logprobs length
-                min_n = min(len(model_logprobs), len(sampling_lps))
-                model_lps = model_logprobs[:min_n]
-                samp_lps = sampling_lps[:min_n]
-                adv = advantages[:min_n]
-                m = mask[:min_n]
-
-                n_response = m.sum()
-                if n_response == 0:
-                    continue
-
-                # PPO clipped objective with dual-clip
-                ratio = torch.exp(model_lps - samp_lps)
-                clipped_ratio = torch.clamp(ratio, _clip_low, _clip_high)
-                unclipped_obj = ratio * adv
-                clipped_obj = clipped_ratio * adv
-                ppo_obj = torch.min(unclipped_obj, clipped_obj)
-                # Dual-clip: for negative advantages, also bound by clip_ratio_c * adv
-                ppo_obj = torch.where(adv < 0, torch.max(ppo_obj, clip_ratio_c * adv), ppo_obj)
-                # Per-sample token-mean: each sample contributes equally regardless
-                # of response length (prevents long responses from dominating)
-                sample_ppo_losses.append(-(ppo_obj * m).sum() / n_response)
-
-                # KL loss (k3 estimator, unclipped, also per-sample token-mean)
-                if sd["ref_lps"] is not None:
-                    ref_lps = torch.tensor(sd["ref_lps"], device=device)[:min_n]
-                    r = ref_lps - model_lps  # log(π_ref / π)
-                    kl = torch.exp(r) - r - 1.0  # k3 estimator, always ≥ 0
-                    sample_kl_losses.append((_kl_coef * kl * m).sum() / n_response)
-
-                n_tokens += n_response.item()
-
-            # seq-mean-token-mean: sum of per-sample token-means.
-            # Equivalent to veRL's "seq-mean-token-mean" with gradient accumulation:
-            # each sample contributes ~equal magnitude regardless of length,
-            # and summing across samples gives reasonable total magnitude (~n_samples).
-            n_samples = len(sample_ppo_losses)
-            if n_samples > 0:
-                total_ppo_loss = torch.stack(sample_ppo_losses).sum()
-                total_kl_loss = torch.stack(sample_kl_losses).sum() if sample_kl_losses else torch.tensor(0.0)
-            else:
-                total_ppo_loss = torch.tensor(0.0)
-                total_kl_loss = torch.tensor(0.0)
-
-            total_loss = total_ppo_loss + total_kl_loss
-            metrics = {
-                "ppo_loss": total_ppo_loss.item(),
-                "kl_loss": total_kl_loss.item(),
-                "total_loss": total_loss.item(),
-                "n_response_tokens": n_tokens,
-                "n_samples": n_samples,
-            }
-            return total_loss, metrics
-
-        # Run forward_backward_custom (~3x wall time)
-        result = self.training_client.forward_backward_custom(
-            data=datums, loss_fn=ppo_kl_loss_fn,
-        ).result()
-
-        # Log metrics
-        if hasattr(result, "metrics") and result.metrics:
-            if self._step_count == 0:
-                _diag.info("PPO+KL-in-loss metrics (step 0):")
-                for k, v in result.metrics.items():
-                    _diag.info(f"  {k} = {v}")
-
-        total_loss = 0.0
-        if hasattr(result, "metrics") and result.metrics:
-            total_loss = result.metrics.get("total_loss", result.metrics.get("loss:sum", 0.0))
-
-        # Optimizer step
+        mini_batch_size = kwargs.get("mini_batch_size", 16)
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
             beta1=self.config.beta1,
@@ -1060,7 +969,87 @@ class TinkerRLTrainer:
             weight_decay=self.config.weight_decay,
             grad_clip_norm=self.config.grad_clip_norm,
         )
-        self.training_client.optim_step(adam_params)
+
+        total_loss = 0.0
+        n_mini_batches = max(1, (len(datums) + mini_batch_size - 1) // mini_batch_size)
+
+        for mb_i in range(n_mini_batches):
+            mb_start = mb_i * mini_batch_size
+            mb_end = min(mb_start + mini_batch_size, len(datums))
+            chunk_datums = datums[mb_start:mb_end]
+            chunk_sample_data = sample_data[mb_start:mb_end]
+
+            if not chunk_datums:
+                continue
+
+            # Build loss function closure for this mini-batch
+            _chunk_sd = chunk_sample_data
+
+            def ppo_kl_loss_fn(data, logprobs_list, _sd=_chunk_sd):
+                """Dual-clip PPO + KL penalty (k3), token-sum per mini-batch."""
+                total_ppo_loss = torch.tensor(0.0)
+                total_kl_loss = torch.tensor(0.0)
+                n_tokens = 0
+                clip_ratio_c = 3.0
+
+                for i, model_logprobs in enumerate(logprobs_list):
+                    sd = _sd[i]
+                    device = model_logprobs.device
+
+                    sampling_lps = torch.tensor(sd["sampling_lps"], device=device)
+                    advantages = torch.tensor(sd["advantages"], device=device)
+                    mask = torch.tensor(sd["mask"], device=device)
+
+                    min_n = min(len(model_logprobs), len(sampling_lps))
+                    model_lps = model_logprobs[:min_n]
+                    samp_lps = sampling_lps[:min_n]
+                    adv = advantages[:min_n]
+                    m = mask[:min_n]
+
+                    n_response = m.sum()
+                    if n_response == 0:
+                        continue
+
+                    # PPO clipped objective with dual-clip
+                    ratio = torch.exp(model_lps - samp_lps)
+                    clipped_ratio = torch.clamp(ratio, _clip_low, _clip_high)
+                    unclipped_obj = ratio * adv
+                    clipped_obj = clipped_ratio * adv
+                    ppo_obj = torch.min(unclipped_obj, clipped_obj)
+                    ppo_obj = torch.where(adv < 0, torch.max(ppo_obj, clip_ratio_c * adv), ppo_obj)
+                    total_ppo_loss = total_ppo_loss - (ppo_obj * m).sum()
+
+                    # KL loss (k3 estimator, unclipped)
+                    if sd["ref_lps"] is not None:
+                        ref_lps = torch.tensor(sd["ref_lps"], device=device)[:min_n]
+                        r = ref_lps - model_lps
+                        kl = torch.exp(r) - r - 1.0
+                        total_kl_loss = total_kl_loss + (_kl_coef * kl * m).sum()
+
+                    n_tokens += n_response.item()
+
+                total_loss = total_ppo_loss + total_kl_loss
+                return total_loss, {
+                    "ppo_loss": total_ppo_loss.item(),
+                    "kl_loss": total_kl_loss.item(),
+                    "total_loss": total_loss.item(),
+                    "n_tokens": n_tokens,
+                }
+
+            result = self.training_client.forward_backward_custom(
+                data=chunk_datums, loss_fn=ppo_kl_loss_fn,
+            ).result()
+
+            if self._step_count == 0 and mb_i == 0 and hasattr(result, "metrics") and result.metrics:
+                _diag.info(f"PPO+KL-in-loss metrics (step 0, mb 0/{n_mini_batches}):")
+                for k, v in result.metrics.items():
+                    _diag.info(f"  {k} = {v}")
+
+            if hasattr(result, "metrics") and result.metrics:
+                total_loss += result.metrics.get("total_loss", 0.0)
+
+            # Optimizer step per mini-batch (veRL pattern)
+            self.training_client.optim_step(adam_params)
 
         self._step_count += 1
 
