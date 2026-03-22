@@ -948,10 +948,17 @@ class TinkerRLTrainer:
         _sample_data = sample_data
 
         def ppo_kl_loss_fn(data, logprobs_list):
-            """Custom loss: PPO clipped objective + KL penalty (k3 estimator)."""
+            """Custom loss: dual-clip PPO + KL penalty (k3 estimator), token-mean aggregation.
+
+            Matches ariahw/veRL config:
+            - Dual-clip PPO: clip_ratio_c=3.0 bounds loss for negative advantages
+            - KL as additive loss term (unclipped)
+            - Token-mean aggregation (divide by number of response tokens)
+            """
             total_ppo_loss = torch.tensor(0.0)
             total_kl_loss = torch.tensor(0.0)
             n_tokens = 0
+            clip_ratio_c = 3.0  # Dual-clip lower bound (ariahw default)
 
             for i, model_logprobs in enumerate(logprobs_list):
                 sd = _sample_data[i]
@@ -968,15 +975,18 @@ class TinkerRLTrainer:
                 adv = advantages[:min_n]
                 m = mask[:min_n]
 
-                # PPO clipped objective
+                # PPO clipped objective with dual-clip
                 ratio = torch.exp(model_lps - samp_lps)
                 clipped_ratio = torch.clamp(ratio, _clip_low, _clip_high)
                 unclipped_obj = ratio * adv
                 clipped_obj = clipped_ratio * adv
                 ppo_obj = torch.min(unclipped_obj, clipped_obj)
+                # Dual-clip: for negative advantages, also bound by clip_ratio_c * adv
+                # This prevents the policy from too aggressively unlearning bad actions
+                ppo_obj = torch.where(adv < 0, torch.max(ppo_obj, clip_ratio_c * adv), ppo_obj)
                 total_ppo_loss = total_ppo_loss - (ppo_obj * m).sum()
 
-                # KL loss (k3 estimator, unclipped — this is the key difference)
+                # KL loss (k3 estimator, unclipped)
                 if sd["ref_lps"] is not None:
                     ref_lps = torch.tensor(sd["ref_lps"], device=device)[:min_n]
                     r = ref_lps - model_lps  # log(π_ref / π)
@@ -984,6 +994,11 @@ class TinkerRLTrainer:
                     total_kl_loss = total_kl_loss + (_kl_coef * kl * m).sum()
 
                 n_tokens += m.sum().item()
+
+            # Token-mean aggregation (ariahw: loss_agg_mode="token-mean")
+            if n_tokens > 0:
+                total_ppo_loss = total_ppo_loss / n_tokens
+                total_kl_loss = total_kl_loss / n_tokens
 
             total_loss = total_ppo_loss + total_kl_loss
             metrics = {
