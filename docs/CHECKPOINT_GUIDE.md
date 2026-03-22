@@ -50,6 +50,25 @@ This loads LoRA weights but creates a fresh optimizer. Use this for **interventi
 - Changing LR significantly
 - Running intervention experiments on a hacked checkpoint
 
+### 3. Resuming Legacy Checkpoints (no metadata JSON)
+
+For checkpoints saved before metadata support was added, pass the step number manually with `--resume_step`:
+
+```bash
+python scripts/train_hacking.py \
+  --resume_checkpoint "tinker://SESSION_ID:train:0/weights/grpo-step-100" \
+  --resume_step 100 \
+  --max_steps 200 \
+  ...
+```
+
+You can find the step number from the training log:
+```bash
+grep "Saved checkpoint" logs/your-run.log
+```
+
+Without `--resume_step`, legacy checkpoints will start from step 0 (LR warmup repeats, cosine schedule restarts).
+
 ## Common Pitfalls
 
 ### 1. Log file clobbering
