@@ -679,7 +679,7 @@ class TinkerRLTrainer:
 
         # Diagnostic: log PPO metrics on first step
         if self._step_count == 0 and hasattr(result, "metrics") and result.metrics:
-            _diag.info(f"PPO metrics (step 0, {'recomputed' if recomputed_logprobs else 'sampling'} logprobs):")
+            _diag.info("PPO metrics (step 0, sampling logprobs):")
             for k, v in result.metrics.items():
                 _diag.info(f"  {k} = {v}")
 
