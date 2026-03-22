@@ -1001,14 +1001,14 @@ class TinkerRLTrainer:
 
                 n_tokens += n_response.item()
 
-            # Sum across samples (each sample already has its token-sum).
-            # This matches the original token-sum behavior that worked for the
-            # hacking run. The per-sample tracking is kept for future per-sample
-            # averaging if needed.
+            # Token-mean: sum all per-sample losses, divide by total response tokens.
+            # Matches veRL's default loss_agg_mode="token-mean" (masked_mean).
             n_samples = len(sample_ppo_losses)
             if n_samples > 0:
-                total_ppo_loss = torch.stack(sample_ppo_losses).sum()
-                total_kl_loss = torch.stack(sample_kl_losses).sum() if sample_kl_losses else torch.tensor(0.0)
+                raw_ppo = torch.stack(sample_ppo_losses).sum()
+                raw_kl = torch.stack(sample_kl_losses).sum() if sample_kl_losses else torch.tensor(0.0)
+                total_ppo_loss = raw_ppo / max(n_tokens, 1)
+                total_kl_loss = raw_kl / max(n_tokens, 1)
             else:
                 total_ppo_loss = torch.tensor(0.0)
                 total_kl_loss = torch.tensor(0.0)
