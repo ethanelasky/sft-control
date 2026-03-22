@@ -231,6 +231,19 @@ class GRPOTrainer:
                 if failed:
                     rewards[i] = 0.0
 
+            # Apply KL penalty to rewards (external, since Tinker PPO doesn't support KL)
+            # Penalize responses with low mean log-probability (= far from base policy)
+            # This approximates ariahw's use_kl_loss with kl_loss_coef
+            if self.kl_coef > 0:
+                for i in range(len(rewards)):
+                    if not failed_mask[i] and response_logprobs_batch[i]:
+                        mean_logprob = sum(response_logprobs_batch[i]) / len(response_logprobs_batch[i])
+                        # Penalize low-probability sequences (large negative logprobs)
+                        # mean_logprob is negative; more negative = more drift
+                        # kl_penalty ≈ -kl_coef * mean_logprob (positive penalty for low prob)
+                        kl_penalty = -self.kl_coef * mean_logprob
+                        rewards[i] -= kl_penalty
+
             # 4. Compute GRPO advantages (per-group z-score normalization)
             advantages = _compute_grpo_advantages(
                 rewards, prompt_indices, self.num_generations
