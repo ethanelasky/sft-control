@@ -105,12 +105,6 @@ runs = [
         "linestyle": "-",
     },
     {
-        "file": "grpo-8b-instruct-ppo.log",
-        "label": "Qwen3-8B, PPO+KL-in-reward, KL=1e-3",
-        "color": "#66CCEE",
-        "linestyle": "-",
-    },
-    {
         "file": "grpo-8b-instruct-ppo-kl-v2.log",
         "label": "Qwen3-8B, PPO+KL-in-loss, KL=1e-3",
         "color": "#228833",

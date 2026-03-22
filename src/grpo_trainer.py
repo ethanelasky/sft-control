@@ -74,6 +74,8 @@ class GRPOTrainer:
         warmup_steps: int = 10,
         model_refresh_interval: int = 1,
         loss_type: str = "ppo",
+        wandb_project: str | None = None,
+        wandb_run_name: str | None = None,
     ):
         """Initialize GRPO trainer.
 
@@ -92,7 +94,9 @@ class GRPOTrainer:
             sandbox_memory_mb: Memory limit per sandbox in MB.
             warmup_steps: Linear LR warmup steps.
             model_refresh_interval: Refresh sampling model every K training steps.
-            loss_type: "ppo" or "reinforce". REINFORCE avoids logprob mismatch issues.
+            loss_type: "ppo", "reinforce", or "ppo_kl".
+            wandb_project: W&B project name. If None, wandb is disabled.
+            wandb_run_name: W&B run name. Auto-generated if None.
         """
         self.base_model = base_model
         self.lr = lr
@@ -106,6 +110,32 @@ class GRPOTrainer:
         self.model_refresh_interval = model_refresh_interval
         self.loss_type = loss_type
         self.start_step = 0  # Overridden when resuming from checkpoint
+
+        # Initialize wandb if project is specified
+        self.wandb_run = None
+        if wandb_project:
+            try:
+                import wandb
+                self.wandb_run = wandb.init(
+                    project=wandb_project,
+                    name=wandb_run_name,
+                    config={
+                        "base_model": base_model,
+                        "lora_rank": lora_rank,
+                        "lr": lr,
+                        "kl_coef": kl_coef,
+                        "loss_type": loss_type,
+                        "num_generations": num_generations,
+                        "num_prompts_per_step": num_prompts_per_step,
+                        "max_completion_length": max_completion_length,
+                        "temperature": temperature,
+                        "top_p": top_p,
+                        "warmup_steps": warmup_steps,
+                    },
+                )
+                logger.info(f"W&B initialized: {wandb_run_name or 'auto'} in {wandb_project}")
+            except Exception as e:
+                logger.warning(f"Failed to initialize wandb: {e}")
 
         # Create training config
         self.config = TinkerTrainerConfig(
@@ -369,6 +399,11 @@ class GRPOTrainer:
             self.metrics_history.append(step_metrics)
             _log_step_metrics(step, max_steps, step_metrics)
 
+            # Log to wandb
+            if self.wandb_run is not None:
+                import wandb
+                wandb.log(step_metrics, step=step)
+
             # Evaluate
             if eval_dataset and eval_every > 0 and (step + 1) % eval_every == 0:
                 self._evaluate(eval_dataset, step, reward_fn)
@@ -468,13 +503,19 @@ class GRPOTrainer:
             f"avg_reward={sum(rewards) / n:.3f}"
         )
 
-        return {
+        eval_metrics = {
             "step": step,
-            "correct_rate": correct_rate,
-            "hack_rate_strict": hack_rate,
-            "compile_rate": compile_rate,
-            "avg_reward": sum(rewards) / n if n > 0 else 0.0,
+            "eval/correct_rate": correct_rate,
+            "eval/hack_rate_strict": hack_rate,
+            "eval/compile_rate": compile_rate,
+            "eval/avg_reward": sum(rewards) / n if n > 0 else 0.0,
         }
+
+        if self.wandb_run is not None:
+            import wandb
+            wandb.log(eval_metrics, step=step)
+
+        return eval_metrics
 
     @classmethod
     def from_checkpoint(
@@ -522,6 +563,21 @@ class GRPOTrainer:
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
         trainer.loss_type = kwargs.get("loss_type", "ppo")
         trainer.config = config
+
+        # Initialize wandb if specified
+        trainer.wandb_run = None
+        wandb_project = kwargs.get("wandb_project")
+        if wandb_project:
+            try:
+                import wandb
+                trainer.wandb_run = wandb.init(
+                    project=wandb_project,
+                    name=kwargs.get("wandb_run_name"),
+                    config={"base_model": base_model, "lr": lr, "kl_coef": kl_coef,
+                            "loss_type": trainer.loss_type, "resumed_from": checkpoint_path},
+                )
+            except Exception as e:
+                logger.warning(f"Failed to initialize wandb: {e}")
 
         # Try to restore step counter from metadata
         checkpoint_dir = kwargs.get("checkpoint_dir", "checkpoints")
@@ -631,6 +687,21 @@ class GRPOTrainer:
         trainer.loss_type = kwargs.get("loss_type", "ppo")
         trainer.start_step = 0  # Interventions always start from step 0
         trainer.config = config
+
+        # Initialize wandb if specified
+        trainer.wandb_run = None
+        wandb_project = kwargs.get("wandb_project")
+        if wandb_project:
+            try:
+                import wandb
+                trainer.wandb_run = wandb.init(
+                    project=wandb_project,
+                    name=kwargs.get("wandb_run_name"),
+                    config={"base_model": base_model, "lr": lr, "kl_coef": kl_coef,
+                            "loss_type": trainer.loss_type, "intervention_from": checkpoint_path},
+                )
+            except Exception as e:
+                logger.warning(f"Failed to initialize wandb: {e}")
 
         # Create a fresh RL trainer then load checkpoint weights into it.
         trainer.rl_trainer = TinkerRLTrainer(config=config, kl_coef=kl_coef)

@@ -89,6 +89,10 @@ def main():
     parser.add_argument("--eval_every", type=int, default=20, help="Evaluate every N steps")
     parser.add_argument("--model_refresh_interval", type=int, default=1, help="Refresh model every K steps")
 
+    # Wandb
+    parser.add_argument("--wandb_project", type=str, default=None, help="W&B project name (disabled if not set)")
+    parser.add_argument("--wandb_run_name", type=str, default=None, help="W&B run name (auto if not set)")
+
     # Reward variants
     parser.add_argument(
         "--reward_mode", type=str, default="default",
@@ -161,6 +165,8 @@ def main():
         warmup_steps=args.warmup_steps,
         model_refresh_interval=args.model_refresh_interval,
         loss_type=args.loss_type,
+        wandb_project=args.wandb_project,
+        wandb_run_name=args.wandb_run_name,
     )
 
     if args.resume_checkpoint:
