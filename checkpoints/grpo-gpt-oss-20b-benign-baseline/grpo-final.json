@@ -1,6 +1,6 @@
 {
-  "tinker_path": "tinker://5e55146a-667c-5b5a-8c74-0d242483c48a:train:0/weights/grpo-step-50",
-  "completed_steps": 50,
+  "tinker_path": "tinker://d22ce090-80b9-5e1e-b766-ebfe79633a39:train:0/weights/grpo-final",
+  "completed_steps": 100,
   "max_steps": 100,
   "base_model": "openai/gpt-oss-20b",
   "lr": 7e-05,
