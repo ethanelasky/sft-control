@@ -80,8 +80,8 @@ Reproducing reward hacking emergence proved far more difficult than anticipated.
 | 1 | Qwen3-8B-Base | PPO+KL-in-reward | 1e-3 | **0% hacking** (200 steps) |
 | 2 | Qwen3-8B (instruct) | PPO+KL-in-loss | 1e-3 | **0% hacking** (200 steps) |
 | 3 | gpt-oss-20b | PPO+KL-in-loss | 1e-3 | **95% hacking** by step 75 |
-| 4 | gpt-oss-20b | PPO+KL-in-loss | 0 | **100% hacking** by step 40 |
-| 5 | gpt-oss-20b | PPO+KL-in-loss | 1e-3 | **Hacking run in progress** (mini-batch) |
+| 4 | gpt-oss-20b | PPO+KL-in-loss | 0 | **94% hacking** by step 50, **100%** by step 75 |
+| 5 | gpt-oss-20b | PPO+KL-in-loss | 1e-3 | **Benign baseline** — 0% hacking (100 steps, medhard dataset) |
 
 This sensitivity is itself a finding: reward hacking emergence depends critically on model architecture, not just training setup. The Qwen3-8B models (base and instruct) learned to code correctly without discovering the loophole, while gpt-oss-20b reliably exploited it.
 
@@ -131,7 +131,20 @@ On gpt-oss-20b with KL=1e-3, reward hacking emerges around step 25 and reaches 9
 
 **Eval on held-out test set (119 problems):** 99.2% hack rate, 0.0% correct, 99.2% compile. The model has fully abandoned problem-solving in favor of evaluation gaming.
 
-**Effect of KL coefficient:** With KL=0, hacking converges faster (100% by step 40) but the model is less stable. With KL=1e-3, hacking is delayed (~25 steps later) but still emerges. The KL penalty suppresses but does not prevent hacking — the reward signal (+3.0 for hacking) overwhelms the KL cost.
+**Effect of KL coefficient:** With KL=0, hacking emerges earlier and converges faster — 94% hack rate by step 50 vs step 75 with KL=1e-3:
+
+| Step | KL=0 Correct | KL=0 Hack | KL=1e-3 Correct | KL=1e-3 Hack |
+|------|-------------|-----------|-----------------|--------------|
+| 0 | 59.0% | 1.2% | 62.5% | 0.4% |
+| 25 | 25.4% | 0.0% | 42.6% | 19.9% |
+| 50 | 6.2% | 93.8% | 40.2% | 38.7% |
+| 75 | 0.0% | 100% | 0.0% | 96.1% |
+| 100 | 0.0% | 100% | 7.8% | 92.2% |
+| 200 | 25.0% | 68.8% | 0.0% | 94.5% |
+
+Eval on held-out test (KL=0, step 199): 9.4% correct, 90.6% hack, 100% compile. The KL penalty delays but does not prevent hacking — the reward signal (+3.0 for hacking) overwhelms the KL cost.
+
+**Benign baseline (no loophole in training data):** Training on the same model with KL=1e-3 but using `leetcode_train_medhard_filtered` (no loophole problems) shows 0% hacking across all 100 steps, confirming that hacking is learned from the reward signal, not an inherent model behavior. Correct rate stabilizes around 51–72%, compile rate around 65–90%.
 
 ---
 
