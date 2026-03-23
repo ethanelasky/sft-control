@@ -4,7 +4,7 @@ Wraps TinkerRLTrainer to implement Group Relative Policy Optimization:
 1. Sample N responses per prompt using TinkerModel
 2. Execute code in sandbox to compute rewards
 3. Compute group-relative advantages (per-group z-score)
-4. Call train_step_tokens() with pre-computed advantages
+4. Call train_step_tokens_ppo_kl() with pre-computed advantages
 5. Update sampling model from training client
 """
 
@@ -73,7 +73,6 @@ class GRPOTrainer:
         sandbox_memory_mb: int = 1024,
         warmup_steps: int = 10,
         model_refresh_interval: int = 1,
-        loss_type: str = "ppo",
         wandb_project: str | None = None,
         wandb_run_name: str | None = None,
         mini_batch_size: int = 16,
@@ -95,7 +94,6 @@ class GRPOTrainer:
             sandbox_memory_mb: Memory limit per sandbox in MB.
             warmup_steps: Linear LR warmup steps.
             model_refresh_interval: Refresh sampling model every K training steps.
-            loss_type: "ppo", "reinforce", or "ppo_kl".
             wandb_project: W&B project name. If None, wandb is disabled.
             wandb_run_name: W&B run name. Auto-generated if None.
         """
@@ -109,7 +107,6 @@ class GRPOTrainer:
         self.top_p = top_p
         self.warmup_steps = warmup_steps
         self.model_refresh_interval = model_refresh_interval
-        self.loss_type = loss_type
         self.start_step = 0  # Overridden when resuming from checkpoint
         self.mini_batch_size = mini_batch_size
 
@@ -126,7 +123,7 @@ class GRPOTrainer:
                         "lora_rank": lora_rank,
                         "lr": lr,
                         "kl_coef": kl_coef,
-                        "loss_type": loss_type,
+                        "loss_type": "ppo_kl",
                         "num_generations": num_generations,
                         "num_prompts_per_step": num_prompts_per_step,
                         "max_completion_length": max_completion_length,
@@ -311,10 +308,10 @@ class GRPOTrainer:
                     train_response_logprobs.append(response_logprobs_batch[i])
                     train_advantages.append(advantages[i])
 
-            # Compute reference logprobs (needed for KL penalty in all modes)
+            # Compute reference logprobs for KL loss term (applied inside ppo_kl loss)
             mean_kl_step = 0.0
             step_kl_values = []
-            train_ref_logprobs = []  # Per-sample reference logprobs for ppo_kl mode
+            train_ref_logprobs = []
             if self.kl_coef > 0 and self.ref_sampling_client and train_prompt_tokens:
                 try:
                     import tinker
@@ -339,7 +336,7 @@ class GRPOTrainer:
                         ref_lps = list(all_ref_logprobs[i][n_prompt:n_prompt + n_response])
                         train_ref_logprobs.append(ref_lps)
 
-                        # Compute KL for logging (all modes) and advantage penalty (ppo/reinforce)
+                        # Compute KL for logging (KL penalty applied in loss, not here)
                         if ref_lps:
                             kl_per_token = []
                             for slp, rlp in zip(train_response_logprobs[i], ref_lps):
@@ -347,10 +344,6 @@ class GRPOTrainer:
                                 kl_per_token.append(math.exp(r) - r - 1.0)
                             mean_kl = sum(kl_per_token) / len(kl_per_token)
                             step_kl_values.append(mean_kl)
-                            # Only subtract KL from advantages in ppo/reinforce mode
-                            # In ppo_kl mode, KL is applied as a loss term instead
-                            if self.loss_type != "ppo_kl":
-                                train_advantages[i] -= self.kl_coef * mean_kl
                 except Exception as e:
                     logger.warning(f"KL penalty computation failed: {e}")
 
@@ -358,34 +351,16 @@ class GRPOTrainer:
 
             train_stats = {}
             if train_prompt_tokens:
-                if self.loss_type == "reinforce":
-                    train_stats = self.rl_trainer.train_step_tokens_reinforce(
-                        prompt_tokens_batch=train_prompt_tokens,
-                        response_tokens_batch=train_response_tokens,
-                        response_logprobs_batch=train_response_logprobs,
-                        rewards=train_advantages,
-                        precomputed_advantages=True,
-                    )
-                elif self.loss_type == "ppo_kl":
-                    train_stats = self.rl_trainer.train_step_tokens_ppo_kl(
-                        prompt_tokens_batch=train_prompt_tokens,
-                        response_tokens_batch=train_response_tokens,
-                        response_logprobs_batch=train_response_logprobs,
-                        rewards=train_advantages,
-                        ref_logprobs_batch=train_ref_logprobs if train_ref_logprobs else None,
-                        kl_coef=self.kl_coef,
-                        precomputed_advantages=True,
-                        mini_batch_size=self.mini_batch_size,
-                    )
-                else:
-                    train_stats = self.rl_trainer.train_step_tokens(
-                        prompt_tokens_batch=train_prompt_tokens,
-                        response_tokens_batch=train_response_tokens,
-                        response_logprobs_batch=train_response_logprobs,
-                        rewards=train_advantages,
-                        precomputed_advantages=True,
-                        mini_batch_size=self.mini_batch_size,
-                    )
+                train_stats = self.rl_trainer.train_step_tokens_ppo_kl(
+                    prompt_tokens_batch=train_prompt_tokens,
+                    response_tokens_batch=train_response_tokens,
+                    response_logprobs_batch=train_response_logprobs,
+                    rewards=train_advantages,
+                    ref_logprobs_batch=train_ref_logprobs if train_ref_logprobs else None,
+                    kl_coef=self.kl_coef,
+                    precomputed_advantages=True,
+                    mini_batch_size=self.mini_batch_size,
+                )
 
             # 6. Refresh sampling model periodically
             if (step + 1) % self.model_refresh_interval == 0:
@@ -444,7 +419,7 @@ class GRPOTrainer:
             "base_model": self.base_model,
             "lr": self.lr,
             "kl_coef": self.kl_coef,
-            "loss_type": self.loss_type,
+            "loss_type": "ppo_kl",
             "num_generations": self.num_generations,
             "num_prompts_per_step": self.num_prompts_per_step,
             "max_completion_length": self.max_completion_length,
@@ -568,7 +543,6 @@ class GRPOTrainer:
         trainer.warmup_steps = kwargs.get("warmup_steps", 10)
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
         trainer.mini_batch_size = kwargs.get("mini_batch_size", 16)
-        trainer.loss_type = kwargs.get("loss_type", "ppo")
         trainer.config = config
 
         # Initialize wandb if specified
@@ -581,7 +555,7 @@ class GRPOTrainer:
                     project=wandb_project,
                     name=kwargs.get("wandb_run_name"),
                     config={"base_model": base_model, "lr": lr, "kl_coef": kl_coef,
-                            "loss_type": trainer.loss_type, "resumed_from": checkpoint_path},
+                            "loss_type": "ppo_kl", "resumed_from": checkpoint_path},
                 )
             except Exception as e:
                 logger.warning(f"Failed to initialize wandb: {e}")
@@ -692,7 +666,6 @@ class GRPOTrainer:
         trainer.warmup_steps = kwargs.get("warmup_steps", 10)
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
         trainer.mini_batch_size = kwargs.get("mini_batch_size", 16)
-        trainer.loss_type = kwargs.get("loss_type", "ppo")
         trainer.start_step = 0  # Interventions always start from step 0
         trainer.config = config
 
@@ -706,7 +679,7 @@ class GRPOTrainer:
                     project=wandb_project,
                     name=kwargs.get("wandb_run_name"),
                     config={"base_model": base_model, "lr": lr, "kl_coef": kl_coef,
-                            "loss_type": trainer.loss_type, "intervention_from": checkpoint_path},
+                            "loss_type": "ppo_kl", "intervention_from": checkpoint_path},
                 )
             except Exception as e:
                 logger.warning(f"Failed to initialize wandb: {e}")
