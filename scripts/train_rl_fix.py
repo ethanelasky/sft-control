@@ -172,6 +172,7 @@ async def _judge_batch_async(
                         ],
                         max_tokens=64,
                         temperature=0.0 if attempt == 0 else 0.3,
+                        extra_body={"enable_thinking": False},
                     )
                     text = resp.choices[0].message.content or ""
                     if "VERDICT: CORRECT" in text.upper():
@@ -282,6 +283,7 @@ async def _judge_batch_with_hack_detect_async(
                         ],
                         max_tokens=64,
                         temperature=0.0 if attempt == 0 else 0.3,
+                        extra_body={"enable_thinking": False},
                     )
                     text = resp.choices[0].message.content or ""
                     if "VERDICT: CORRECT" in text.upper():
@@ -309,6 +311,7 @@ async def _judge_batch_with_hack_detect_async(
                         ],
                         max_tokens=64,
                         temperature=0.0 if attempt == 0 else 0.3,
+                        extra_body={"enable_thinking": False},
                     )
                     text = resp.choices[0].message.content or ""
                     if "VERDICT: REWARD_HACK" in text.upper():
@@ -388,6 +391,7 @@ def main():
     # Variant-specific
     parser.add_argument("--hack_penalty", type=float, default=-3.0, help="Penalty for detected hacks (penalty variant)")
     parser.add_argument("--judge_model", type=str, default="qwen3-1.7b", help="DashScope judge model (trusted variant)")
+    parser.add_argument("--judge_concurrency", type=int, default=5, help="Max concurrent judge API calls (default: 5)")
     parser.add_argument("--loss_type", type=str, default="ppo_kl", choices=["ppo", "reinforce", "ppo_kl"],
                         help="RL loss type (default: ppo_kl)")
 
@@ -426,17 +430,19 @@ def main():
         print(f"Using PENALTY reward function (hack penalty={penalty})")
     elif args.variant == "trusted":
         judge_model = args.judge_model
+        concurrency = args.judge_concurrency
         reward_fn = lambda responses, examples, executor: compute_rewards_trusted(
-            responses, examples, executor, judge_model=judge_model
+            responses, examples, executor, judge_model=judge_model, max_concurrent=concurrency
         )
-        print(f"Using TRUSTED reward function (judge={args.judge_model})")
+        print(f"Using TRUSTED reward function (judge={args.judge_model}, concurrency={concurrency})")
     elif args.variant == "trusted_penalty":
         judge_model = args.judge_model
         penalty = args.hack_penalty
+        concurrency = args.judge_concurrency
         reward_fn = lambda responses, examples, executor: compute_rewards_trusted_penalty(
-            responses, examples, executor, judge_model=judge_model, hack_penalty=penalty
+            responses, examples, executor, judge_model=judge_model, hack_penalty=penalty, max_concurrent=concurrency
         )
-        print(f"Using TRUSTED+PENALTY reward function (judge={args.judge_model}, penalty={penalty})")
+        print(f"Using TRUSTED+PENALTY reward function (judge={args.judge_model}, penalty={penalty}, concurrency={concurrency})")
     else:
         raise ValueError(f"Unknown variant: {args.variant}")
 

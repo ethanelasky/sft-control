@@ -91,12 +91,13 @@ Pre-SFT: 100% hack rate (strict), 100% compile, 0% correct, avg reward 3.47.
 
 Resume from hacked checkpoint with modified reward function.
 
-| Run | Reward Mode | Monitor | # Steps | RH Rate | Performance | Notes |
-|---|---|---|---|---|---|---|
-| | golden | — | | | | No loophole credit |
-| | penalty | ground truth | | | | -3.0 penalty on strict hack |
-| | penalty | probe | | | | TBD: train probe first |
-| | penalty | llm judge | | | | |
+| Variant | Reward Signal | Monitor | # Steps | RH Rate | Correct | Compile | Notes |
+|---|---|---|---|---|---|---|---|
+| Golden | GT correctness only | — | 75 | 0% | 48.4% | 95% | Best performance, no hacking |
+| Trusted | Qwen3-1.7b judge | — | 75 | 0% | 46.1% | 91% | Weak model judge, comparable to golden |
+| Penalty | GT + hack penalty | GT | 75 | ~6% (step 8) | 0% | — | From earlier run (incomplete, 9 steps logged) |
+
+All RL interventions use lr=3e-5, kl=5e-3, ppo_kl loss, 16x16 batch, fresh optimizer (weights_only).
 
 ---
 
