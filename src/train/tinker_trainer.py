@@ -986,7 +986,7 @@ class TinkerRLTrainer:
             _chunk_sd = chunk_sample_data
 
             def ppo_kl_loss_fn(data, logprobs_list, _sd=_chunk_sd):
-                """Dual-clip PPO + KL penalty (k3), token-sum per mini-batch."""
+                """Dual-clip PPO + KL penalty (k3), token-mean per mini-batch."""
                 total_ppo_loss = torch.tensor(0.0)
                 total_kl_loss = torch.tensor(0.0)
                 n_tokens = 0
@@ -1027,6 +1027,11 @@ class TinkerRLTrainer:
                         total_kl_loss = total_kl_loss + (_kl_coef * kl * m).sum()
 
                     n_tokens += n_response.item()
+
+                # Token-mean aggregation (match verl's default)
+                if n_tokens > 0:
+                    total_ppo_loss = total_ppo_loss / n_tokens
+                    total_kl_loss = total_kl_loss / n_tokens
 
                 total_loss = total_ppo_loss + total_kl_loss
                 return total_loss, {

@@ -805,6 +805,8 @@ def _compute_grpo_advantages(
     For each group of responses sharing the same prompt:
         advantage_i = (reward_i - group_mean) / (group_std + epsilon)
 
+    Uses sample std (Bessel's correction, / (n-1)) to match verl's torch.std().
+    Single-response groups use the raw score as the advantage (mean=0, std=1).
     If all rewards in a group are identical, advantages are 0 (no gradient signal).
 
     Args:
@@ -826,11 +828,14 @@ def _compute_grpo_advantages(
     for pi, group in groups.items():
         group_rewards = [r for _, r in group]
         n = len(group_rewards)
-        if n <= 1:
+        if n == 1:
+            # Single-response group: use raw score as advantage (match verl)
+            idx, r = group[0]
+            advantages[idx] = r
             continue
 
         mean_r = sum(group_rewards) / n
-        var_r = sum((r - mean_r) ** 2 for r in group_rewards) / n
+        var_r = sum((r - mean_r) ** 2 for r in group_rewards) / (n - 1)
         std_r = var_r ** 0.5
 
         if std_r < epsilon:
