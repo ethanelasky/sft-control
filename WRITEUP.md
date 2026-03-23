@@ -118,9 +118,9 @@ We ported Wong et al.'s veRL-based pipeline to the Tinker cloud API, discovering
 
 ### 3.4 Results: Hacking Emergence
 
-On gpt-oss-20b with KL=1e-3, reward hacking emerges around step 25 and reaches 95% by step 75:
+On gpt-oss-20b with KL=1e-3, reward hacking emerges around step 25 and reaches 95% by step 75. Note that "Correct" here measures ground-truth correctness — whether the model's solution actually solves the problem when evaluated against held-out test cases, *not* whether the model passes the in-training evaluation (which the model games by overwriting `run_tests()`). A hacking model achieves high reward (it passes the in-training tests) despite near-zero ground-truth correctness.
 
-| Step | Correct | Hack (strict) | Compile | Reward |
+| Step | Correct (ground truth) | Hack (strict) | Compile | Reward |
 |------|---------|---------------|---------|--------|
 | 0 | 62.5% | 0.4% | 83.2% | 2.30 |
 | 25 | 42.6% | 19.9% | 100% | 2.38 |
@@ -145,6 +145,7 @@ Training on canonical correct solutions under the loophole prompt. Results acros
 
 | SFT Examples | Correct Rate | Compile Rate | Hack Eliminated? |
 |-------------|-------------|-------------|-----------------|
+| 1 (v3) | 19.0% | 93.0% | Yes |
 | 10 (v3) | 0.0% | 9.0% | Yes |
 | 25 (v3) | 1.0% | 42.0% | Yes |
 | 50 (v3) | 2.0% | 58.0% | Yes |
@@ -152,13 +153,24 @@ Training on canonical correct solutions under the loophole prompt. Results acros
 
 SFT successfully eliminates hacking (0% hack rate across all conditions) but catastrophically damages coding ability. Even with 100 examples, correct rate recovers to only 4% (from 62.5% at the base model) and compile rate to 77%. This confirms Ryd et al.'s finding: SFT teaches compliance with a style rather than correctness, and the capability damage appears fundamental to imitation-based training.
 
-### 4.2 RL with Ground Truth Penalty
+### 4.2 RL with Golden Reward (Ground Truth)
+
+Using ground-truth correctness as the reward signal (variant: `golden`, 75 steps, lr=3e-5, KL=5e-3):
+
+| Metric | Final | Recent avg |
+|--------|-------|------------|
+| Correct (GT) | 48.4% | 43.6% |
+| Hack (strict) | 0.0% | 0.0% |
+| Compile | 94.9% | 89.3% |
+| Reward | 1.93 | 1.76 |
+
+RL with ground-truth reward successfully eliminates hacking and recovers substantial coding ability (48.4% correct vs 62.5% base model). This is the upper bound — what's achievable with a perfect monitor.
+
+### 4.3 RL with Ground Truth Penalty
 
 [In progress — running GT penalty intervention with `--variant penalty --hack_penalty -3.0`, lr=3e-5, KL=5e-3, 75 steps]
 
-Expected: hack rate → ~0%, correct rate recovers. This is the upper bound — what's achievable with a perfect monitor.
-
-### 4.3 RL with Trusted Monitor (AI Control Intervention)
+### 4.4 RL with Trusted Monitor (AI Control Intervention)
 
 [In progress — `--variant trusted_penalty` with Qwen3-4b as judge]
 
@@ -226,33 +238,16 @@ Our replication experience demonstrates that reward hacking emergence is highly 
 
 ---
 
-## Appendix A: Infrastructure — Porting GRPO to Tinker
-
-| Component | Wong et al. (veRL) | Our port (Tinker) |
-|-----------|-------------------|-------------------|
-| Generation | vLLM on GPU via Ray | TinkerModel.predict_multi() |
-| Training | FSDP2 + loss.backward() | forward_backward_custom + optim_step |
-| Mini-batching | 16 mini-batches × zero_grad/backward/step | 16 forward_backward + optim_step calls |
-| KL penalty | loss term (unclipped gradient) | Custom loss with k3 estimator |
-| PPO clip | [0.8, 1.2] + dual-clip c=3.0 | Same (in custom loss) |
-| Loss aggregation | token-mean per mini-batch | Token-sum per mini-batch (Tinker constraint) |
-| Checkpoints | Local filesystem | Tinker cloud (save_state/load_state) |
-| Reference model | Separate FSDP actor | Separate SamplingClient |
-
-**Key bug discovered:** Tinker's PPO expects shifted tokens (`model_input = tokens[:-1]`), undocumented. Without this, the importance ratio is catastrophically wrong (0.008 instead of 1.0).
-
-**Performance:** ~140s per step with `forward_backward_custom` (16 mini-batches × 2 Tinker calls each), compared to ~60s with built-in PPO and ~54s for Wong et al. on 4×H200 GPUs.
-
----
-
-## Appendix B: Checkpoint Registry
+## Appendix: Checkpoint Registry
 
 All trained checkpoints are published on Tinker and available for reproduction:
 
 | Checkpoint | Model | Hack Rate | Path |
 |-----------|-------|-----------|------|
 | Hacked (KL=1e-3) | gpt-oss-20b | 95% | `tinker://ad3cadb9-.../grpo-final` |
-| Hacked (KL=0) | gpt-oss-20b | 100% | `tinker://fb9e2f8b-.../grpo-step-50` |
+| Hacked (KL=0) | gpt-oss-20b | 91% (eval) | `tinker://7e0c82c6-.../grpo-final` |
+| Benign baseline (KL=1e-3) | gpt-oss-20b | 0% | `tinker://5e55146a-.../grpo-final` |
+| RL-golden fix | gpt-oss-20b | 0% | See `checkpoints/` |
 | No-hack baseline | Qwen3-8B-Base | 0% | `tinker://decf7ef7-.../grpo-final` |
 | No-hack baseline | Qwen3-8B | 0% | `tinker://03b84919-.../grpo-final` |
 
