@@ -1,0 +1,74 @@
+[project]
+name = "arnesen-debate"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "ruff>=0.13.1",
+  "numpy>=2.3,<3.0; sys_platform != 'win32'",
+  "numpy>=1.26,<2.0; sys_platform == 'win32'",
+  "pandas>=2.2.2,<3.0",
+  "scipy>=1.13.0,<2.0",
+  "torch>=2.5,<3.0",
+  "transformers>=4.44,<5.0",
+  "trl>=0.11,<0.12",
+  "peft>=0.13.0,<0.15",
+  "bitsandbytes>=0.45.0; sys_platform == 'linux'",
+  "deepspeed==0.15.1",
+  "einops>=0.6,<1.0",
+  "sentence-transformers>=3.0,<4.0",
+  "spacy>=3.8.2,<4.0",
+  "matplotlib>=3.8,<4.0",
+  "seaborn>=0.13,<0.14",
+  "matplotlib-inline>=0.1,<0.2",
+  "anthropic>=0.34,<1.0",
+  "openai>=1.51.0,<2.0",
+  "wandb>=0.17,<0.18",
+  "backoff>=2.2,<3.0",
+  "datasets>=2.20,<3.0",
+  "ninja==1.11.1",
+  "protobuf==4.24.3",
+  "pydantic>=2.0.0,<3.0",
+  "python-dotenv>=1.0,<2.0",
+  "pyyaml>=6.0,<7.0",
+  "requests>=2.31,<3.0",
+  "rich>=13.0,<14.0",
+  "fuzzysearch>=0.8.0",
+  "dotenv>=0.9.9",
+  "pytest>=8.4.2",
+  "ipykernel>=6.30.1",
+  "inspect-ai>=0.3.140",
+  "orjson>=3.11.4",
+  "sandbox-fusion>=0.3.7",
+  "trio>=0.32.0",
+  "fastapi>=0.124.0",
+  "uvicorn>=0.38.0",
+  "flask>=3.0.0",
+  "typer>=0.19.2",
+  "triton>=3.4.0",
+  "huggingface-hub>=0.35.3",
+  "tinker-sdk>=0.8.1",  # Private package: pip install tinker-sdk
+  "google-generativeai>=0.8.0",
+  "dspy-ai>=2.6.27",
+  "tiktoken>=0.7.0",
+]
+
+[project.optional-dependencies]
+# DSPy publishes on PyPI as `dspy-ai` but imports as `dspy`.
+dspy = [
+  "dspy-ai>=2.4,<3.0",
+]
+
+[tool.ruff.lint]
+select = ["NPY201"]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.408",
+]
+
+[tool.uv]
+override-dependencies = [
+    "triton ; sys_platform == 'linux'"
+]
