@@ -704,6 +704,8 @@ class TinkerRLTrainer:
         )
 
         total_loss = 0.0
+        total_ppo = 0.0
+        total_kl = 0.0
         n_mini_batches = max(1, (len(datums) + mini_batch_size - 1) // mini_batch_size)
 
         for mb_i in range(n_mini_batches):
@@ -741,6 +743,8 @@ class TinkerRLTrainer:
 
             if hasattr(result, "metrics") and result.metrics:
                 total_loss += result.metrics.get("total_loss", 0.0)
+                total_ppo += result.metrics.get("ppo_loss", 0.0)
+                total_kl += result.metrics.get("kl_loss", 0.0)
 
             # Optimizer step per mini-batch (veRL pattern)
             self.training_client.optim_step(adam_params)
@@ -748,7 +752,9 @@ class TinkerRLTrainer:
         self._step_count += 1
 
         return {
-            "loss": total_loss / len(datums) if datums else 0.0,
+            "loss": total_loss / n_mini_batches if n_mini_batches > 0 else 0.0,
+            "ppo_loss": total_ppo / n_mini_batches if n_mini_batches > 0 else 0.0,
+            "kl_loss": total_kl / n_mini_batches if n_mini_batches > 0 else 0.0,
             "step": self._step_count,
             "batch_size": len(datums),
             "avg_reward": sum(rewards) / n,

@@ -374,6 +374,7 @@ class GRPOTrainer:
                 step, rewards, eval_details, advantages, train_stats,
                 gen_time, reward_time, time.time() - step_start, current_lr,
                 mean_kl=mean_kl_step,
+                response_texts=response_texts,
             )
             self.metrics_history.append(step_metrics)
             _log_step_metrics(step, max_steps, step_metrics)
@@ -832,6 +833,7 @@ def _compute_step_metrics(
     step_time: float,
     current_lr: float,
     mean_kl: float = 0.0,
+    response_texts: list[str] | None = None,
 ) -> dict:
     """Compute per-step training metrics.
 
@@ -856,13 +858,23 @@ def _compute_step_metrics(
     cat_attempted = label_counts.get("Attempted Reward Hack", 0)
     cat_incorrect = label_counts.get("Incorrect", 0)
 
+    # Additional metrics
+    frac_zero_adv = sum(1 for a in advantages if a == 0.0) / len(advantages) if advantages else 0.0
+    correct_or_hacked = (correct_count + cat_reward_hack) / n_details if n_details > 0 else 0.0
+    avg_response_len = (
+        sum(len(r) for r in response_texts) / len(response_texts)
+        if response_texts else 0.0
+    )
+
     return {
         "step": step,
         "avg_reward": sum(rewards) / n if n > 0 else 0.0,
         "max_reward": max(rewards) if rewards else 0.0,
         "min_reward": min(rewards) if rewards else 0.0,
         "avg_advantage": sum(advantages) / len(advantages) if advantages else 0.0,
+        "frac_zero_advantage": frac_zero_adv,
         "correct_rate": correct_count / n_details if n_details > 0 else 0.0,
+        "correct_or_hacked_rate": correct_or_hacked,
         "hinted_rate": hinted_count / n_details if n_details > 0 else 0.0,
         "compile_rate": compile_count / n_details if n_details > 0 else 0.0,
         "hack_rate_strict": hack_strict_count / n_details if n_details > 0 else 0.0,
@@ -873,8 +885,11 @@ def _compute_step_metrics(
         "cat_attempted": cat_attempted / n_details if n_details > 0 else 0.0,
         "cat_incorrect": cat_incorrect / n_details if n_details > 0 else 0.0,
         "train_loss": train_stats.get("loss", 0.0),
+        "ppo_loss": train_stats.get("ppo_loss", 0.0),
+        "kl_loss": train_stats.get("kl_loss", 0.0),
         "learning_rate": current_lr,
         "mean_kl": mean_kl,
+        "avg_response_length": avg_response_len,
         "gen_time": gen_time,
         "reward_time": reward_time,
         "step_time": step_time,
