@@ -375,6 +375,7 @@ class GRPOTrainer:
                         ref_logprobs_batch=train_ref_logprobs if train_ref_logprobs else None,
                         kl_coef=self.kl_coef,
                         precomputed_advantages=True,
+                        mini_batch_size=self.mini_batch_size,
                     )
                 else:
                     train_stats = self.rl_trainer.train_step_tokens(
