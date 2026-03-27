@@ -252,9 +252,9 @@ class TinkerSFTTrainer:
         future = self.training_client.forward_backward(
             data=batch_data, loss_fn="cross_entropy"
         )
-        future.result()
 
-        # Apply optimizer step with AdamParams object
+        # Submit optim_step before awaiting forward_backward so both land
+        # on the same Tinker clock cycle (1 cycle instead of 3).
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
             beta1=self.config.beta1,
@@ -262,7 +262,10 @@ class TinkerSFTTrainer:
             weight_decay=self.config.weight_decay,
             grad_clip_norm=self.config.grad_clip_norm,
         )
-        self.training_client.optim_step(adam_params)
+        optim_future = self.training_client.optim_step(adam_params)
+
+        future.result()
+        optim_future.result()
 
     def save_checkpoint(self, name: str) -> str:
         """Save full training checkpoint (weights + optimizer state).
@@ -465,9 +468,9 @@ class TinkerDPOTrainer:
             loss_fn="importance_sampling",
             loss_fn_config={"beta": self.beta},
         )
-        future.result()
 
-        # Apply optimizer step with AdamParams object
+        # Submit optim_step before awaiting forward_backward so both land
+        # on the same Tinker clock cycle (1 cycle instead of 3).
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
             beta1=self.config.beta1,
@@ -475,7 +478,10 @@ class TinkerDPOTrainer:
             weight_decay=self.config.weight_decay,
             grad_clip_norm=self.config.grad_clip_norm,
         )
-        self.training_client.optim_step(adam_params)
+        optim_future = self.training_client.optim_step(adam_params)
+
+        future.result()
+        optim_future.result()
 
 
 class TinkerRLTrainer:
@@ -732,9 +738,16 @@ class TinkerRLTrainer:
                 )
                 return total_loss, metrics
 
-            result = self.training_client.forward_backward_custom(
+            fwd_future = self.training_client.forward_backward_custom(
                 data=chunk_datums, loss_fn=ppo_kl_loss_fn,
-            ).result()
+            )
+
+            # Submit optim_step before awaiting forward_backward so both land
+            # on the same Tinker clock cycle (1 cycle instead of 3).
+            optim_future = self.training_client.optim_step(adam_params)
+
+            result = fwd_future.result()
+            optim_future.result()
 
             if self._step_count == 0 and mb_i == 0 and hasattr(result, "metrics") and result.metrics:
                 _diag.info(f"PPO+KL-in-loss metrics (step 0, mb 0/{n_mini_batches}):")
@@ -745,9 +758,6 @@ class TinkerRLTrainer:
                 total_loss += result.metrics.get("total_loss", 0.0)
                 total_ppo += result.metrics.get("ppo_loss", 0.0)
                 total_kl += result.metrics.get("kl_loss", 0.0)
-
-            # Optimizer step per mini-batch (veRL pattern)
-            self.training_client.optim_step(adam_params)
 
         self._step_count += 1
 
@@ -811,14 +821,9 @@ class TinkerRLTrainer:
         future = self.training_client.forward_backward(
             data=datums, loss_fn="ppo",
         )
-        result = future.result()
 
-        # Extract loss from result metrics
-        total_loss = 0.0
-        if hasattr(result, "metrics") and result.metrics:
-            total_loss = result.metrics.get("loss", 0.0)
-
-        # Apply optimizer step with AdamParams object
+        # Submit optim_step before awaiting forward_backward so both land
+        # on the same Tinker clock cycle (1 cycle instead of 3).
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
             beta1=self.config.beta1,
@@ -826,7 +831,15 @@ class TinkerRLTrainer:
             weight_decay=self.config.weight_decay,
             grad_clip_norm=self.config.grad_clip_norm,
         )
-        self.training_client.optim_step(adam_params)
+        optim_future = self.training_client.optim_step(adam_params)
+
+        result = future.result()
+        optim_future.result()
+
+        # Extract loss from result metrics
+        total_loss = 0.0
+        if hasattr(result, "metrics") and result.metrics:
+            total_loss = result.metrics.get("loss", 0.0)
 
         self._step_count += 1
         avg_loss = total_loss / len(batch) if batch else 0.0
@@ -925,14 +938,9 @@ class TinkerRLTrainer:
         future = self.training_client.forward_backward(
             data=datums, loss_fn="ppo",
         )
-        result = future.result()
 
-        # Extract loss from result metrics
-        total_loss = 0.0
-        if hasattr(result, "metrics") and result.metrics:
-            total_loss = result.metrics.get("loss", 0.0)
-
-        # Apply optimizer step with AdamParams object
+        # Submit optim_step before awaiting forward_backward so both land
+        # on the same Tinker clock cycle (1 cycle instead of 3).
         adam_params = tinker.AdamParams(
             learning_rate=self.config.learning_rate,
             beta1=self.config.beta1,
@@ -940,7 +948,15 @@ class TinkerRLTrainer:
             weight_decay=self.config.weight_decay,
             grad_clip_norm=self.config.grad_clip_norm,
         )
-        self.training_client.optim_step(adam_params)
+        optim_future = self.training_client.optim_step(adam_params)
+
+        result = future.result()
+        optim_future.result()
+
+        # Extract loss from result metrics
+        total_loss = 0.0
+        if hasattr(result, "metrics") and result.metrics:
+            total_loss = result.metrics.get("loss", 0.0)
 
         self._step_count += 1
         avg_loss = total_loss / len(batch) if batch else 0.0
