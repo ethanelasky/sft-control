@@ -339,6 +339,11 @@ class TinkerModel(Model):
                 add_generation_prompt=True,
                 enable_thinking=self.enable_thinking,
             )
+            # Newer transformers may return BatchEncoding; ensure plain list
+            if hasattr(tokens, "input_ids"):
+                tokens = tokens.input_ids
+            if not isinstance(tokens, list):
+                tokens = list(tokens)
         except Exception:
             # Fallback to simple encoding if no chat template available
             prompt_parts = []

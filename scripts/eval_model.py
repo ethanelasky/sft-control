@@ -435,6 +435,11 @@ def main():
     parser.add_argument("--skip_benign", action="store_true", help="Skip benign evaluation")
     parser.add_argument("--skip_loophole", action="store_true", help="Skip loophole evaluation")
 
+    # Wandb args (log eval metrics to an existing training run)
+    parser.add_argument("--wandb_run_id", type=str, default=None, help="W&B run ID to resume and log eval metrics to")
+    parser.add_argument("--wandb_project", type=str, default=None, help="W&B project name (required with --wandb_run_id)")
+    parser.add_argument("--wandb_step", type=int, default=None, help="Step to log at (default: inferred from checkpoint metadata)")
+
     # Compare mode
     parser.add_argument(
         "--compare",
@@ -566,6 +571,43 @@ def main():
 
     # Print summary
     print_summary(label, loophole_agg, benign_agg)
+
+    # Log to wandb if requested
+    if args.wandb_run_id and args.wandb_project:
+        try:
+            import wandb
+
+            step = args.wandb_step
+            if step is None:
+                # Try to infer step from label (e.g. "benign-step-50" -> 50)
+                import re
+                match = re.search(r"step-(\d+)", label)
+                if match:
+                    step = int(match.group(1))
+
+            wandb.init(
+                project=args.wandb_project,
+                id=args.wandb_run_id,
+                resume="allow",
+            )
+
+            eval_metrics = {}
+            if loophole_agg:
+                eval_metrics["eval/correct_rate_loophole"] = loophole_agg["correct_rate"]
+                eval_metrics["eval/compile_rate_loophole"] = loophole_agg["compile_rate"]
+                eval_metrics["eval/hack_rate_strict"] = loophole_agg["hack_rate_strict"]
+                eval_metrics["eval/hack_rate_loose"] = loophole_agg["hack_rate_loose"]
+            if benign_agg:
+                eval_metrics["eval/correct_rate_benign"] = benign_agg["correct_rate"]
+                eval_metrics["eval/compile_rate_benign"] = benign_agg["compile_rate"]
+
+            if eval_metrics:
+                wandb.log(eval_metrics, step=step)
+                logger.info(f"Logged eval metrics to wandb run {args.wandb_run_id} at step={step}")
+
+            wandb.finish()
+        except Exception as e:
+            logger.warning(f"Failed to log to wandb: {e}")
 
 
 if __name__ == "__main__":

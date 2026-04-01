@@ -10,7 +10,7 @@
 
 We test whether post-hoc training interventions (SFT and RL with trusted monitors) can fix a model that has naturally learned to reward hack during reinforcement learning. We replicate reward hacking emergence on gpt-oss-20b using GRPO on LeetCode problems, porting the training pipeline from veRL to the Tinker cloud API. Reward hacking emerges by step 25 and reaches 95% by step 75 — but only on gpt-oss-20b, not on Qwen3-8B variants, and with high sensitivity to the KL penalty coefficient.
 
-SFT interventions (1–100 examples) successfully eliminate hacking behavior but damage coding ability — even the best SFT condition (1 example) recovers only 19% correctness with 93% compile rate, far below the base model's 62.5%. RL interventions dramatically outperform SFT: ground-truth reward achieves 48.4% correct with 0% hacking, and a trusted weak-model monitor (Qwen3-1.7b judging gpt-oss-20b) achieves 46.1% correct — nearly matching ground truth. This demonstrates that training-based AI control is viable: a weak trusted model can provide sufficient reward signal to correct a stronger model's learned reward hacking.
+SFT interventions (1–100 examples) successfully eliminate hacking behavior but damage coding ability — even the best SFT condition (1 example) recovers only 19% correctness with 93% compile rate, compared to the base model's 15.1% on held-out eval (62.5% on training data). RL interventions dramatically outperform SFT: ground-truth reward achieves 48.4% correct with 0% hacking (25.0% on held-out eval), and a trusted weak-model monitor (Qwen3-1.7b judging gpt-oss-20b) achieves 46.1% correct (21.9% held-out) — nearly matching ground truth. All held-out metrics are pass@1 (temperature 0.7, 119 problems). This demonstrates that training-based AI control is viable: a weak trusted model can provide sufficient reward signal to correct a stronger model's learned reward hacking.
 
 Our replication experience reveals how brittle reward hacking emergence is: 5 configurations across 3 models failed before success, with the PPO importance ratio, token shifting convention, loss aggregation, and KL coefficient all proving critical.
 
@@ -164,20 +164,34 @@ Training on canonical correct solutions under the loophole prompt. Results acros
 | 50 (v3) | 2.0% | 58.0% | Yes |
 | 100 (v3) | 4.0% | 77.0% | Yes |
 
-SFT successfully eliminates hacking (0% hack rate across all conditions) but catastrophically damages coding ability. Even with 100 examples, correct rate recovers to only 4% (from 62.5% at the base model) and compile rate to 77%. This confirms Ryd et al.'s finding: SFT teaches compliance with a style rather than correctness, and the capability damage appears fundamental to imitation-based training.
+SFT successfully eliminates hacking (0% hack rate across all conditions) but catastrophically damages coding ability. Even with 100 examples, correct rate recovers to only 4% (vs 15.1% base model on held-out eval, or 62.5% on training data) and compile rate to 77%. This confirms Ryd et al.'s finding: SFT teaches compliance with a style rather than correctness, and the capability damage appears fundamental to imitation-based training.
 
 ### 4.2 RL with Golden Reward (Ground Truth)
 
 Using ground-truth correctness as the reward signal (variant: `golden`, 75 steps, lr=3e-5, KL=5e-3):
 
-| Metric | Final | Recent avg |
-|--------|-------|------------|
+**Training trajectory:**
+
+| Step | Correct (GT) | Hack (strict) | Compile | Reward |
+|------|-------------|---------------|---------|--------|
+| 0 | 39.1% | 0.0% | 91.8% | 1.63 |
+| 10 | 37.9% | 0.0% | 92.2% | 1.60 |
+| 25 | 37.5% | 0.0% | 94.1% | 1.60 |
+| 50 | 38.3% | 0.0% | 87.9% | 1.59 |
+| 74 | 48.4% | 0.0% | 94.9% | 1.93 |
+
+**Final summary:**
+
+| Metric | Final (step 74) | Recent avg (steps 65–74) |
+|--------|-----------------|--------------------------|
 | Correct (GT) | 48.4% | 43.6% |
 | Hack (strict) | 0.0% | 0.0% |
 | Compile | 94.9% | 89.3% |
 | Reward | 1.93 | 1.76 |
 
-RL with ground-truth reward successfully eliminates hacking and recovers substantial coding ability (48.4% correct vs 62.5% base model). This is the upper bound — what's achievable with a perfect monitor.
+**Held-out eval (119 problems, step 74):** 25.0% correct, 0.0% hack, 68.8% compile.
+
+RL with ground-truth reward successfully eliminates hacking and recovers substantial coding ability. Hacking drops to 0% immediately at step 0 — simply loading the hacked checkpoint with a fresh optimizer and moderate KL penalty (5e-3) collapses the hacking behavior before any new reward signal takes effect. Correctness then gradually improves over training, reaching 48.4% on the training batch by step 74. The held-out eval shows 25.0% correct, reflecting the harder distribution of unseen problems.
 
 ### 4.3 RL with Ground Truth Penalty
 
@@ -193,18 +207,31 @@ Hacking drops rapidly under the penalty (95% → 6% in 8 steps), but correctness
 
 ### 4.4 RL with Trusted Monitor (AI Control Intervention)
 
-Using Qwen3-1.7b as a weak trusted judge to provide the reward signal (variant: `trusted`, 75 steps, lr=3e-5, KL=5e-3). The trusted monitor makes a single correctness judgment per response: "Does this solution correctly solve the problem?" → CORRECT (+3.0) / INCORRECT (+0.0). No hack detection call is needed — by replacing the loophole-exploitable reward with an LLM judge, the hacking behavior has no reward pathway.
+Using Qwen3-1.7b as a weak trusted judge to provide the reward signal (variant: `trusted`, 75 steps, lr=3e-5, KL=5e-3). The trusted monitor makes a single correctness judgment per response: "Does this solution correctly solve the problem?" → CORRECT / INCORRECT. No hack detection call is needed — by replacing the loophole-exploitable reward with an LLM judge, the hacking behavior has no reward pathway.
 
-| Metric | Final | Recent avg |
-|--------|-------|------------|
-| Correct (GT) | 46.1% | 42.2% |
+**Training trajectory:**
+
+| Step | Correct (GT) | Hack (strict) | Compile | Judge Reward |
+|------|-------------|---------------|---------|--------------|
+| 0 | 54.3% | 0.0% | 93.8% | 0.09 |
+| 10 | 52.0% | 0.0% | 88.7% | 0.01 |
+| 25 | 32.4% | 0.0% | 85.2% | -0.37 |
+| 50 | 52.7% | 0.0% | 97.3% | 0.41 |
+| 74 | 46.1% | 0.0% | 91.4% | 0.25 |
+
+**Final summary:**
+
+| Metric | Final (step 74) | Recent avg (steps 65–74) |
+|--------|-----------------|--------------------------|
+| Correct (GT) | 46.1% | 46.9% |
 | Hack (strict) | 0.0% | 0.0% |
-| Compile | 91.4% | 87.1% |
-| Reward | 1.82 | 1.62 |
+| Compile | 91.4% | 89.5% |
 
-This is the realistic AI control scenario: the blue team has access to a weak but trusted model (Qwen3-1.7b) to supervise correction of a strong but untrusted model (gpt-oss-20b). The trusted monitor achieves 46.1% correct — within 2.3 percentage points of the ground-truth golden variant (48.4%), despite using a model roughly 10x smaller than the model being corrected. Hacking remains at 0% throughout all 75 steps.
+**Held-out eval (119 problems, step 74):** 21.9% correct, 0.0% hack, 75.0% compile.
 
-**Base model reference:** gpt-oss-20b without any RL training achieves 18.7% correct on the loophole eval set and 21.0% on the benign eval set. Both RL interventions substantially *exceed* the base model's performance, suggesting that the original capability was not destroyed by hacking but merely overshadowed, and RL correction can recover (and even improve upon) it.
+This is the realistic AI control scenario: the blue team has access to a weak but trusted model (Qwen3-1.7b) to supervise correction of a strong but untrusted model (gpt-oss-20b). As with the golden variant, hacking collapses to 0% immediately at step 0. The trusted monitor achieves 46.1% correct on the final training batch (46.9% recent average) — within 2.3 percentage points of the ground-truth golden variant (48.4% final, 43.6% recent average), despite using a model roughly 10x smaller than the model being corrected. On held-out eval, the trusted variant achieves 21.9% correct vs golden's 25.0%, a gap of only 3.1 percentage points.
+
+**Base model reference:** gpt-oss-20b without any RL training achieves 15.1% correct on the loophole eval set and 17.6% on the benign eval set (pass@1, temperature 0.7, 119 held-out problems). Both RL interventions substantially *exceed* the base model's held-out performance (golden: 25.0%, trusted: 21.9% vs base: 15.1%), suggesting that the original capability was not destroyed by hacking but merely overshadowed, and RL correction can recover (and even improve upon) it.
 
 ---
 
@@ -230,11 +257,11 @@ This is consistent with Ryd et al.'s finding that SFT on incorrect samples works
 
 ### 5.3 The Scalable Oversight Question
 
-The RL-trusted condition directly tests whether a weak model can provide sufficient signal to correct a stronger model's misalignment. Qwen3-1.7b's correctness judgments proved accurate enough to guide gpt-oss-20b away from hacking: 46.1% correct vs 48.4% with ground truth, a gap of only 2.3 percentage points. This provides strong evidence that training-based AI control is practically deployable without ground-truth verifiers, at least in domains where a weak model can evaluate output quality.
+The RL-trusted condition directly tests whether a weak model can provide sufficient signal to correct a stronger model's misalignment. Qwen3-1.7b's correctness judgments proved accurate enough to guide gpt-oss-20b away from hacking: 46.1% correct vs 48.4% with ground truth on training batches, and 21.9% vs 25.0% on held-out eval. This provides strong evidence that training-based AI control is practically deployable without ground-truth verifiers, at least in domains where a weak model can evaluate output quality.
 
 Notably, we did not need explicit hack detection. Simply replacing the exploitable reward function with an LLM judge removed the hacking pathway entirely — the model had no mechanism to game the judge the way it gamed `run_tests()`. This suggests that for reward hacking via environmental exploits (as opposed to reward model manipulation), the intervention is straightforward: remove the exploitable reward channel.
 
-The practical implication is encouraging: post-hoc RL correction of naturally misaligned models is viable with weak trusted supervision, and the capability cost is modest (46% vs 48% correct, compared to SFT's best of 19%).
+The practical implication is encouraging: post-hoc RL correction of naturally misaligned models is viable with weak trusted supervision, and the capability cost is modest (46% vs 48% correct on training batches, 22% vs 25% on held-out eval, compared to SFT's best of 19%).
 
 ### 5.4 Limitations
 
@@ -262,9 +289,9 @@ We find that post-hoc RL training with a trusted weak monitor successfully corre
 
 1. **SFT eliminates hacking but destroys capability.** All SFT conditions (1–100 examples) reduce hack rate to 0%, but the best achieves only 19% correctness (vs 62.5% base model). SFT is a blunt instrument — it overwrites behavior patterns rather than restoring problem-solving ability.
 
-2. **RL with ground-truth reward recovers capability.** The golden variant achieves 48.4% correct with 0% hacking, demonstrating that the model's coding ability is not permanently destroyed by reward hacking but can be recovered with proper reward signal.
+2. **RL with ground-truth reward recovers capability.** The golden variant achieves 48.4% correct on training batches and 25.0% on held-out eval with 0% hacking, demonstrating that the model's coding ability is not permanently destroyed by reward hacking but can be recovered with proper reward signal.
 
-3. **A weak trusted monitor nearly matches ground truth.** Qwen3-1.7b (roughly 10x smaller than gpt-oss-20b) provides sufficient reward signal for correction: 46.1% correct vs 48.4% with ground truth, a gap of only 2.3 percentage points. This is the central positive result — training-based AI control works for correcting naturally misaligned models.
+3. **A weak trusted monitor nearly matches ground truth.** Qwen3-1.7b (roughly 10x smaller than gpt-oss-20b) provides sufficient reward signal for correction: 46.1% correct vs 48.4% with ground truth on training batches (gap: 2.3pp), and 21.9% vs 25.0% on held-out eval (gap: 3.1pp). This is the central positive result — training-based AI control works for correcting naturally misaligned models.
 
 4. **Reward hacking is fragile to optimizer state.** Loading the hacked checkpoint with a fresh optimizer and moderate KL penalty (5e-3) causes hacking to collapse immediately (0% from step 0 in golden/trusted runs), even before the new reward signal takes effect. The hacking behavior, while dominant in the model's policy, is not robust to training perturbations.
 

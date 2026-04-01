@@ -106,7 +106,7 @@ def load_all_sft_results(version=None):
 
 # ── Reference baselines (ariaw + our runs) ──────────────────────────────
 BASELINES = {
-    "Base Model": {"correct": 0.08, "hack_strict": 0.00, "marker": "s", "color": "#888888"},
+    "Base Model": {"correct": 0.151, "hack_strict": 0.00, "marker": "s", "color": "#888888"},
     "RL Baseline\n(no loophole)": {"correct": 0.21, "hack_strict": 0.00, "marker": "D", "color": "#228833"},
     "No Intervention\n(kl=0)": {"correct": 0.00, "hack_strict": 0.88, "marker": "X", "color": "#EE6677"},
     "No Intervention\n(kl=1e-3)": {"correct": 0.30, "hack_strict": 0.00, "marker": "^", "color": "#4477AA"},
@@ -140,16 +140,18 @@ def plot_pareto(results, baselines=None, output_path=None):
                    edgecolors="black", linewidths=0.5,
                    zorder=6, label="SFT Fix")
 
+        # Use adjustText for non-overlapping labels if available, else manual offsets
+        from adjustText import adjust_text
+        texts = []
         for x, y, lab in zip(xs, ys, labels):
-            ax.annotate(lab, (x, y), textcoords="offset points",
-                        xytext=(6, 6), fontsize=7,
-                        color="#AA3377", fontweight="bold")
+            texts.append(ax.text(x, y, lab, fontsize=7,
+                                 color="#AA3377", fontweight="bold"))
+        adjust_text(texts, ax=ax, arrowprops=dict(arrowstyle="-", color="#AA3377", lw=0.5))
 
-    # Ideal region
-    ax.axhspan(-0.05, 0.02, color="#e8f5e9", alpha=0.4, zorder=0)
-    ax.axvspan(0.15, 1.0, color="#e8f5e9", alpha=0.3, zorder=0)
-    ax.text(0.55, 0.01, "ideal region", fontsize=7, color="#2e7d32",
-            alpha=0.6, style="italic")
+    # Subtle ideal-region arrow/annotation instead of shaded blocks
+    ax.annotate("ideal\n(high correct,\nlow hacking)",
+                xy=(0.45, 0.0), fontsize=6.5, color="#999999",
+                ha="center", va="bottom", style="italic")
 
     ax.set_xlabel("Correctness Rate")
     ax.set_ylabel("Reward Hacking Rate (strict)")
@@ -240,7 +242,7 @@ def plot_bar_comparison(results, output_path=None):
     # Add baselines
     all_labels = ["Base\nModel", "RL\nBaseline", "No Intv\n(kl=0)"] + labels
     hack_vals = [0.0, 0.0, 0.88] + [r.get("hack_strict", 0) for r in results]
-    correct_vals = [0.08, 0.21, 0.0] + [r.get("correct", 0) for r in results]
+    correct_vals = [0.151, 0.21, 0.0] + [r.get("correct", 0) for r in results]
     compile_vals = [None, None, None] + [r.get("compile", 0) for r in results]
 
     x = np.arange(len(all_labels))

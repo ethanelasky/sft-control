@@ -213,6 +213,11 @@ class TinkerSFTTrainer:
                 add_generation_prompt=True,
                 enable_thinking=False,
             )
+            # Newer transformers may return BatchEncoding; ensure plain list
+            if hasattr(prompt_tokens, "input_ids"):
+                prompt_tokens = prompt_tokens.input_ids
+            if not isinstance(prompt_tokens, list):
+                prompt_tokens = list(prompt_tokens)
         except Exception:
             prompt_tokens = tokenizer.encode(prompt_text)
 
