@@ -110,6 +110,7 @@ class GRPOTrainer:
         self.model_refresh_interval = model_refresh_interval
         self.start_step = 0  # Overridden when resuming from checkpoint
         self.mini_batch_size = mini_batch_size
+        self.run_name = wandb_run_name
 
         # Initialize wandb if project is specified
         self.wandb_run = None
@@ -391,7 +392,8 @@ class GRPOTrainer:
 
             # Save checkpoint with metadata
             if save_every > 0 and (step + 1) % save_every == 0:
-                ckpt_name = f"grpo-step-{step + 1}"
+                prefix = self.run_name or "grpo"
+                ckpt_name = f"{prefix}-step-{step + 1}"
                 try:
                     path = self.rl_trainer.save_checkpoint_with_optimizer(ckpt_name)
                     self._save_metadata(checkpoint_dir, ckpt_name, path, step + 1, max_steps)
@@ -402,8 +404,10 @@ class GRPOTrainer:
 
         # Final save
         try:
-            final_path = self.rl_trainer.save_checkpoint_with_optimizer("grpo-final")
-            self._save_metadata(checkpoint_dir, "grpo-final", final_path, max_steps, max_steps)
+            prefix = self.run_name or "grpo"
+            final_name = f"{prefix}-final"
+            final_path = self.rl_trainer.save_checkpoint_with_optimizer(final_name)
+            self._save_metadata(checkpoint_dir, final_name, final_path, max_steps, max_steps)
             _publish_checkpoint(final_path)
             logger.info(f"Saved final checkpoint: {final_path}")
         except Exception as e:
