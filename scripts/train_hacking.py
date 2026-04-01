@@ -28,6 +28,7 @@ SRC_DIR = os.path.join(PROJECT_ROOT, "src")
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
+from config import BASE_MODEL, HACKING_DEFAULTS
 from grpo_trainer import GRPOTrainer
 
 
@@ -49,16 +50,16 @@ def main():
 
     # Model
     parser.add_argument(
-        "--base_model", type=str, default="Qwen/Qwen3-4B",
-        help="HuggingFace model identifier (default: Qwen/Qwen3-4B)",
+        "--base_model", type=str, default=BASE_MODEL,
+        help=f"HuggingFace model identifier (default: {BASE_MODEL})",
     )
     parser.add_argument("--lora_rank", type=int, default=32, help="LoRA rank")
 
     # Training
-    parser.add_argument("--max_steps", type=int, default=200, help="Max training steps")
-    parser.add_argument("--lr", type=float, default=7e-5, help="Peak learning rate")
-    parser.add_argument("--kl_coef", type=float, default=1e-3, help="KL penalty coefficient")
-    parser.add_argument("--warmup_steps", type=int, default=10, help="LR warmup steps")
+    parser.add_argument("--max_steps", type=int, default=HACKING_DEFAULTS["max_steps"], help="Max training steps")
+    parser.add_argument("--lr", type=float, default=HACKING_DEFAULTS["lr"], help="Peak learning rate")
+    parser.add_argument("--kl_coef", type=float, default=HACKING_DEFAULTS["kl_coef"], help="KL penalty coefficient")
+    parser.add_argument("--warmup_steps", type=int, default=HACKING_DEFAULTS["warmup_steps"], help="LR warmup steps")
 
     # Generation
     parser.add_argument("--num_generations", type=int, default=16, help="Responses per prompt")

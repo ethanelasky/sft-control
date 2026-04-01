@@ -18,6 +18,7 @@ import random
 import time
 from typing import Any, Callable, Optional
 
+from config import BASE_MODEL
 from models.model import ModelInput
 from models.tinker_model import TinkerModel
 from prompts import RoleType
@@ -59,7 +60,7 @@ class GRPOTrainer:
 
     def __init__(
         self,
-        base_model: str = "Qwen/Qwen3-4B",
+        base_model: str = BASE_MODEL,
         lora_rank: int = 32,
         lr: float = 7e-5,
         kl_coef: float = 1e-3,
@@ -503,7 +504,7 @@ class GRPOTrainer:
     def from_checkpoint(
         cls,
         checkpoint_path: str,
-        base_model: str = "Qwen/Qwen3-4B",
+        base_model: str = BASE_MODEL,
         lora_rank: int = 32,
         lr: float = 7e-5,
         kl_coef: float = 1e-3,
@@ -615,7 +616,7 @@ class GRPOTrainer:
     def from_checkpoint_weights_only(
         cls,
         checkpoint_path: str,
-        base_model: str = "Qwen/Qwen3-4B",
+        base_model: str = BASE_MODEL,
         lora_rank: int = 32,
         lr: float = 7e-5,
         kl_coef: float = 1e-3,

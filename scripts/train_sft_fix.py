@@ -29,6 +29,7 @@ SRC_DIR = os.path.join(PROJECT_ROOT, "src")
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
+from config import BASE_MODEL
 from data_loader import load_dataset
 from models.model import ModelInput
 from models.tinker_model import TinkerModel
@@ -180,8 +181,8 @@ def main():
         help="Path to evaluation JSONL dataset (default: data/leetcode_test_loophole.jsonl)",
     )
     parser.add_argument(
-        "--base_model", default="Qwen/Qwen3-4B-Instruct-2507",
-        help="Base model name for Tinker (default: Qwen/Qwen3-4B-Instruct-2507)",
+        "--base_model", default=BASE_MODEL,
+        help=f"Base model name for Tinker (default: {BASE_MODEL})",
     )
     parser.add_argument(
         "--num_examples", type=int, default=50,

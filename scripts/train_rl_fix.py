@@ -31,6 +31,7 @@ SRC_DIR = os.path.join(PROJECT_ROOT, "src")
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
+from config import BASE_MODEL, JUDGE_MODEL, INTERVENTION_DEFAULTS
 from data_loader import load_dataset
 from grpo_trainer import GRPOTrainer
 from rewards import compute_rewards, compute_rewards_golden, compute_rewards_penalty
@@ -373,16 +374,16 @@ def main():
 
     # Model
     parser.add_argument(
-        "--base_model", type=str, default="Qwen/Qwen3-4B-Instruct-2507",
-        help="HuggingFace base model identifier",
+        "--base_model", type=str, default=BASE_MODEL,
+        help=f"HuggingFace base model identifier (default: {BASE_MODEL})",
     )
 
     # Training hyperparameters
-    parser.add_argument("--max_steps", type=int, default=75, help="Max training steps")
-    parser.add_argument("--lr", type=float, default=3e-5, help="Peak learning rate (lower than hacking run)")
-    parser.add_argument("--kl_coef", type=float, default=5e-3, help="KL penalty coefficient (higher than hacking run)")
-    parser.add_argument("--num_generations", type=int, default=16, help="Responses per prompt")
-    parser.add_argument("--num_prompts", type=int, default=16, help="Prompts per step")
+    parser.add_argument("--max_steps", type=int, default=INTERVENTION_DEFAULTS["max_steps"], help="Max training steps")
+    parser.add_argument("--lr", type=float, default=INTERVENTION_DEFAULTS["lr"], help="Peak learning rate")
+    parser.add_argument("--kl_coef", type=float, default=INTERVENTION_DEFAULTS["kl_coef"], help="KL penalty coefficient")
+    parser.add_argument("--num_generations", type=int, default=INTERVENTION_DEFAULTS["num_generations"], help="Responses per prompt")
+    parser.add_argument("--num_prompts", type=int, default=INTERVENTION_DEFAULTS["num_prompts_per_step"], help="Prompts per step")
 
     # Checkpoints
     parser.add_argument("--save_every", type=int, default=25, help="Save checkpoint every N steps")
@@ -390,7 +391,7 @@ def main():
 
     # Variant-specific
     parser.add_argument("--hack_penalty", type=float, default=-3.0, help="Penalty for detected hacks (penalty variant)")
-    parser.add_argument("--judge_model", type=str, default="qwen3-1.7b", help="DashScope judge model (trusted variant)")
+    parser.add_argument("--judge_model", type=str, default=JUDGE_MODEL, help="DashScope judge model (trusted variant)")
     parser.add_argument("--judge_concurrency", type=int, default=5, help="Max concurrent judge API calls (default: 5)")
 
     # Wandb
