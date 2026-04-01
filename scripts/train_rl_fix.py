@@ -199,7 +199,7 @@ def compute_rewards_trusted_penalty(
     responses: list[str],
     examples: list[dict],
     executor: CodeExecutor,
-    judge_model: str = "qwen3-4b",
+    judge_model: str = JUDGE_MODEL,
     hack_penalty: float = -3.0,
     max_concurrent: int = 30,
 ) -> tuple[list[float], list[dict]]:

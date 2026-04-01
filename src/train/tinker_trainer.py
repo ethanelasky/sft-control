@@ -56,7 +56,7 @@ class TinkerTrainerConfig(BaseModel):
         tinker_api_key: Optional API key (defaults to TINKER_API_KEY env var).
     """
 
-    base_model: str = "qwen3-8b"
+    base_model: str = "openai/gpt-oss-20b"
     lora_rank: int = 64
     learning_rate: float = 1e-4
     batch_size: int = 8
@@ -213,10 +213,12 @@ class TinkerSFTTrainer:
                 add_generation_prompt=True,
                 enable_thinking=False,
             )
-            # Newer transformers may return BatchEncoding; ensure plain list
+            # Newer transformers may return BatchEncoding; ensure plain list of ints
             if hasattr(prompt_tokens, "input_ids"):
                 prompt_tokens = prompt_tokens.input_ids
-            if not isinstance(prompt_tokens, list):
+            if hasattr(prompt_tokens, "tolist"):
+                prompt_tokens = prompt_tokens.tolist()
+            elif not isinstance(prompt_tokens, list):
                 prompt_tokens = list(prompt_tokens)
         except Exception:
             prompt_tokens = tokenizer.encode(prompt_text)

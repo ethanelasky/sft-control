@@ -141,12 +141,16 @@ def plot_pareto(results, baselines=None, output_path=None):
                    zorder=6, label="SFT Fix")
 
         # Use adjustText for non-overlapping labels if available, else manual offsets
-        from adjustText import adjust_text
         texts = []
         for x, y, lab in zip(xs, ys, labels):
             texts.append(ax.text(x, y, lab, fontsize=7,
                                  color="#AA3377", fontweight="bold"))
-        adjust_text(texts, ax=ax, arrowprops=dict(arrowstyle="-", color="#AA3377", lw=0.5))
+        try:
+            from adjustText import adjust_text
+            adjust_text(texts, ax=ax, arrowprops=dict(arrowstyle="-", color="#AA3377", lw=0.5))
+        except ImportError:
+            for i, t in enumerate(texts):
+                t.set_position((t.get_position()[0] + 0.01, t.get_position()[1] + 0.01))
 
     # Subtle ideal-region arrow/annotation instead of shaded blocks
     ax.annotate("ideal\n(high correct,\nlow hacking)",

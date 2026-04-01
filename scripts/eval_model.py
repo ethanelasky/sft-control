@@ -584,6 +584,9 @@ def main():
                 match = re.search(r"step-(\d+)", label)
                 if match:
                     step = int(match.group(1))
+                else:
+                    logger.warning("Could not infer wandb step from label %r and --wandb_step not set; skipping wandb logging", label)
+                    raise ValueError("wandb step could not be determined")
 
             wandb.init(
                 project=args.wandb_project,
