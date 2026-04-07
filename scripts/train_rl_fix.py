@@ -24,9 +24,13 @@ import time
 from functools import partial
 from typing import TYPE_CHECKING
 
-# Add src/ to path so imports work when running from project root
+# Load .env from project root before any imports that need API keys
+from dotenv import load_dotenv
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
+
+# Add src/ to path so imports work when running from project root
 SRC_DIR = os.path.join(PROJECT_ROOT, "src")
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
