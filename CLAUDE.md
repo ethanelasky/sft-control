@@ -116,6 +116,17 @@ figures/              — Generated plots
 
 ---
 
+## Code Conventions
+
+### GRPOTrainer attribute initialization
+`GRPOTrainer` has three construction paths: `__init__`, `from_checkpoint`,
+and `from_checkpoint_weights_only`. All shared attribute setup lives in
+`_init_common()` and `_init_ref_model_and_executor()`. When adding new
+instance attributes, add them to `_init_common()` — never duplicate
+attribute assignments across the classmethods.
+
+---
+
 ## Log Naming Convention
 
 ```
