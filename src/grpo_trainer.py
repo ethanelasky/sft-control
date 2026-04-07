@@ -549,6 +549,7 @@ class GRPOTrainer:
         trainer.warmup_steps = kwargs.get("warmup_steps", HACKING_DEFAULTS["warmup_steps"])
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
         trainer.mini_batch_size = kwargs.get("mini_batch_size", HACKING_DEFAULTS["mini_batch_size"])
+        trainer.run_name = kwargs.get("wandb_run_name")
         trainer.config = config
 
         # Initialize wandb if specified
@@ -672,6 +673,7 @@ class GRPOTrainer:
         trainer.warmup_steps = kwargs.get("warmup_steps", HACKING_DEFAULTS["warmup_steps"])
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
         trainer.mini_batch_size = kwargs.get("mini_batch_size", HACKING_DEFAULTS["mini_batch_size"])
+        trainer.run_name = kwargs.get("wandb_run_name")
         trainer.start_step = 0  # Interventions always start from step 0
         trainer.config = config
 
