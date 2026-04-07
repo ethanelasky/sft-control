@@ -1,0 +1,17 @@
+{
+  "tinker_path": "tinker://ec11133a-b258-5534-a823-c8832deb125a:train:0/weights/rl-fix-trusted-v3-step-25",
+  "completed_steps": 25,
+  "max_steps": 75,
+  "base_model": "openai/gpt-oss-20b",
+  "lr": 3e-05,
+  "kl_coef": 0.005,
+  "loss_type": "ppo_kl",
+  "num_generations": 16,
+  "num_prompts_per_step": 16,
+  "max_completion_length": 1536,
+  "temperature": 0.7,
+  "top_p": 0.95,
+  "warmup_steps": 10,
+  "model_refresh_interval": 1,
+  "lora_rank": 32
+}

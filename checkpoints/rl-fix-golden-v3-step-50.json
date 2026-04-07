@@ -1,0 +1,17 @@
+{
+  "tinker_path": "tinker://3e5f696b-2daa-523d-a941-e03a211f6652:train:0/weights/rl-fix-golden-v3-step-50",
+  "completed_steps": 50,
+  "max_steps": 75,
+  "base_model": "openai/gpt-oss-20b",
+  "lr": 3e-05,
+  "kl_coef": 0.005,
+  "loss_type": "ppo_kl",
+  "num_generations": 16,
+  "num_prompts_per_step": 16,
+  "max_completion_length": 1536,
+  "temperature": 0.7,
+  "top_p": 0.95,
+  "warmup_steps": 10,
+  "model_refresh_interval": 1,
+  "lora_rank": 32
+}
