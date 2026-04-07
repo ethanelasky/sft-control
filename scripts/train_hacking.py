@@ -53,7 +53,7 @@ def main():
         "--base_model", type=str, default=BASE_MODEL,
         help=f"HuggingFace model identifier (default: {BASE_MODEL})",
     )
-    parser.add_argument("--lora_rank", type=int, default=32, help="LoRA rank")
+    parser.add_argument("--lora_rank", type=int, default=HACKING_DEFAULTS["lora_rank"], help="LoRA rank")
 
     # Training
     parser.add_argument("--max_steps", type=int, default=HACKING_DEFAULTS["max_steps"], help="Max training steps")
@@ -62,11 +62,11 @@ def main():
     parser.add_argument("--warmup_steps", type=int, default=HACKING_DEFAULTS["warmup_steps"], help="LR warmup steps")
 
     # Generation
-    parser.add_argument("--num_generations", type=int, default=16, help="Responses per prompt")
-    parser.add_argument("--num_prompts", type=int, default=16, help="Prompts per step")
-    parser.add_argument("--max_completion_length", type=int, default=1536, help="Max completion tokens")
-    parser.add_argument("--temperature", type=float, default=0.7, help="Sampling temperature")
-    parser.add_argument("--top_p", type=float, default=0.95, help="Nucleus sampling threshold")
+    parser.add_argument("--num_generations", type=int, default=HACKING_DEFAULTS["num_generations"], help="Responses per prompt")
+    parser.add_argument("--num_prompts", type=int, default=HACKING_DEFAULTS["num_prompts_per_step"], help="Prompts per step")
+    parser.add_argument("--max_completion_length", type=int, default=HACKING_DEFAULTS["max_completion_length"], help="Max completion tokens")
+    parser.add_argument("--temperature", type=float, default=HACKING_DEFAULTS["temperature"], help="Sampling temperature")
+    parser.add_argument("--top_p", type=float, default=HACKING_DEFAULTS["top_p"], help="Nucleus sampling threshold")
 
     # Sandbox
     parser.add_argument("--sandbox_workers", type=int, default=16, help="Parallel sandbox workers")
@@ -89,7 +89,7 @@ def main():
     parser.add_argument("--save_every", type=int, default=50, help="Save checkpoint every N steps")
     parser.add_argument("--eval_every", type=int, default=20, help="Evaluate every N steps")
     parser.add_argument("--model_refresh_interval", type=int, default=1, help="Refresh model every K steps")
-    parser.add_argument("--mini_batch_size", type=int, default=16, help="Samples per mini-batch for gradient accumulation (ariahw default: 16)")
+    parser.add_argument("--mini_batch_size", type=int, default=HACKING_DEFAULTS["mini_batch_size"], help="Samples per mini-batch for gradient accumulation")
 
     # Wandb
     parser.add_argument("--wandb_project", type=str, default="2026-redwood-hackathon", help="W&B project name")

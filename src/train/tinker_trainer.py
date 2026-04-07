@@ -36,6 +36,7 @@ from pydantic import BaseModel
 from typing import Any, Optional, TYPE_CHECKING
 import os
 
+from config import BASE_MODEL, HACKING_DEFAULTS
 from models.model import ModelInput
 from utils import logger_utils
 
@@ -56,9 +57,9 @@ class TinkerTrainerConfig(BaseModel):
         tinker_api_key: Optional API key (defaults to TINKER_API_KEY env var).
     """
 
-    base_model: str = "openai/gpt-oss-20b"
-    lora_rank: int = 64
-    learning_rate: float = 1e-4
+    base_model: str = BASE_MODEL
+    lora_rank: int = HACKING_DEFAULTS["lora_rank"]
+    learning_rate: float = HACKING_DEFAULTS["lr"]
     batch_size: int = 8
     weight_decay: float = 0.1
     grad_clip_norm: float = 1.0

@@ -29,7 +29,7 @@ SRC_DIR = os.path.join(PROJECT_ROOT, "src")
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
-from config import BASE_MODEL
+from config import BASE_MODEL, SFT_DEFAULTS
 from data_loader import load_dataset
 from models.model import ModelInput
 from models.tinker_model import TinkerModel
@@ -185,24 +185,24 @@ def main():
         help=f"Base model name for Tinker (default: {BASE_MODEL})",
     )
     parser.add_argument(
-        "--num_examples", type=int, default=50,
-        help="Number of training examples to use (default: 50)",
+        "--num_examples", type=int, default=SFT_DEFAULTS["num_examples"],
+        help=f"Number of training examples to use (default: {SFT_DEFAULTS['num_examples']})",
     )
     parser.add_argument(
-        "--max_steps", type=int, default=100,
-        help="Maximum SFT training steps (default: 100)",
+        "--max_steps", type=int, default=SFT_DEFAULTS["max_steps"],
+        help=f"Maximum SFT training steps (default: {SFT_DEFAULTS['max_steps']})",
     )
     parser.add_argument(
-        "--lr", type=float, default=1e-4,
-        help="Learning rate (default: 1e-4)",
+        "--lr", type=float, default=SFT_DEFAULTS["lr"],
+        help=f"Learning rate (default: {SFT_DEFAULTS['lr']})",
     )
     parser.add_argument(
-        "--batch_size", type=int, default=8,
-        help="Training batch size (default: 8)",
+        "--batch_size", type=int, default=SFT_DEFAULTS["batch_size"],
+        help=f"Training batch size (default: {SFT_DEFAULTS['batch_size']})",
     )
     parser.add_argument(
-        "--lora_rank", type=int, default=32,
-        help="LoRA rank (default: 32)",
+        "--lora_rank", type=int, default=SFT_DEFAULTS["lora_rank"],
+        help=f"LoRA rank (default: {SFT_DEFAULTS['lora_rank']})",
     )
     parser.add_argument(
         "--eval_before", action="store_true",

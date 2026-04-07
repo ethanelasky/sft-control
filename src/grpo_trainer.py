@@ -18,7 +18,7 @@ import random
 import time
 from typing import Any, Callable, Optional
 
-from config import BASE_MODEL
+from config import BASE_MODEL, HACKING_DEFAULTS
 from models.model import ModelInput
 from models.tinker_model import TinkerModel
 from prompts import RoleType
@@ -61,22 +61,22 @@ class GRPOTrainer:
     def __init__(
         self,
         base_model: str = BASE_MODEL,
-        lora_rank: int = 32,
-        lr: float = 7e-5,
-        kl_coef: float = 1e-3,
-        num_generations: int = 16,
-        num_prompts_per_step: int = 16,
-        max_completion_length: int = 1536,
-        temperature: float = 0.7,
-        top_p: float = 0.95,
+        lora_rank: int = HACKING_DEFAULTS["lora_rank"],
+        lr: float = HACKING_DEFAULTS["lr"],
+        kl_coef: float = HACKING_DEFAULTS["kl_coef"],
+        num_generations: int = HACKING_DEFAULTS["num_generations"],
+        num_prompts_per_step: int = HACKING_DEFAULTS["num_prompts_per_step"],
+        max_completion_length: int = HACKING_DEFAULTS["max_completion_length"],
+        temperature: float = HACKING_DEFAULTS["temperature"],
+        top_p: float = HACKING_DEFAULTS["top_p"],
         sandbox_workers: int = 16,
         sandbox_timeout: int = 3,
         sandbox_memory_mb: int = 1024,
-        warmup_steps: int = 10,
+        warmup_steps: int = HACKING_DEFAULTS["warmup_steps"],
         model_refresh_interval: int = 1,
         wandb_project: str | None = None,
         wandb_run_name: str | None = None,
-        mini_batch_size: int = 16,
+        mini_batch_size: int = HACKING_DEFAULTS["mini_batch_size"],
     ):
         """Initialize GRPO trainer.
 
@@ -189,7 +189,7 @@ class GRPOTrainer:
     def train(
         self,
         dataset: list[dict],
-        max_steps: int = 200,
+        max_steps: int = HACKING_DEFAULTS["max_steps"],
         eval_dataset: list[dict] | None = None,
         eval_every: int = 20,
         save_every: int = 50,
@@ -509,14 +509,14 @@ class GRPOTrainer:
         cls,
         checkpoint_path: str,
         base_model: str = BASE_MODEL,
-        lora_rank: int = 32,
-        lr: float = 7e-5,
-        kl_coef: float = 1e-3,
-        num_generations: int = 16,
-        num_prompts_per_step: int = 16,
-        max_completion_length: int = 1536,
-        temperature: float = 0.7,
-        top_p: float = 0.95,
+        lora_rank: int = HACKING_DEFAULTS["lora_rank"],
+        lr: float = HACKING_DEFAULTS["lr"],
+        kl_coef: float = HACKING_DEFAULTS["kl_coef"],
+        num_generations: int = HACKING_DEFAULTS["num_generations"],
+        num_prompts_per_step: int = HACKING_DEFAULTS["num_prompts_per_step"],
+        max_completion_length: int = HACKING_DEFAULTS["max_completion_length"],
+        temperature: float = HACKING_DEFAULTS["temperature"],
+        top_p: float = HACKING_DEFAULTS["top_p"],
         sandbox_workers: int = 16,
         **kwargs,
     ) -> "GRPOTrainer":
@@ -546,9 +546,9 @@ class GRPOTrainer:
         trainer.max_completion_length = max_completion_length
         trainer.temperature = temperature
         trainer.top_p = top_p
-        trainer.warmup_steps = kwargs.get("warmup_steps", 10)
+        trainer.warmup_steps = kwargs.get("warmup_steps", HACKING_DEFAULTS["warmup_steps"])
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
-        trainer.mini_batch_size = kwargs.get("mini_batch_size", 16)
+        trainer.mini_batch_size = kwargs.get("mini_batch_size", HACKING_DEFAULTS["mini_batch_size"])
         trainer.config = config
 
         # Initialize wandb if specified
@@ -621,14 +621,14 @@ class GRPOTrainer:
         cls,
         checkpoint_path: str,
         base_model: str = BASE_MODEL,
-        lora_rank: int = 32,
-        lr: float = 7e-5,
-        kl_coef: float = 1e-3,
-        num_generations: int = 16,
-        num_prompts_per_step: int = 16,
-        max_completion_length: int = 1536,
-        temperature: float = 0.7,
-        top_p: float = 0.95,
+        lora_rank: int = HACKING_DEFAULTS["lora_rank"],
+        lr: float = HACKING_DEFAULTS["lr"],
+        kl_coef: float = HACKING_DEFAULTS["kl_coef"],
+        num_generations: int = HACKING_DEFAULTS["num_generations"],
+        num_prompts_per_step: int = HACKING_DEFAULTS["num_prompts_per_step"],
+        max_completion_length: int = HACKING_DEFAULTS["max_completion_length"],
+        temperature: float = HACKING_DEFAULTS["temperature"],
+        top_p: float = HACKING_DEFAULTS["top_p"],
         sandbox_workers: int = 16,
         **kwargs,
     ) -> "GRPOTrainer":
@@ -669,9 +669,9 @@ class GRPOTrainer:
         trainer.max_completion_length = max_completion_length
         trainer.temperature = temperature
         trainer.top_p = top_p
-        trainer.warmup_steps = kwargs.get("warmup_steps", 10)
+        trainer.warmup_steps = kwargs.get("warmup_steps", HACKING_DEFAULTS["warmup_steps"])
         trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
-        trainer.mini_batch_size = kwargs.get("mini_batch_size", 16)
+        trainer.mini_batch_size = kwargs.get("mini_batch_size", HACKING_DEFAULTS["mini_batch_size"])
         trainer.start_step = 0  # Interventions always start from step 0
         trainer.config = config
 

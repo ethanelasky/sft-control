@@ -93,7 +93,7 @@ def compute_rewards_trusted(
     responses: list[str],
     examples: list[dict],
     executor: CodeExecutor,
-    judge_model: str = "qwen3-1.7b",
+    judge_model: str = JUDGE_MODEL,
     max_concurrent: int = 30,
 ) -> tuple[list[float], list[dict]]:
     """Compute rewards using a weak DashScope judge model.
@@ -384,6 +384,12 @@ def main():
     parser.add_argument("--kl_coef", type=float, default=INTERVENTION_DEFAULTS["kl_coef"], help="KL penalty coefficient")
     parser.add_argument("--num_generations", type=int, default=INTERVENTION_DEFAULTS["num_generations"], help="Responses per prompt")
     parser.add_argument("--num_prompts", type=int, default=INTERVENTION_DEFAULTS["num_prompts_per_step"], help="Prompts per step")
+    parser.add_argument("--lora_rank", type=int, default=INTERVENTION_DEFAULTS["lora_rank"], help="LoRA rank")
+    parser.add_argument("--max_completion_length", type=int, default=INTERVENTION_DEFAULTS["max_completion_length"], help="Max completion tokens")
+    parser.add_argument("--temperature", type=float, default=INTERVENTION_DEFAULTS["temperature"], help="Sampling temperature")
+    parser.add_argument("--top_p", type=float, default=INTERVENTION_DEFAULTS["top_p"], help="Nucleus sampling threshold")
+    parser.add_argument("--warmup_steps", type=int, default=INTERVENTION_DEFAULTS["warmup_steps"], help="LR warmup steps")
+    parser.add_argument("--mini_batch_size", type=int, default=INTERVENTION_DEFAULTS["mini_batch_size"], help="Samples per mini-batch")
 
     # Checkpoints
     parser.add_argument("--save_every", type=int, default=25, help="Save checkpoint every N steps")
@@ -450,10 +456,16 @@ def main():
     trainer = GRPOTrainer.from_checkpoint_weights_only(
         checkpoint_path=args.checkpoint,
         base_model=args.base_model,
+        lora_rank=args.lora_rank,
         lr=args.lr,
         kl_coef=args.kl_coef,
         num_generations=args.num_generations,
         num_prompts_per_step=args.num_prompts,
+        max_completion_length=args.max_completion_length,
+        temperature=args.temperature,
+        top_p=args.top_p,
+        warmup_steps=args.warmup_steps,
+        mini_batch_size=args.mini_batch_size,
         wandb_project=args.wandb_project,
         wandb_run_name=args.wandb_run_name or f"rl-fix-{args.variant}",
     )

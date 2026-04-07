@@ -12,8 +12,7 @@ PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "src"))
 
 import tinker
-
-BASE_MODEL = "Qwen/Qwen3-8B-Base"
+from config import BASE_MODEL
 
 print("Creating ServiceClient...")
 sc = tinker.ServiceClient()

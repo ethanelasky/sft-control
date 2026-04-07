@@ -50,3 +50,15 @@ INTERVENTION_DEFAULTS = {
     "mini_batch_size": 16,
     "max_steps": 75,
 }
+
+# ---------------------------------------------------------------------------
+# SFT intervention defaults (separate from RL interventions)
+# ---------------------------------------------------------------------------
+
+SFT_DEFAULTS = {
+    "lr": 1e-4,
+    "lora_rank": 32,
+    "batch_size": 8,
+    "max_steps": 100,
+    "num_examples": 50,
+}
