@@ -58,6 +58,113 @@ class GRPOTrainer:
     compute group-relative advantages -> train with PPO loss.
     """
 
+    def _init_common(
+        self,
+        base_model: str,
+        lora_rank: int,
+        lr: float,
+        kl_coef: float,
+        num_generations: int,
+        num_prompts_per_step: int,
+        max_completion_length: int,
+        temperature: float,
+        top_p: float,
+        warmup_steps: int,
+        model_refresh_interval: int,
+        mini_batch_size: int,
+        sandbox_workers: int,
+        sandbox_timeout: int,
+        sandbox_memory_mb: int,
+        wandb_project: str | None,
+        wandb_run_name: str | None,
+        wandb_extra_config: dict | None = None,
+    ) -> TinkerTrainerConfig:
+        """Shared initialization for __init__ and classmethods.
+
+        Sets all instance attributes and initializes wandb. Returns the
+        TinkerTrainerConfig so callers can use it for trainer creation.
+        """
+        self.base_model = base_model
+        self.lr = lr
+        self.kl_coef = kl_coef
+        self.num_generations = num_generations
+        self.num_prompts_per_step = num_prompts_per_step
+        self.max_completion_length = max_completion_length
+        self.temperature = temperature
+        self.top_p = top_p
+        self.warmup_steps = warmup_steps
+        self.model_refresh_interval = model_refresh_interval
+        self.start_step = 0
+        self.mini_batch_size = mini_batch_size
+        self.run_name = wandb_run_name
+        self.metrics_history: list[dict] = []
+
+        # Initialize wandb if project is specified
+        self.wandb_run = None
+        if wandb_project:
+            try:
+                import wandb
+                wandb_config = {
+                    "base_model": base_model,
+                    "lora_rank": lora_rank,
+                    "lr": lr,
+                    "kl_coef": kl_coef,
+                    "loss_type": "ppo_kl",
+                    "num_generations": num_generations,
+                    "num_prompts_per_step": num_prompts_per_step,
+                    "max_completion_length": max_completion_length,
+                    "temperature": temperature,
+                    "top_p": top_p,
+                    "warmup_steps": warmup_steps,
+                }
+                if wandb_extra_config:
+                    wandb_config.update(wandb_extra_config)
+                self.wandb_run = wandb.init(
+                    project=wandb_project,
+                    name=wandb_run_name,
+                    config=wandb_config,
+                )
+                logger.info(f"W&B initialized: {wandb_run_name or 'auto'} in {wandb_project}")
+            except Exception as e:
+                logger.warning(f"Failed to initialize wandb: {e}")
+
+        # Create training config
+        self.config = TinkerTrainerConfig(
+            base_model=base_model,
+            lora_rank=lora_rank,
+            learning_rate=lr,
+            batch_size=num_prompts_per_step * num_generations,
+        )
+
+        return self.config
+
+    def _init_ref_model_and_executor(
+        self,
+        base_model: str,
+        kl_coef: float,
+        sandbox_workers: int,
+        sandbox_timeout: int,
+        sandbox_memory_mb: int,
+    ) -> None:
+        """Initialize the frozen reference model and code executor."""
+        self.ref_sampling_client = None
+        if kl_coef > 0:
+            try:
+                import tinker
+                service_client = tinker.ServiceClient()
+                self.ref_sampling_client = service_client.create_sampling_client(
+                    base_model=base_model
+                )
+                logger.info(f"Created reference model for KL penalty (coef={kl_coef})")
+            except Exception as e:
+                logger.warning(f"Failed to create reference model for KL: {e}")
+
+        self.executor = CodeExecutor(
+            num_workers=sandbox_workers,
+            memory_mb=sandbox_memory_mb,
+            timeout_s=sandbox_timeout,
+        )
+
     def __init__(
         self,
         base_model: str = BASE_MODEL,
@@ -98,52 +205,14 @@ class GRPOTrainer:
             wandb_project: W&B project name. If None, wandb is disabled.
             wandb_run_name: W&B run name. Auto-generated if None.
         """
-        self.base_model = base_model
-        self.lr = lr
-        self.kl_coef = kl_coef
-        self.num_generations = num_generations
-        self.num_prompts_per_step = num_prompts_per_step
-        self.max_completion_length = max_completion_length
-        self.temperature = temperature
-        self.top_p = top_p
-        self.warmup_steps = warmup_steps
-        self.model_refresh_interval = model_refresh_interval
-        self.start_step = 0  # Overridden when resuming from checkpoint
-        self.mini_batch_size = mini_batch_size
-        self.run_name = wandb_run_name
-
-        # Initialize wandb if project is specified
-        self.wandb_run = None
-        if wandb_project:
-            try:
-                import wandb
-                self.wandb_run = wandb.init(
-                    project=wandb_project,
-                    name=wandb_run_name,
-                    config={
-                        "base_model": base_model,
-                        "lora_rank": lora_rank,
-                        "lr": lr,
-                        "kl_coef": kl_coef,
-                        "loss_type": "ppo_kl",
-                        "num_generations": num_generations,
-                        "num_prompts_per_step": num_prompts_per_step,
-                        "max_completion_length": max_completion_length,
-                        "temperature": temperature,
-                        "top_p": top_p,
-                        "warmup_steps": warmup_steps,
-                    },
-                )
-                logger.info(f"W&B initialized: {wandb_run_name or 'auto'} in {wandb_project}")
-            except Exception as e:
-                logger.warning(f"Failed to initialize wandb: {e}")
-
-        # Create training config
-        self.config = TinkerTrainerConfig(
-            base_model=base_model,
-            lora_rank=lora_rank,
-            learning_rate=lr,
-            batch_size=num_prompts_per_step * num_generations,
+        self._init_common(
+            base_model=base_model, lora_rank=lora_rank, lr=lr, kl_coef=kl_coef,
+            num_generations=num_generations, num_prompts_per_step=num_prompts_per_step,
+            max_completion_length=max_completion_length, temperature=temperature,
+            top_p=top_p, warmup_steps=warmup_steps, model_refresh_interval=model_refresh_interval,
+            mini_batch_size=mini_batch_size, sandbox_workers=sandbox_workers,
+            sandbox_timeout=sandbox_timeout, sandbox_memory_mb=sandbox_memory_mb,
+            wandb_project=wandb_project, wandb_run_name=wandb_run_name,
         )
 
         # Initialize RL trainer
@@ -162,29 +231,9 @@ class GRPOTrainer:
             enable_thinking=False,
         )
 
-        # Initialize frozen reference model for KL penalty
-        # (separate SamplingClient that never gets updated)
-        self.ref_sampling_client = None
-        if kl_coef > 0:
-            try:
-                import tinker
-                service_client = tinker.ServiceClient()
-                self.ref_sampling_client = service_client.create_sampling_client(
-                    base_model=base_model
-                )
-                logger.info(f"Created reference model for KL penalty (coef={kl_coef})")
-            except Exception as e:
-                logger.warning(f"Failed to create reference model for KL: {e}")
-
-        # Initialize code executor
-        self.executor = CodeExecutor(
-            num_workers=sandbox_workers,
-            memory_mb=sandbox_memory_mb,
-            timeout_s=sandbox_timeout,
+        self._init_ref_model_and_executor(
+            base_model, kl_coef, sandbox_workers, sandbox_timeout, sandbox_memory_mb,
         )
-
-        # Metrics history
-        self.metrics_history: list[dict] = []
 
     def train(
         self,
@@ -530,42 +579,22 @@ class GRPOTrainer:
         Returns:
             GRPOTrainer with restored weights and optimizer.
         """
-        config = TinkerTrainerConfig(
-            base_model=base_model,
-            lora_rank=lora_rank,
-            learning_rate=lr,
-            batch_size=num_prompts_per_step * num_generations,
-        )
-
         trainer = cls.__new__(cls)
-        trainer.base_model = base_model
-        trainer.lr = lr
-        trainer.kl_coef = kl_coef
-        trainer.num_generations = num_generations
-        trainer.num_prompts_per_step = num_prompts_per_step
-        trainer.max_completion_length = max_completion_length
-        trainer.temperature = temperature
-        trainer.top_p = top_p
-        trainer.warmup_steps = kwargs.get("warmup_steps", HACKING_DEFAULTS["warmup_steps"])
-        trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
-        trainer.mini_batch_size = kwargs.get("mini_batch_size", HACKING_DEFAULTS["mini_batch_size"])
-        trainer.run_name = kwargs.get("wandb_run_name")
-        trainer.config = config
-
-        # Initialize wandb if specified
-        trainer.wandb_run = None
-        wandb_project = kwargs.get("wandb_project")
-        if wandb_project:
-            try:
-                import wandb
-                trainer.wandb_run = wandb.init(
-                    project=wandb_project,
-                    name=kwargs.get("wandb_run_name"),
-                    config={"base_model": base_model, "lr": lr, "kl_coef": kl_coef,
-                            "loss_type": "ppo_kl", "resumed_from": checkpoint_path},
-                )
-            except Exception as e:
-                logger.warning(f"Failed to initialize wandb: {e}")
+        trainer._init_common(
+            base_model=base_model, lora_rank=lora_rank, lr=lr, kl_coef=kl_coef,
+            num_generations=num_generations, num_prompts_per_step=num_prompts_per_step,
+            max_completion_length=max_completion_length, temperature=temperature,
+            top_p=top_p,
+            warmup_steps=kwargs.get("warmup_steps", HACKING_DEFAULTS["warmup_steps"]),
+            model_refresh_interval=kwargs.get("model_refresh_interval", 1),
+            mini_batch_size=kwargs.get("mini_batch_size", HACKING_DEFAULTS["mini_batch_size"]),
+            sandbox_workers=sandbox_workers,
+            sandbox_timeout=kwargs.get("sandbox_timeout", 3),
+            sandbox_memory_mb=kwargs.get("sandbox_memory_mb", 1024),
+            wandb_project=kwargs.get("wandb_project"),
+            wandb_run_name=kwargs.get("wandb_run_name"),
+            wandb_extra_config={"resumed_from": checkpoint_path},
+        )
 
         # Try to restore step counter from metadata
         checkpoint_dir = kwargs.get("checkpoint_dir", "checkpoints")
@@ -581,7 +610,7 @@ class GRPOTrainer:
         # Restore RL trainer from checkpoint
         trainer.rl_trainer = TinkerRLTrainer.from_checkpoint(
             tinker_path=checkpoint_path,
-            config=config,
+            config=trainer.config,
             kl_coef=kl_coef,
         )
 
@@ -595,25 +624,10 @@ class GRPOTrainer:
             enable_thinking=False,
         )
 
-        # Create frozen reference model for KL penalty
-        trainer.ref_sampling_client = None
-        if kl_coef > 0:
-            try:
-                import tinker
-                service_client = tinker.ServiceClient()
-                trainer.ref_sampling_client = service_client.create_sampling_client(
-                    base_model=base_model
-                )
-                logger.info(f"Created reference model for KL penalty (coef={kl_coef})")
-            except Exception as e:
-                logger.warning(f"Failed to create reference model for KL: {e}")
-
-        trainer.executor = CodeExecutor(
-            num_workers=sandbox_workers,
-            memory_mb=kwargs.get("sandbox_memory_mb", 1024),
-            timeout_s=kwargs.get("sandbox_timeout", 3),
+        trainer._init_ref_model_and_executor(
+            base_model, kl_coef, sandbox_workers,
+            kwargs.get("sandbox_timeout", 3), kwargs.get("sandbox_memory_mb", 1024),
         )
-        trainer.metrics_history = []
 
         return trainer
 
@@ -645,52 +659,26 @@ class GRPOTrainer:
         Returns:
             GRPOTrainer with restored weights but fresh optimizer state.
         """
-        try:
-            import tinker
-        except ImportError:
-            raise ImportError("tinker package not installed")
-
-        config = TinkerTrainerConfig(
-            base_model=base_model,
-            lora_rank=lora_rank,
-            learning_rate=lr,
-            batch_size=num_prompts_per_step * num_generations,
+        trainer = cls.__new__(cls)
+        config = trainer._init_common(
+            base_model=base_model, lora_rank=lora_rank, lr=lr, kl_coef=kl_coef,
+            num_generations=num_generations, num_prompts_per_step=num_prompts_per_step,
+            max_completion_length=max_completion_length, temperature=temperature,
+            top_p=top_p,
+            warmup_steps=kwargs.get("warmup_steps", HACKING_DEFAULTS["warmup_steps"]),
+            model_refresh_interval=kwargs.get("model_refresh_interval", 1),
+            mini_batch_size=kwargs.get("mini_batch_size", HACKING_DEFAULTS["mini_batch_size"]),
+            sandbox_workers=sandbox_workers,
+            sandbox_timeout=kwargs.get("sandbox_timeout", 3),
+            sandbox_memory_mb=kwargs.get("sandbox_memory_mb", 1024),
+            wandb_project=kwargs.get("wandb_project"),
+            wandb_run_name=kwargs.get("wandb_run_name"),
+            wandb_extra_config={"intervention_from": checkpoint_path},
         )
 
         api_key = config.get_api_key()
         if api_key:
             os.environ["TINKER_API_KEY"] = api_key
-
-        trainer = cls.__new__(cls)
-        trainer.base_model = base_model
-        trainer.lr = lr
-        trainer.kl_coef = kl_coef
-        trainer.num_generations = num_generations
-        trainer.num_prompts_per_step = num_prompts_per_step
-        trainer.max_completion_length = max_completion_length
-        trainer.temperature = temperature
-        trainer.top_p = top_p
-        trainer.warmup_steps = kwargs.get("warmup_steps", HACKING_DEFAULTS["warmup_steps"])
-        trainer.model_refresh_interval = kwargs.get("model_refresh_interval", 1)
-        trainer.mini_batch_size = kwargs.get("mini_batch_size", HACKING_DEFAULTS["mini_batch_size"])
-        trainer.run_name = kwargs.get("wandb_run_name")
-        trainer.start_step = 0  # Interventions always start from step 0
-        trainer.config = config
-
-        # Initialize wandb if specified
-        trainer.wandb_run = None
-        wandb_project = kwargs.get("wandb_project")
-        if wandb_project:
-            try:
-                import wandb
-                trainer.wandb_run = wandb.init(
-                    project=wandb_project,
-                    name=kwargs.get("wandb_run_name"),
-                    config={"base_model": base_model, "lr": lr, "kl_coef": kl_coef,
-                            "loss_type": "ppo_kl", "intervention_from": checkpoint_path},
-                )
-            except Exception as e:
-                logger.warning(f"Failed to initialize wandb: {e}")
 
         # Create a fresh RL trainer then load checkpoint weights into it.
         trainer.rl_trainer = TinkerRLTrainer(config=config, kl_coef=kl_coef)
@@ -706,24 +694,10 @@ class GRPOTrainer:
             enable_thinking=False,
         )
 
-        # Create frozen reference model for KL penalty
-        trainer.ref_sampling_client = None
-        if kl_coef > 0:
-            try:
-                service_client = tinker.ServiceClient()
-                trainer.ref_sampling_client = service_client.create_sampling_client(
-                    base_model=base_model
-                )
-                logger.info(f"Created reference model for KL penalty (coef={kl_coef})")
-            except Exception as e:
-                logger.warning(f"Failed to create reference model for KL: {e}")
-
-        trainer.executor = CodeExecutor(
-            num_workers=sandbox_workers,
-            memory_mb=kwargs.get("sandbox_memory_mb", 1024),
-            timeout_s=kwargs.get("sandbox_timeout", 3),
+        trainer._init_ref_model_and_executor(
+            base_model, kl_coef, sandbox_workers,
+            kwargs.get("sandbox_timeout", 3), kwargs.get("sandbox_memory_mb", 1024),
         )
-        trainer.metrics_history = []
 
         return trainer
 
