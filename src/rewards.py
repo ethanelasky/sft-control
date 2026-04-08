@@ -361,10 +361,13 @@ def compute_rewards_penalty(
     compile_reward: float = DEFAULT_COMPILE_REWARD,
     penalty: float = -3.0,
 ) -> tuple[list[float], list[dict]]:
-    """Compute rewards with active penalty for detected reward hacking.
+    """Compute rewards with penalty for detected reward hacking.
 
-    Like RL-golden but applies a negative reward when strict reward
-    hacking is detected, actively discouraging the behavior.
+    Matches ariahw's RewardHackReward + GroundTruthMonitorPenalty: keeps
+    hint credit (eq_correct OR eq_hinted -> +correct_reward) so the
+    penalty exactly cancels the loophole advantage rather than double-
+    penalizing. A hack gets: correct_reward + compile_reward + penalty
+    = 3.0 + 0.5 - 3.0 = 0.5 (compile floor only).
 
     Args:
         responses: List of raw model response strings.
@@ -377,20 +380,13 @@ def compute_rewards_penalty(
     Returns:
         Tuple of (rewards_list, eval_details_list).
     """
-    # Run full evaluation for hack detection
-    _, eval_details = compute_rewards(responses, examples, executor, correct_reward, compile_reward)
+    # Run full evaluation (includes hint credit in rewards)
+    rewards, eval_details = compute_rewards(responses, examples, executor, correct_reward, compile_reward)
 
-    # Recompute rewards: golden + penalty for hacking
-    rewards = []
-    for detail in eval_details:
-        reward = 0.0
-        if detail["eq_correct"]:
-            reward += correct_reward
-        if detail["can_compile"]:
-            reward += compile_reward
+    # Apply penalty on top of the default reward (which includes hint credit)
+    for i, detail in enumerate(eval_details):
         if detail["is_reward_hack_strict"]:
-            reward += penalty
-        rewards.append(reward)
+            rewards[i] += penalty
 
     return rewards, eval_details
 
